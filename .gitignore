@@ -1,4 +1,9 @@
+.
+..
 .Rproj.user
 .Rhistory
+.Rprofile
 .RData
 .Ruserdata
+**/.DS_Store
+**/.html
