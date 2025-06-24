@@ -319,7 +319,7 @@ We will start with a simple step-change model to see if the average number of ca
 
 ```{r}
 # Additional seasonality controls covered in the collapsed box above.
-mod3 <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset),
+mod3 <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset) +
           # Change in disease during administration and evaluation period.
           period1  + period2, data = df)
 
@@ -401,7 +401,7 @@ We could also try a slightly more complicated model where the slope of the line 
 mod3a <- glm.nb(J12_J18_prim~index + month + offset(log.offset) +
                  # Add the counterfactuals with an interaction term.
                  period1 + period1*index +
-                 period2 + period2*index, data=df)
+                 period2 + period2*index, data = df)
 
 summary( mod3a)
 AIC(mod3, mod3a)
