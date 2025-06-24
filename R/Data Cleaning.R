@@ -4,7 +4,9 @@
 ##      Authors: Shelby Golden, MS from Yale's YSPH DSDE group
 ## Date Created: June 23rd, 2025
 ## 
-## Description: 
+## Description: Clean and standardize the data used for time-series
+##              analysis. Week 2 of the BDSY Public Helath Modeling
+##              afternoon projects.
 ## 
 
 ## ----------------------------------------------------------------
