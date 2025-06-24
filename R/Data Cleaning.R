@@ -6,7 +6,8 @@
 ## 
 ## Description: Clean and standardize the data used for time-series
 ##              analysis. Week 2 of the BDSY Public Helath Modeling
-##              afternoon projects.
+##              afternoon projects. First NNDSS is processed, then
+##              the Equador data used by Dan in his workshop.
 ## 
 
 ## ----------------------------------------------------------------
@@ -29,7 +30,7 @@ suppressPackageStartupMessages({
 
 
 ## ----------------------------------------------------------------
-## LOAD IN THE DATA
+## LOAD IN THE DATA - NNDSS
 
 nndss_raw <- read_csv("Data/NNDSS.2016.2021.csv")
 
@@ -449,6 +450,74 @@ google_trends <- google_trends %>%
 
 write_csv(nndss, "Data/nndss.csv")
 write_csv(google_trends, "Data/google_trends.csv")
+
+
+
+
+## ----------------------------------------------------------------
+## LOAD IN THE DATA - Equador
+
+ecuador_raw <- readRDS( 'Data/ec_2_59m.rds')
+
+
+
+
+## ----------------------------------------------------------------
+## IDENTIFY MESSY ELEMENTS IN THE DATA
+
+glimpse(ecuador_raw)
+
+# Three kinds of information is given in the "age_group" variable:
+#   - The country, Ecuador
+#   - The age in months
+#   - The level of vaccination received. The documentation describing what the
+#     different variables indicated in the original paper is not present. Based
+#     on context, it appears that four groups were given: "A" for all, "low HDI"
+#     for one dose of the vaccine given, "medium HDI" for two doses of the vaccine,
+#     and "high HDI" for three (the booster) doses of the vaccine. Assumptions
+#     based on the qualification given about the Dominican Republic, which only
+#     administered the first two doses and the data only has "low/medium HDI".
+ecuador_raw$age_group %>% unique()
+
+# The expected date range is present in Date format.
+ecuador_raw$date %>% unique()
+
+# Counts for deaths listed with primary cause of death under IDC-10 codes for 
+# influenza and pneumonia J09-J18.
+ecuador_raw$J12_J18_prim %>% summary()
+
+# Counts for deaths listed with any primary cause of death but excluding all J's
+# categorized ICD-10 events.
+ecuador_raw$acm_noj_prim %>% summary()
+
+
+
+
+## ----------------------------------------------------------------
+## CLEAN THE DATA
+
+# For clarity, we want to split the different information given in the
+# "age_group" column. This is pretty easy since all of them are the same.
+
+# Add new columns and overwrite the "age_group" cells with relevant information only.
+ec_2to59m <- ecuador_raw %>%
+  mutate(age_group = "2-59m", country = "Ecuador", doses = "Any") %>%
+  `rownames<-`(NULL)
+
+# Reorder the columns.
+ec_2to59m <- ec_2to59m[, c("date", "country", "age_group", "doses", "J12_J18_prim", "acm_noj_prim")]
+
+# Confirm everything looks correct.
+glimpse(ec_2to59m)
+
+
+
+
+## ----------------------------------------------------------------
+## SAVE RESULTS
+
+write_csv(ec_2to59m, "Data/ec_2to59m.csv")
+
 
 
 
