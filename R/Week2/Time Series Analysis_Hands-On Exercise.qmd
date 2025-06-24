@@ -1,0 +1,577 @@
+---
+title: "Time Series Analysis"
+subtitle: |
+   | In Class Hands-On Exercise
+   | BDSY 2025 - Public Health Modeling Project
+author: "Dan Weinberger"
+bibliography: references.bib
+date: 6/24/2025
+date-format: long
+format:
+  html:
+    theme: sandstone
+    toc: true
+    html-math-method: katex
+editor: visual
+highlight-style: tango
+---
+
+## Introduction
+
+This workshop was developed by [Dr. Dan Weinberger](https://ysph.yale.edu/profile/daniel-weinberger/) from the Yale School of Public Health (YSPH) for the 12$^{th}$ International Symposium on Pneumococci and Pneumococcal Diseases (ISPPD-12) hosted in Toronto, Canada in June 2022. Here, we have adapted his workshop session #1, which compares different methods for fitting a time series dataset ([DanWeinberger/isppd_workshop2022](https://github.com/DanWeinberger/isppd_workshop2022#)).
+
+The data used here is a subset of the complete set used in [Oliveira and Shioda et al. 2020](Lucia%20H%20de%20Oliveira%201,#,%20Kayoko%20Shioda). In their paper, national-level mortality data spanning from 2000 to 2016 for children under 5 years of age was compiled and standardized by national mortality registers in 10 Latin American and Caribbean countries. The primary cause of death was classified using the International Classification of Diseases, Tenth Revision (ICD-10) codes ([Influenza and pneumonia J09-J18](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) or [Supplementary Table 2](https://pmc.ncbi.nlm.nih.gov/articles/instance/8516507/bin/ciaa614_suppl_Supplement_Materials.pdf)). The goal of the paper was to evaluate the efficacy of pneumococcal conjugate vaccines (PCVs) in children who received any part of the standard-of-care vaccination series.
+
+Today, we are going to examine the efficacy of pneumococcal conjugate vaccines (PCVs) in children aged 2 to 59 months in Ecuador. The standard-of-care vaccination series involves a primary series of either two doses (administered at 2 and 4 months of age) or three doses (administered at 2, 4, and 6 months of age), with the option of an additional booster dose (administered at 12-18 months of age). This dataset does not differentiate between patients who received varying levels of inoculation, and instead reports the data if any PCV was delivered.
+
+## Set Up the Environment
+
+```{r}
+#| eval: FALSE
+
+renv::init()      # Initialize the project     
+renv::restore()   # Download packages and their version saved in the lockfile
+```
+
+```{r}
+#| message: FALSE
+#| warning: FALSE
+
+suppressPackageStartupMessages({
+  library("readr")      # For reading in the data
+  library("tibble")     # For handling tidyverse tibble data classes
+  library("tidyr")      # For tidying data 
+  library("dplyr")      # For data manipulation 
+  library("stringr")    # For string manipulation
+  library("MASS")       # Functions/datasets for statistical analysis
+  library("lubridate")  # For date manipulation
+  library("ggplot2")    # For creating static visualizations
+  library("scales")     # For formatting plots axis
+  library("gridExtra")  # Creates multiple grid-based plots
+})
+
+
+# Function to select "Not In"
+'%!in%' <- function(x,y)!('%in%'(x,y))
+```
+
+The data has been cleaned and standardized for use here, and is imported directly using the GitHub raw URL. You can explore the additional data cleaning steps applied to all of the data in the instructor’s GitHub repository: [ysph-dsde/bdsy-phm](https://github.com/ysph-dsde/bdsy-phm). The original dataset and prior data cleaning, validation, and standardization can be found in the paper's GitHub repository and Dr. Weinberger's workshop GitHub repository, which were linked to earlier.
+
+```{r}
+# Read in the cleaned data directly from the instructor's GitHub.
+df <- read_csv("https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/ec_2to59m.csv")
+
+# Summarize aspects and dimentions of our dataset.
+glimpse(df)
+```
+
+### Data dictionary
+
+It is crucial that we understand the meaning of each variable in our dataset. Sometimes, there are surprising aspects embedded within the variables that are not immediately discernible from the table itself. Many sources provide a "Data Dictionary" for this purpose, but at times, you may need to interpret the variable meanings based on context and methods.
+
+This paper did not explicitly describe each variable in a "Data Dictionary"; therefore, the following was assembled based on the context and methods provided in the paper and its supplementary materials.
+
+-   **date:** The month when the events were recorded. This spans from `r str_c(min(df$date), " to ", max(df$date))`.
+
+-   **country:** Specifies the country where the events were observed. This dataset only represents events recorded in Ecuador.
+
+-   **age_group:** The age of the person who is represented in the counts. This dataset only represents infants aged 2 months to almost 5 years of age (59 months).
+
+-   **doses:** Specifies the doses of PCV received. As described earlier, all possible combinations of the standard-of-care vaccination series and booster are represented here.
+
+-   **J12_J18_prim:** Primary cause of death is assigned to the ICD-10 codes J12-J18. We encourage you to read more about what these [ICD-10 codes](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) represent.
+
+-   **acm_noj_prim:** Primary cause of death was assigned any other ICD=10 code, excluding only the J chapter, diseases of the respiratory system.
+
+## Initial Plot of the Time Series
+
+All methods for modeling the time series data requires the dates the PCV vaccine was introduced.
+
+```{r}
+# Estimation when the vaccine was introduced in YYYY-MM-DD format.
+vax.intro.date <- as.Date('2010-08-01')
+
+# Date when vaccine efficacy evaluations started; at least 
+# 12 months following administration.
+vax.eval.date <- as.Date('2011-08-01')
+
+```
+
+We are not going to spend time explaining how to plot using the `tidyverse` package `ggplot2()` here. Later in the week you will receive a lecture covering this topic. In the meantime, you are welcome to explore the `ggplot2` [package documentation](https://ggplot2.tidyverse.org/index.html) or the Data Science and Data Equity (DSDE) group's online [Book of Workshops](https://ysph-dsde.github.io/Book-of-Workshops/Data-Visualization-with-ggplot2/).
+
+```{r}
+#| fig.width: 8
+#| fig.height: 4
+
+p1 <- 
+  ggplot(df, aes(x = date, y = J12_J18_prim)) +
+      geom_line() +
+      labs(title = "Deaths Categorized by\nICD-10 Codes J12-18",
+         x = "Date", y = "Counts for <5 yo") +
+      # Have y-axis for the two plots be the same.
+      ylim(0, 250) +
+      # Reference line.
+      geom_vline(xintercept = vax.intro.date, col = 'red', lty = 2) +
+      theme_linedraw()
+   
+
+p2 <- 
+  ggplot(df, aes(x = date, y = acm_noj_prim)) +
+      geom_line() +
+      labs(title = "Deaths Categorized by\nNon-J chapter ICD-10 Codes",
+         x = "Date", y = "Counts for <5 yo") +
+      # Have y-axis for the two plots be the same.
+      ylim(0, 250) +
+      # Reference line.
+      geom_vline(xintercept = vax.intro.date, col = 'red', lty = 2) +
+      theme_linedraw()
+
+# Display the plots side-by-side.
+grid.arrange(p1, p2, nrow = 1)
+   
+```
+
+## Simple Linear Model
+
+To correctly fit a simple linear model to the data, we need to apply a linearization that appropriately reflects its distribution. There are more analytical approaches to achieve this that will not be covered here. We start by visually examining the distribution with a scatter plot.
+
+::: callout-note
+It is helpful to consider the data generation method, which can provide insights into the likely distribution.
+:::
+
+```{r}
+#| fig.width: 6
+#| fig.height: 4
+
+p1 <- 
+  ggplot(df, aes(x = date, y = J12_J18_prim)) +
+      geom_point() +
+      labs(title = "Deaths Scatter Plot",
+         x = "Date", y = "Counts for <5 yo") +
+      # Have y-axis for the two plots be the same.
+      ylim(0, NA) +
+      theme_linedraw() +
+      # Specify aspects of the theme plot formatting settings.
+      theme(panel.spacing = unit(2, 'lines'), 
+            axis.text.x = element_text(angle = 90))
+
+p1
+```
+
+Variables that reflect counts (i.e., the number of deaths per month) can be distributed as either Poisson or negative binomial. Note that Poisson regression may artificially narrow confidence intervals when the data is overdispersed. To address this, you can use a negative binomial regression or a quasipoisson model, which accounts for the unexplained variation. In this context, we will apply a negative binomial regression.
+
+```{r}
+# For modeling, we need to use an ordered, discrete variable. Simply, we 
+# can use the rownames for this purpose.
+df <- tibble::rownames_to_column(df, var = "index") %>%
+  mutate(index = as.numeric(index))
+
+# Apply the negative binomial regression.
+mod1 <- glm.nb(J12_J18_prim ~ index , data = df)
+
+# Examine the fitting results.
+summary(mod1)
+```
+
+```{r}
+#| fig.width: 6
+#| fig.height: 4
+
+# Make predictions with confidence intervals.
+pred <- predict(mod1, type = "response", se.fit = TRUE)
+
+# Add the model predictions and 95% COI to the dataframe.
+df.pred <- df %>%
+  mutate(se.fit = pred$se.fit, pred = pred$fit) %>%
+  mutate(
+    conf.low = pred - 1.96 * se.fit,
+    conf.high = pred + 1.96 * se.fit
+  )
+
+# Plot the newly created model fitting.
+p1a <- p1 +
+  # Add the fitting line.
+  geom_line(data = df.pred, aes(x = date, y = pred),
+            color = "#e41a1c") +
+  # Add the confidence interval.
+  geom_ribbon(data = df.pred, aes(ymin = conf.low, ymax = conf.high), 
+              alpha = 0.2, fill = "blue") +
+  # Change the title name.
+  labs(title = "Deaths with a Negative Binomial Fit")
+
+p1a
+
+```
+
+### Add Controls for Seasonality
+
+Time series data that represent infections often have a periodicity trend. To control for any seasonal trends, we apply a monthly "dummy" variable that allows each month to have a different average. This done by converting the variable into a factor class.
+
+```{r}
+df$month <- as.factor(month(df$date))
+
+# Inspect the first 36 entries.
+df$month[1:36]
+
+# Update the model.
+mod1a <- glm.nb(J12_J18_prim ~ date + month, data = df)
+summary(mod1a)
+```
+
+```{r}
+#| fig.width: 6
+#| fig.height: 4
+
+# Make predictions with confidence intervals.
+pred2 <- predict(mod1a, type = "response", se.fit = TRUE)
+
+# Add the model predictions and 95% COI to the dataframe.
+df.pred2 <- df %>%
+  mutate(se.fit = pred2$se.fit, pred = pred2$fit) %>%
+  mutate(
+    conf.low = pred - 1.96 * se.fit,
+    conf.high = pred + 1.96 * se.fit
+  )
+
+# Plot the newly created model fitting.
+p1b <- p1 +
+  # Add the fitting line.
+  geom_line(data = df.pred2, aes(x = date, y = pred),
+            color = "#377eb8") +
+  # Add the confidence interval.
+  geom_ribbon(data = df.pred2, aes(ymin = conf.low, ymax = conf.high), 
+              alpha = 0.2, fill = "blue") +
+  # Change the title name.
+  labs(title = "Deaths with a Negative Binomial Fit\nSeasonality Term Included")
+
+p1b
+```
+
+We might want to add an "offset" variable that is used as a denominator. This could be population size or all-non-respiratory causes of mortality.
+
+```{r}
+# Create the offset using all deaths not coded as J
+df$log.offset <- log(df$acm_noj_prim)
+
+# Refit the model.
+model1b <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset), data = df)
+summary(model1b)
+```
+
+```{r}
+#| fig.width: 6
+#| fig.height: 4
+
+# Make predictions with confidence intervals.
+pred3 <- predict(model1b, type = "response", se.fit = TRUE)
+
+# Add the model predictions and 95% COI to the dataframe.
+df.pred3 <- df %>%
+  mutate(se.fit = pred3$se.fit, pred = pred3$fit) %>%
+  mutate(
+    conf.low = pred - 1.96 * se.fit,
+    conf.high = pred + 1.96 * se.fit
+  )
+
+# Plot the newly created model fitting.
+p1c <- p1 +
+  # Add the fitting line.
+  geom_line(data = df.pred3, aes(x = date, y = pred),
+            color = "#4daf4a") +
+  # Add the confidence interval.
+  geom_ribbon(data = df.pred3, aes(ymin = conf.low, ymax = conf.high), 
+              alpha = 0.2, fill = "blue") +
+  # Change the title name.
+  labs(title = "Deaths with a Negative Binomial Fit\nSeasonality Term and Offset")
+
+p1c
+```
+
+## Does the Disease Trend or Level Change?
+
+Now, let's test whether the trend or level of the disease changes. We can use three modeling methods to support a statistically informed answer to this question:
+
+1.  **Interrupted Time Series with Disconnected Segments:** This method fits different line segments through the data and tests whether the slope or level of the disease changes. It can sometimes result in abrupt jumps when fitting the model.
+
+2.  **Interrupted Time Series with Connected Segments (Spline Model):** This method allows the slope to change in the post-vaccine period but ensures the change is smooth.
+
+3.  **Extrapolation Based on the Pre-Vaccine Period:** This method fits the model to data from the pre-vaccine period only and extrapolates the trend to the post-vaccine period.
+
+### Method 1. Interrupted Time Series with Disconnected Segments
+
+First we create "dummy variables" that are 0 before introduction of the PCV vaccine and 1 during the efficacy evaluation phase.
+
+```{r}
+df <- df %>%
+  mutate(
+    period1 = ifelse(date >= vax.intro.date, 1, 0),
+    period2 = ifelse(date >= vax.eval.date, 1, 0)
+  )
+
+# View the changes.
+df[, c("index", "date", "period1", "period2")]
+```
+
+Ok, now let's fit our ITS model and look at results.
+
+We will start with a simple step-change model to see if the average number of cases changes
+
+```{r}
+# Additional seasonality controls covered in the collapsed box above.
+mod3 <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset),
+          # Change in disease during administration and evaluation period.
+          period1  + period2, data = df)
+
+summary(mod3)
+```
+
+```{r}
+#| fig.width: 6
+#| fig.height: 4
+
+# Make predictions with confidence intervals.
+pred4 <- predict(mod3, type = "response", se.fit = TRUE)
+
+# Add the model predictions and 95% COI to the dataframe.
+df.pred.its <- df %>%
+  mutate(se.fit = pred4$se.fit, pred = pred4$fit) %>%
+  mutate(
+    conf.low = pred - 1.96 * se.fit,
+    conf.high = pred + 1.96 * se.fit
+  )
+
+# Plot the newly created model fitting.
+p4 <- p1 +
+  # Add the fitting line.
+  geom_line(data = df.pred.its, aes(x = date, y = pred),
+            color = "#377eb8") +
+  # Add the confidence interval.
+  geom_ribbon(data = df.pred.its, aes(ymin = conf.low, ymax = conf.high), 
+              alpha = 0.2, fill = "blue") +
+  # Change the title name.
+  labs(title = "Deaths with a Negative Binomial Fit\nInterupted Time Series")
+
+p4
+```
+
+Now get an estimate for the counterfactual (i.e. hold vaccine effect to 0 in the model).
+
+```{r}
+# Initialize the vacccine effect variables by setting them to 0.
+df.counterfactual <- df
+df.counterfactual$period1 <- 0
+df.counterfactual$period2 <- 0
+
+# Generate the fitted values.
+df.pred.its$pred4.cf <- predict(mod3, type = "response", 
+  # Extract fitted value and add to df.pred.
+  newdata = df.counterfactual)
+
+# Overlay onto plot.
+p4 +
+ geom_line(data = df.pred.its, aes(x = date, y = pred4.cf),
+           color='#e41a1c', lty = 2)
+
+```
+
+Calculate a rate ratio from this model as the ratio of the fitted value and the counterfactual values. We won't try to estimate a confidence interval here as the `InterventionEvaluatR` package does this for us automatically.
+
+```{r}
+# Generate the rate ratio between the fitted and counterfactual values.
+df.pred.its$rr.its <- df.pred.its$pred/df.pred.its$pred4.cf
+
+p6 <- 
+  ggplot(df.pred.its, aes(x = date, y = rr.its)) +
+      geom_line() +
+      labs(title = "Rate Ratio for the ITS Mode",
+         x = "Date", y = "Rate ratio") +
+      theme_linedraw() +
+      # Specify aspects of the theme plot formatting settings.
+      theme(panel.spacing = unit(2, 'lines'), 
+            axis.text.x = element_text(angle = 90)) +
+      geom_hline(yintercept = 1, col = "gray", lty = 2) 
+
+p6
+```
+
+We could also try a slightly more complicated model where the slope of the line is also allowed to vary in the post vaccine period. This shows that the AIC score is worse (higher score) than the model that just accounts for a step change; so we will prefer that simpler model.
+
+```{r}
+mod3a <- glm.nb(J12_J18_prim~index + month + offset(log.offset) +
+                 # Add the counterfactuals with an interaction term.
+                 period1 + period1*index +
+                 period2 + period2*index, data=df)
+
+summary( mod3a)
+AIC(mod3, mod3a)
+```
+
+### Method 2. Interrupted Time Series with Connected Segments (Spline Model)
+
+In this case, we force the changes to be smooth so that we don't get the weird jumps like in the ITS example.
+
+```{r}
+intro.index <- which(df$date == vax.intro.date)
+eval.index <- which(df$date == vax.eval.date)
+
+df <- df %>%
+  mutate(
+    spl1 = ifelse(index - intro.index + 1 < 0, 0, index - intro.index + 1),
+    spl2 = ifelse(index - eval.index + 1 < 0, 0, index - eval.index + 1)
+  )
+
+# Inspect the changes.
+df[65:80, c("date", "index", "spl1", "spl2")]
+```
+
+```{r}
+mod4 <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset) +
+                 # Post-vaccine changes.
+                 spl1 + spl2, data = df)
+
+summary(mod4)
+```
+
+Get fitted and counterfactual for the spline model
+
+```{r}
+# Add the prediction using the smoothed model.
+df.pred.spl <- df %>%
+  mutate(pred.spl = predict(mod4, type = "response"))
+
+# Initialize the vacccine effect variables by setting them to 0.
+df.counterfactual.spl <- df
+df.counterfactual.spl$spl1 <- 0
+df.counterfactual.spl$spl2 <- 0
+
+# Generate the fitted values.
+df.pred.spl$pred.spl.cf <- predict(mod4, type = "response", 
+  # Extract fitted value and add to df.pred.
+  newdata = df.counterfactual.spl)
+
+```
+
+```{r}
+# Make predictions with confidence intervals.
+pred7 <- predict(mod4, type = "response", se.fit = TRUE)
+
+# Add the model predictions and 95% COI to the dataframe.
+df.pred.spl <- df.pred.spl %>%
+  mutate(se.fit = pred7$se.fit, pred = pred7$fit) %>%
+  mutate(
+    conf.low = pred - 1.96 * se.fit,
+    conf.high = pred + 1.96 * se.fit
+  )
+
+
+p7 <- 
+  ggplot(df.pred.spl, aes(x = date, y = J12_J18_prim)) +
+      geom_point() +
+      # Add the fitted line.
+      geom_line(data = df.pred.spl, aes(x = date, y = pred.spl),
+                color = "#377eb8") +
+      # Add the confidence interval.
+      geom_ribbon(data = df.pred.spl, aes(ymin = conf.low, ymax = conf.high),
+                  alpha = 0.2, fill = "blue") +
+      # Add the counterfactual line.
+      geom_line(data = df.pred.spl, aes(x = date, y = pred.spl.cf),
+                color = "#e41a1c", lty = 2) +
+      labs(title = "Deaths with a Negative Binomial Fit\nITS with Spline Smoothing",
+         x = "Date", y = "Counts for <5 yo") +
+      theme_linedraw() +
+      # Specify aspects of the theme plot formatting settings.
+      theme(panel.spacing = unit(2, 'lines'), 
+            axis.text.x = element_text(angle = 90))
+
+p7
+
+```
+
+We can see here that the decline follows a smoother trajectory, by design. We can check the counterfactual performace by examining the ratio again.
+
+```{r}
+df.pred.spl$rr.spline <- df.pred.spl$pred.spl/df.pred.spl$pred.spl.cf
+
+p8 <- p6 +
+     geom_line(data = df.pred.spl, aes(x = date, y = rr.spline),
+               color = "red", lty = 2)
+
+p8
+
+```
+
+### Method #3: Extrapolation Based on the Pre-Vaccine Period
+
+First set the pneumonia variable to NA during the post-vaccine period
+
+```{r}
+df$J12_J18_prim_pre <- df$J12_J18_prim
+
+df$J12_J18_prim_pre[which(df$date>=vax.intro.date)] <- NA
+
+df[, c('date','J12_J18_prim_pre' )]
+```
+
+```{r}
+mod5<- glm.nb(J12_J18_prim_pre ~ index # Time trend
+              + month # Seasonality
+              + offset(log.offset), data = df)
+```
+
+```{r}
+ds.pred.mod5<-cbind.data.frame(df, 'pred.mod5'=predict(mod5,type='response', newdata=df))
+```
+
+Plot the observed and extrapolated data. Note that here the comparison is the *observed* data with the model estimate extrapolated from the pre-vaccine period. This is different form the previous models where we were just comparing the model fitted value with the model fitted value with the vaccine-effects held to 0.
+
+```{r}
+p9 <- ggplot(ds.pred.mod5, aes(x=date, y=J12_J18_prim)) +
+      geom_point() +
+      ylab("J12-18, <1 yo") +
+      xlab("Date") +
+      theme_linedraw() +
+      theme(panel.spacing= unit(2,'lines') , axis.text.x=element_text(angle=90)) +
+      geom_hline(yintercept=0, col='gray', lty=2) +
+      geom_line(color='#377eb8', data=ds.pred.mod5, aes(x=date, y=pred.mod5))
+p9
+
+```
+
+```{r}
+ds.pred.mod5$rr.trend<-df$J12_J18_prim/ds.pred.mod5$pred.mod5
+
+```
+
+##Let's compare the rate ratio estimates from the 3 models
+
+```{r}
+p8 +  geom_line(color='#377eb8',lwd=1, lty=1,data=ds.pred.mod5, aes(x=date, y=rr.trend))
+
+```
+
+## look at rate ratio during the evaluation period
+
+As a rough estimate of this, let's just average the point-by-point estimates of the rate ratio during the evaluation period.
+
+```{r}
+eval.period<-df$date> vax.eval.date
+
+rr.its.eval<- mean(df.pred.its$rr.its[eval.period])
+
+rr.spline.eval<- mean(df.pred.spl$rr.spline[eval.period])
+
+rr.trend.eval<- sum(ds.pred.mod5$J12_J18_prim[eval.period])/sum(ds.pred.mod5$pred.mod5[eval.period])
+
+round(c('ITS'=rr.its.eval,'Spline'=rr.spline.eval,'Trend Extrapolation'=rr.trend.eval ),2)
+
+#Percent decline
+100*(1- round(c('ITS'=rr.its.eval,'Spline'=rr.spline.eval,'Trend Extrapolation'=rr.trend.eval ),2))
+
+```
+
+*Depending on the dataset, these 3 methods might or might not agree*
+
+## References
+
+::: {#refs}
+:::
