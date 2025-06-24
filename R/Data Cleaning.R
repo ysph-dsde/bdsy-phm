@@ -32,7 +32,7 @@ suppressPackageStartupMessages({
 ## ----------------------------------------------------------------
 ## LOAD IN THE DATA - NNDSS
 
-nndss_raw <- read_csv("Data/NNDSS.2016.2021.csv")
+nndss_raw <- read_csv("Data/Raw Data/NNDSS.2016.2021.csv")
 
 
 
@@ -457,7 +457,7 @@ write_csv(google_trends, "Data/google_trends.csv")
 ## ----------------------------------------------------------------
 ## LOAD IN THE DATA - Equador
 
-ecuador_raw <- readRDS( 'Data/ec_2_59m.rds')
+ecuador_raw <- readRDS("Data/Raw Data/ec_2_59m.rds")
 
 
 
