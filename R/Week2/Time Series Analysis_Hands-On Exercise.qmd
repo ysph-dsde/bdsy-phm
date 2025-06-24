@@ -5,6 +5,7 @@ subtitle: |
    | BDSY 2025 - Public Health Modeling Project
 author: "Dan Weinberger"
 bibliography: references.bib
+csl: apa.csl
 date: 6/24/2025
 date-format: long
 format:
@@ -370,7 +371,7 @@ df.pred.its$pred4.cf <- predict(mod3, type = "response",
 # Overlay onto plot.
 p4 +
  geom_line(data = df.pred.its, aes(x = date, y = pred4.cf),
-           color='#e41a1c', lty = 2)
+           color = '#e41a1c', lty = 2)
 
 ```
 
@@ -490,6 +491,7 @@ p7
 We can see here that the decline follows a smoother trajectory, by design. We can check the counterfactual performace by examining the ratio again.
 
 ```{r}
+# Generate the rate ratio between the fitted and counterfactual values.
 df.pred.spl$rr.spline <- df.pred.spl$pred.spl/df.pred.spl$pred.spl.cf
 
 p8 <- p6 +
@@ -507,60 +509,75 @@ First set the pneumonia variable to NA during the post-vaccine period
 ```{r}
 df$J12_J18_prim_pre <- df$J12_J18_prim
 
-df$J12_J18_prim_pre[which(df$date>=vax.intro.date)] <- NA
+df$J12_J18_prim_pre[which(df$date >= vax.intro.date)] <- NA
 
-df[, c('date','J12_J18_prim_pre' )]
+df[, c("date", "J12_J18_prim_pre")]
 ```
 
 ```{r}
-mod5<- glm.nb(J12_J18_prim_pre ~ index # Time trend
+mod5 <- glm.nb(J12_J18_prim_pre ~ index # Time trend
               + month # Seasonality
               + offset(log.offset), data = df)
-```
 
-```{r}
-ds.pred.mod5<-cbind.data.frame(df, 'pred.mod5'=predict(mod5,type='response', newdata=df))
+# Add the prediction using the smoothed model.
+df.pred.mod5 <- df %>%
+  mutate(pred.mod5 = predict(mod5, type = "response", newdata = df))
 ```
 
 Plot the observed and extrapolated data. Note that here the comparison is the *observed* data with the model estimate extrapolated from the pre-vaccine period. This is different form the previous models where we were just comparing the model fitted value with the model fitted value with the vaccine-effects held to 0.
 
 ```{r}
-p9 <- ggplot(ds.pred.mod5, aes(x=date, y=J12_J18_prim)) +
+# Make predictions with confidence intervals.
+pred7 <- predict(mod5, type = "response", se.fit = TRUE, newdata = df)
+
+# Add the model predictions and 95% COI to the dataframe.
+df.pred.mod5 <- df.pred.mod5 %>%
+  mutate(se.fit = pred7$se.fit, pred = pred7$fit) %>%
+  mutate(
+    conf.low = pred - 1.96 * se.fit,
+    conf.high = pred + 1.96 * se.fit
+  )
+
+
+p9 <- 
+  ggplot(df.pred.mod5, aes(x = date, y = J12_J18_prim)) +
       geom_point() +
-      ylab("J12-18, <1 yo") +
-      xlab("Date") +
+      # Add the fitted line.
+      geom_line(data = df.pred.mod5, aes(x = date, y = pred.mod5),
+                color = "#377eb8") +
+      # Add the confidence interval.
+      geom_ribbon(data = df.pred.mod5, aes(ymin = conf.low, ymax = conf.high),
+                  alpha = 0.2, fill = "blue") +
+      labs(title = "Deaths with a Negative Binomial Fit\nExtrapolating Based on the Pre-Vaccine Period",
+         x = "Date", y = "Counts for <5 yo") +
       theme_linedraw() +
-      theme(panel.spacing= unit(2,'lines') , axis.text.x=element_text(angle=90)) +
-      geom_hline(yintercept=0, col='gray', lty=2) +
-      geom_line(color='#377eb8', data=ds.pred.mod5, aes(x=date, y=pred.mod5))
+      # Specify aspects of the theme plot formatting settings.
+      theme(panel.spacing = unit(2, 'lines'), 
+            axis.text.x = element_text(angle = 90))
+
 p9
-
 ```
+
+Let's compare the rate ratio estimates from the 3 models.
 
 ```{r}
-ds.pred.mod5$rr.trend<-df$J12_J18_prim/ds.pred.mod5$pred.mod5
+df.pred.mod5$rr.trend <- df$J12_J18_prim/df.pred.mod5$pred.mod5
+
+p8 + geom_line(data = df.pred.mod5, aes(x = date, y = rr.trend),
+               color = '#377eb8', lwd = 1, lty = 1)
 
 ```
-
-##Let's compare the rate ratio estimates from the 3 models
-
-```{r}
-p8 +  geom_line(color='#377eb8',lwd=1, lty=1,data=ds.pred.mod5, aes(x=date, y=rr.trend))
-
-```
-
-## look at rate ratio during the evaluation period
 
 As a rough estimate of this, let's just average the point-by-point estimates of the rate ratio during the evaluation period.
 
 ```{r}
-eval.period<-df$date> vax.eval.date
+eval.period <- df$date > vax.eval.date
 
 rr.its.eval<- mean(df.pred.its$rr.its[eval.period])
 
 rr.spline.eval<- mean(df.pred.spl$rr.spline[eval.period])
 
-rr.trend.eval<- sum(ds.pred.mod5$J12_J18_prim[eval.period])/sum(ds.pred.mod5$pred.mod5[eval.period])
+rr.trend.eval<- sum(df.pred.mod5$J12_J18_prim[eval.period])/sum(df.pred.mod5$pred.mod5[eval.period])
 
 round(c('ITS'=rr.its.eval,'Spline'=rr.spline.eval,'Trend Extrapolation'=rr.trend.eval ),2)
 
@@ -573,5 +590,5 @@ round(c('ITS'=rr.its.eval,'Spline'=rr.spline.eval,'Trend Extrapolation'=rr.trend
 
 ## References
 
-::: {#refs}
+:::{#refs}
 :::
