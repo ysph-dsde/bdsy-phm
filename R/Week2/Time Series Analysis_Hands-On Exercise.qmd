@@ -5,7 +5,7 @@ subtitle: |
    | BDSY 2025 - Public Health Modeling Project
 author: "Dan Weinberger"
 bibliography: references.bib
-csl: apa.csl
+csl: nature.csl
 date: 6/24/2025
 date-format: long
 format:
@@ -19,11 +19,37 @@ highlight-style: tango
 
 ## Introduction
 
-This workshop was developed by [Dr. Dan Weinberger](https://ysph.yale.edu/profile/daniel-weinberger/) from the Yale School of Public Health (YSPH) for the 12$^{th}$ International Symposium on Pneumococci and Pneumococcal Diseases (ISPPD-12) hosted in Toronto, Canada in June 2022. Here, we have adapted his workshop session #1, which compares different methods for fitting a time series dataset ([DanWeinberger/isppd_workshop2022](https://github.com/DanWeinberger/isppd_workshop2022#)).
+This workshop was developed by [Dr. Dan Weinberger](https://ysph.yale.edu/profile/daniel-weinberger/) from the Yale School of Public Health (YSPH) for the 12$^{th}$ International Symposium on Pneumococci and Pneumococcal Diseases (ISPPD-12) hosted in Toronto, Canada in June 2022. Here, we have adapted his workshop session #1, which compares different methods for fitting a time series dataset [@isppd_github]. Students are encouraged to explore the workshop content that Dr. Weinberger put together to learn more about the subject:
 
-The data used here is a subset of the complete set used in [Oliveira and Shioda et al. 2020](Lucia%20H%20de%20Oliveira%201,#,%20Kayoko%20Shioda). In their paper, national-level mortality data spanning from 2000 to 2016 for children under 5 years of age was compiled and standardized by national mortality registers in 10 Latin American and Caribbean countries. The primary cause of death was classified using the International Classification of Diseases, Tenth Revision (ICD-10) codes ([Influenza and pneumonia J09-J18](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) or [Supplementary Table 2](https://pmc.ncbi.nlm.nih.gov/articles/instance/8516507/bin/ciaa614_suppl_Supplement_Materials.pdf)). The goal of the paper was to evaluate the efficacy of pneumococcal conjugate vaccines (PCVs) in children who received any part of the standard-of-care vaccination series.
+-   **GitHub:** Find the code, original data, and slides [@isppd_github].
+-   **Workshop Webpage:** Find a longer description of the workshop in the format of a mini course with links to video presentations of select sections - *Workshop on the evaluation of vaccine impact* [@isppd_webpage].
+
+The data used here is a subset of the complete set used in Oliveira, L. H. D. *et al. 2020* [@DeOliveira2021]. In their paper, national-level mortality data spanning from 2000 to 2016 for children under 5 years of age was compiled and standardized by national mortality registers in 10 Latin American and Caribbean countries. The primary cause of death was classified using the International Classification of Diseases, Tenth Revision (ICD-10) codes ([Influenza and pneumonia J09-J18](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) or Oliveira, L. H. D. *et al. 2020* Supplementary Table 2) [@DeOliveira2021_supplement; @icd10_codes]. The goal of the paper was to evaluate the efficacy of pneumococcal conjugate vaccines (PCVs) in children who received any part of the standard-of-care vaccination series.
 
 Today, we are going to examine the efficacy of pneumococcal conjugate vaccines (PCVs) in children aged 2 to 59 months in Ecuador. The standard-of-care vaccination series involves a primary series of either two doses (administered at 2 and 4 months of age) or three doses (administered at 2, 4, and 6 months of age), with the option of an additional booster dose (administered at 12-18 months of age). This dataset does not differentiate between patients who received varying levels of inoculation, and instead reports the data if any PCV was delivered.
+
+## Preamble
+
+This section is drawn from Dr. Weinberger's recorded presentation *What is ‘vaccine impact’?; and Administrative data: challenges and opportunities for evaluation studies* [@isppd_video1].
+
+Statistical inference can be reduced to quantitatively answering three types of questions:
+
+1.  **Causation:** Was there a change, and can we identify what caused the change?
+2.  **Prediction:** What do we expect to see in the future?
+3.  **Certainty:** How reliable are the answers to the first two questions?
+
+A biotechnologist developing a vaccine is primarily concerned with proving that there was a favorable change, such as mitigating the disease process in an individual. In contrast, a public health analyst aims to determine the overall impact of the vaccine on the population. For example, an effective vaccine not only protects an individual but also attenuates transmission within their immediate social circle.
+
+This requires contextualizing the vaccine's impact as a combination of direct and indirect effects. It is important to identify and control for unexplained linear and non-linear trends unrelated to the introduction of a vaccine to a population. For example, were there changes in overall population health at the same time or changes to diagnostic methods?
+
+We can appreciate that this is a Sisyphean task, but one that can be addressed with time series analysis. Keep in mind that the methods discussed here are most applicable to endemic diseases that are consistently present in the population, existing at a relatively stable and predictable level. The core reason is that these methods require us to have an idea of what we would expect to have seen had the vaccine not been introduced, allowing us to posit a realistic counterfactual for model evaluation.
+
+Our study is framed by PICO. In black text are the general definitions for the acronym and in red text is the application to our example:
+
+-   **Population:** The target population where the impact of a vaccine is to measured. [Children 2-59 months old.]{style="color: red;"}
+-   **Intervention:** The date and timeframe for a vaccine intervention. [Introduction of PCV10 to the Brazilian national immunization program.]{style="color: red;"}
+-   **Comparator:** Diseases or groups of diseases to compare against the intervention, which are *not* expected to be impacted by the intervention itself.
+-   **Outcome:** The condition representing our expected results from the intervention. [Deaths due to pneumonia.]{style="color: red;"}
 
 ## Set Up the Environment
 
@@ -56,9 +82,12 @@ suppressPackageStartupMessages({
 '%!in%' <- function(x,y)!('%in%'(x,y))
 ```
 
-The data has been cleaned and standardized for use here, and is imported directly using the GitHub raw URL. You can explore the additional data cleaning steps applied to all of the data in the instructor’s GitHub repository: [ysph-dsde/bdsy-phm](https://github.com/ysph-dsde/bdsy-phm). The original dataset and prior data cleaning, validation, and standardization can be found in the paper's GitHub repository and Dr. Weinberger's workshop GitHub repository, which were linked to earlier.
+The data has been cleaned and standardized for use here, and is imported directly using the GitHub raw URL. You can explore the additional data cleaning steps applied to all of the data in the instructor’s GitHub repository: [ysph-dsde/bdsy-phm](https://github.com/ysph-dsde/bdsy-phm). The original dataset and prior data cleaning, validation, and standardization can be found in the paper's GitHub repository and Dr. Weinberger's workshop GitHub repository [@DeOliveira2021; @isppd_github].
 
 ```{r}
+#| message: FALSE
+#| warning: FALSE
+
 # Read in the cleaned data directly from the instructor's GitHub.
 df <- read_csv("https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/ec_2to59m.csv")
 
@@ -66,11 +95,11 @@ df <- read_csv("https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/
 glimpse(df)
 ```
 
-### Data dictionary
+### Data Dictionary
 
 It is crucial that we understand the meaning of each variable in our dataset. Sometimes, there are surprising aspects embedded within the variables that are not immediately discernible from the table itself. Many sources provide a "Data Dictionary" for this purpose, but at times, you may need to interpret the variable meanings based on context and methods.
 
-This paper did not explicitly describe each variable in a "Data Dictionary"; therefore, the following was assembled based on the context and methods provided in the paper and its supplementary materials.
+This paper did not explicitly describe each variable in a "Data Dictionary"; therefore, the following was assembled based on the context and methods provided in the paper and its supplementary materials [@DeOliveira2021; @DeOliveira2021_supplement].
 
 -   **date:** The month when the events were recorded. This spans from `r str_c(min(df$date), " to ", max(df$date))`.
 
@@ -80,25 +109,25 @@ This paper did not explicitly describe each variable in a "Data Dictionary"; the
 
 -   **doses:** Specifies the doses of PCV received. As described earlier, all possible combinations of the standard-of-care vaccination series and booster are represented here.
 
--   **J12_J18_prim:** Primary cause of death is assigned to the ICD-10 codes J12-J18. We encourage you to read more about what these [ICD-10 codes](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) represent.
+-   **J12_J18_prim:** Primary cause of death is assigned to the ICD-10 codes J12-J18. We encourage you to read more about what these [ICD-10 codes](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) represent [@DeOliveira2021_supplement; @icd10_codes].
 
 -   **acm_noj_prim:** Primary cause of death was assigned any other ICD=10 code, excluding only the J chapter, diseases of the respiratory system.
 
 ## Initial Plot of the Time Series
 
-All methods for modeling the time series data requires the dates the PCV vaccine was introduced.
+We begin each time series analysis by examining the entire span of data, typically plotted as a line or scatter plot. All methods for modeling the vaccination introduction time series data require the dates when the vaccine was introduced, in this case the PCV10 vaccine.
 
 ```{r}
 # Estimation when the vaccine was introduced in YYYY-MM-DD format.
-vax.intro.date <- as.Date('2010-08-01')
+vax.intro.date <- as.Date("2010-08-01")
 
-# Date when vaccine efficacy evaluations started; at least 
-# 12 months following administration.
-vax.eval.date <- as.Date('2011-08-01')
+# Date when vaccine efficacy evaluations started; at least 12 months
+# following administration.
+vax.eval.date <- as.Date("2011-08-01")
 
 ```
 
-We are not going to spend time explaining how to plot using the `tidyverse` package `ggplot2()` here. Later in the week you will receive a lecture covering this topic. In the meantime, you are welcome to explore the `ggplot2` [package documentation](https://ggplot2.tidyverse.org/index.html) or the Data Science and Data Equity (DSDE) group's online [Book of Workshops](https://ysph-dsde.github.io/Book-of-Workshops/Data-Visualization-with-ggplot2/).
+We are not going to spend time explaining how to plot using the `tidyverse` package `ggplot2()` here. Later in the week you will receive a lecture covering this topic. In the meantime, you are welcome to explore the `ggplot2` package documentation or the Data Science and Data Equity (DSDE) group's online [Book of Workshops](https://ysph-dsde.github.io/Book-of-Workshops/Data-Visualization-with-ggplot2/) [@ggplot2_doc; @book_workshops].
 
 ```{r}
 #| fig.width: 8
@@ -144,19 +173,16 @@ It is helpful to consider the data generation method, which can provide insights
 #| fig.width: 6
 #| fig.height: 4
 
-p1 <- 
+p_base <- 
   ggplot(df, aes(x = date, y = J12_J18_prim)) +
       geom_point() +
       labs(title = "Deaths Scatter Plot",
          x = "Date", y = "Counts for <5 yo") +
       # Have y-axis for the two plots be the same.
       ylim(0, NA) +
-      theme_linedraw() +
-      # Specify aspects of the theme plot formatting settings.
-      theme(panel.spacing = unit(2, 'lines'), 
-            axis.text.x = element_text(angle = 90))
+      theme_linedraw()
 
-p1
+p_base
 ```
 
 Variables that reflect counts (i.e., the number of deaths per month) can be distributed as either Poisson or negative binomial. Note that Poisson regression may artificially narrow confidence intervals when the data is overdispersed. To address this, you can use a negative binomial regression or a quasipoisson model, which accounts for the unexplained variation. In this context, we will apply a negative binomial regression.
@@ -190,7 +216,7 @@ df.pred <- df %>%
   )
 
 # Plot the newly created model fitting.
-p1a <- p1 +
+p_sm <- p_base +
   # Add the fitting line.
   geom_line(data = df.pred, aes(x = date, y = pred),
             color = "#e41a1c") +
@@ -200,13 +226,29 @@ p1a <- p1 +
   # Change the title name.
   labs(title = "Deaths with a Negative Binomial Fit")
 
-p1a
+p_sm
 
 ```
 
+This is not a terrible predictor of our trend, but it overlooks many known sources of variance. For instance, we know that infections have seasonal trends, sometimes referred to by its technical term periodicity. Additionally, our baseline population may change from 2005 to 2016, which can consequently shift the overall disease trend in tandem with these baseline changes.
+
+## Building the Multiple Linear Model
+
+::: img-float
+![Principles of Seasonality - Generated with Yale's AI Clarity](Images/Principles of Seasonal Time Series.png){style="float: left; position: relative; top: 0px; padding-right: 30px; margin: auto auto auto auto;" width="450"}
+:::
+
 ### Add Controls for Seasonality
 
-Time series data that represent infections often have a periodicity trend. To control for any seasonal trends, we apply a monthly "dummy" variable that allows each month to have a different average. This done by converting the variable into a factor class.
+Seasonality often manifests as periodicity, where recurring patterns repeat at regular, fixed intervals of time. This differs from the related concept of cyclicity, which represents recurring patterns that do not occur at regular intervals or consistently appear in regular seasons\ [@periodicity].
+
+Each seasonal pattern can be decomposed into three components that can either remain constant (stationary) or change over time (non-stationary): mean, variance, and covariance. The figure on the left illustrates the four possible seasonal trends separately. The top-left panel shows a recurring pattern with time-invariant, stationary parameters, while the other panels demonstrate the effects of non-stationary parameters.
+
+::: callout-note
+Most time series data in the natural sciences exhibit seasonality, periodicity, or cyclicity, though these patterns may be difficult to detect when the data is noisy\ [@Ramanathan2020].
+:::
+
+To control for temporal variations such as seasonality, we employ a simple form of dynamic linear regression (DLR). Essentially, we add variables to our simple linear regression model that represents different subsections of time as new regressors. Applying a DLR allows for changes in the mean value of the underlying regression relationship\ [@Young2011]. For the regression function to recognize each date, we need to factorize the date variable.
 
 ```{r}
 df$month <- as.factor(month(df$date))
@@ -215,8 +257,8 @@ df$month <- as.factor(month(df$date))
 df$month[1:36]
 
 # Update the model.
-mod1a <- glm.nb(J12_J18_prim ~ date + month, data = df)
-summary(mod1a)
+mod2 <- glm.nb(J12_J18_prim ~ date + month, data = df)
+summary(mod2)
 ```
 
 ```{r}
@@ -224,7 +266,7 @@ summary(mod1a)
 #| fig.height: 4
 
 # Make predictions with confidence intervals.
-pred2 <- predict(mod1a, type = "response", se.fit = TRUE)
+pred2 <- predict(mod2, type = "response", se.fit = TRUE)
 
 # Add the model predictions and 95% COI to the dataframe.
 df.pred2 <- df %>%
@@ -235,28 +277,43 @@ df.pred2 <- df %>%
   )
 
 # Plot the newly created model fitting.
-p1b <- p1 +
+p_season <- p_base +
   # Add the fitting line.
   geom_line(data = df.pred2, aes(x = date, y = pred),
-            color = "#377eb8") +
+            color = "#e41a1c") +
   # Add the confidence interval.
   geom_ribbon(data = df.pred2, aes(ymin = conf.low, ymax = conf.high), 
               alpha = 0.2, fill = "blue") +
   # Change the title name.
   labs(title = "Deaths with a Negative Binomial Fit\nSeasonality Term Included")
 
-p1b
+p_season
 ```
 
-We might want to add an "offset" variable that is used as a denominator. This could be population size or all-non-respiratory causes of mortality.
+### Add Controls for Baseline Shifts
+
+::: img-float
+![Figure by Dr. Dan Weinberger - Generated with Yale's AI Clarity \ [@isppd_video1]](Images/Principles of Offsetting.png){style="float: right; position: relative; top: 0px; padding-left: 30px; margin: auto auto auto auto;" width="450"}
+:::
+
+We can expect that the baseline population changes over time, introducing unaccounted-for heterogeneous variance to our model. In epidemiology, it is standard to contextualize raw data by applying a denominator, or offset, that represents the population at risk of the disease. 
+
+The figure on the right illustrates how the baseline for the number of hospitalizations normalizes when we apply the population offset. Keep in mind that this ratio is often scaled to "per 100,000 persons."\ [@isppd_video1].
+
+$$
+\frac{n_{cases}}{n_{population}} \times 100,000
+$$
+
+In real-world scenarios, the total base population is not always reported, or the coverage might be unreliable for the entire span of the time series. Alternatively, we can apply denominators such as the number of people using the healthcare system, the number of people hospitalized, and similar metrics\ [@isppd_video1]. In this example, we could apply the total population size or all non-respiratory causes of mortality.
 
 ```{r}
-# Create the offset using all deaths not coded as J
+# Create the offset using all deaths not coded as J. Transform the values
+# to log before use in the negative binomial fitting.
 df$log.offset <- log(df$acm_noj_prim)
 
-# Refit the model.
-model1b <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset), data = df)
-summary(model1b)
+# Refit the model with an offset.
+model3 <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset), data = df)
+summary(model3)
 ```
 
 ```{r}
@@ -264,7 +321,7 @@ summary(model1b)
 #| fig.height: 4
 
 # Make predictions with confidence intervals.
-pred3 <- predict(model1b, type = "response", se.fit = TRUE)
+pred3 <- predict(model3, type = "response", se.fit = TRUE)
 
 # Add the model predictions and 95% COI to the dataframe.
 df.pred3 <- df %>%
@@ -275,22 +332,24 @@ df.pred3 <- df %>%
   )
 
 # Plot the newly created model fitting.
-p1c <- p1 +
+p_offset <- p_base +
   # Add the fitting line.
   geom_line(data = df.pred3, aes(x = date, y = pred),
-            color = "#4daf4a") +
+            color = "#e41a1c") +
   # Add the confidence interval.
   geom_ribbon(data = df.pred3, aes(ymin = conf.low, ymax = conf.high), 
               alpha = 0.2, fill = "blue") +
   # Change the title name.
   labs(title = "Deaths with a Negative Binomial Fit\nSeasonality Term and Offset")
 
-p1c
+p_offset
 ```
+
+Notice that the seasonality trend, which was clear in the previous plot, is disrupted when the population offset is applied. Now that we have our baseline model, we are ready to proceed with examining the effect of the intervention with PCV10 after its introduction on `r vax.intro.date`.
 
 ## Does the Disease Trend or Level Change?
 
-Now, let's test whether the trend or level of the disease changes. We can use three modeling methods to support a statistically informed answer to this question:
+In this section we are going to test whether the trend or level of pneumoia as a result of pneumococcal disease changes after the introduction of the PCV10 vaccine. We can use three modeling methods to support a statistically informed answer to this question:
 
 1.  **Interrupted Time Series with Disconnected Segments:** This method fits different line segments through the data and tests whether the slope or level of the disease changes. It can sometimes result in abrupt jumps when fitting the model.
 
@@ -310,7 +369,7 @@ df <- df %>%
   )
 
 # View the changes.
-df[, c("index", "date", "period1", "period2")]
+df[c(1:5, 100:105), c("index", "date", "period1", "period2")]
 ```
 
 Ok, now let's fit our ITS model and look at results.
@@ -319,11 +378,11 @@ We will start with a simple step-change model to see if the average number of ca
 
 ```{r}
 # Additional seasonality controls covered in the collapsed box above.
-mod3 <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset) +
+mod_method1 <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset) +
           # Change in disease during administration and evaluation period.
-          period1  + period2, data = df)
+          period1 + period2, data = df)
 
-summary(mod3)
+summary(mod_method1)
 ```
 
 ```{r}
@@ -331,7 +390,7 @@ summary(mod3)
 #| fig.height: 4
 
 # Make predictions with confidence intervals.
-pred4 <- predict(mod3, type = "response", se.fit = TRUE)
+pred4 <- predict(mod_method1, type = "response", se.fit = TRUE)
 
 # Add the model predictions and 95% COI to the dataframe.
 df.pred.its <- df %>%
@@ -342,7 +401,7 @@ df.pred.its <- df %>%
   )
 
 # Plot the newly created model fitting.
-p4 <- p1 +
+p_m1 <- p_base +
   # Add the fitting line.
   geom_line(data = df.pred.its, aes(x = date, y = pred),
             color = "#377eb8") +
@@ -352,7 +411,7 @@ p4 <- p1 +
   # Change the title name.
   labs(title = "Deaths with a Negative Binomial Fit\nInterupted Time Series")
 
-p4
+p_m1
 ```
 
 Now get an estimate for the counterfactual (i.e. hold vaccine effect to 0 in the model).
@@ -363,13 +422,12 @@ df.counterfactual <- df
 df.counterfactual$period1 <- 0
 df.counterfactual$period2 <- 0
 
-# Generate the fitted values.
-df.pred.its$pred4.cf <- predict(mod3, type = "response", 
-  # Extract fitted value and add to df.pred.
-  newdata = df.counterfactual)
+# Generate the fitted values using the counterfactual setup instead.
+df.pred.its$pred4.cf <- predict(mod_method1, type = "response", 
+                                newdata = df.counterfactual)
 
 # Overlay onto plot.
-p4 +
+p_m1 +
  geom_line(data = df.pred.its, aes(x = date, y = pred4.cf),
            color = '#e41a1c', lty = 2)
 
@@ -590,5 +648,5 @@ round(c('ITS'=rr.its.eval,'Spline'=rr.spline.eval,'Trend Extrapolation'=rr.trend
 
 ## References
 
-:::{#refs}
+::: {#refs}
 :::
