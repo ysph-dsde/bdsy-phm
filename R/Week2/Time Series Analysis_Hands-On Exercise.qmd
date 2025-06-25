@@ -141,7 +141,7 @@ p1 <-
       # Have y-axis for the two plots be the same.
       ylim(0, 250) +
       # Reference line.
-      geom_vline(xintercept = vax.intro.date, col = 'red', lty = 2) +
+      geom_vline(xintercept = vax.intro.date, col = "red", lty = 2) +
       theme_linedraw()
    
 
@@ -153,7 +153,7 @@ p2 <-
       # Have y-axis for the two plots be the same.
       ylim(0, 250) +
       # Reference line.
-      geom_vline(xintercept = vax.intro.date, col = 'red', lty = 2) +
+      geom_vline(xintercept = vax.intro.date, col = "red", lty = 2) +
       theme_linedraw()
 
 # Display the plots side-by-side.
@@ -248,7 +248,7 @@ Each seasonal pattern can be decomposed into three components that can either re
 Most time series data in the natural sciences exhibit seasonality, periodicity, or cyclicity, though these patterns may be difficult to detect when the data is noisy\ [@Ramanathan2020].
 :::
 
-To control for temporal variations such as seasonality, we employ a simple form of dynamic linear regression (DLR). Essentially, we add variables to our simple linear regression model that represents different subsections of time as new regressors. Applying a DLR allows for changes in the mean value of the underlying regression relationship\ [@Young2011]. For the regression function to recognize each date, we need to factorize the date variable.
+To control for temporal variations such as seasonality, we employ a simple form of dynamic linear regression (DLR). Essentially, we add variables to our simple linear regression model that represents different subsections of time as new regressors. Applying a DLR allows for changes in the mean value of the underlying regression relationship\ [@Young2011]. For the regression function to recognize each date, we need to factorize the date variable to assign the month the observation occured.
 
 ```{r}
 df$month <- as.factor(month(df$date))
@@ -349,7 +349,23 @@ Notice that the seasonality trend, which was clear in the previous plot, is disr
 
 ## Does the Disease Trend or Level Change?
 
-In this section we are going to test whether the trend or level of pneumoia as a result of pneumococcal disease changes after the introduction of the PCV10 vaccine. We can use three modeling methods to support a statistically informed answer to this question:
+In this section, we will test whether the trend or level of pneumonia deaths due to pneumococcal disease changes after the introduction of the PCV10 vaccine. To accomplish this, we will set up a counterfactual model to represent what our base model predicts the death counts would have been if the vaccine had not been introduced to the population. Similarly, a factual model will be applied to represent what actually happened with the vaccine rollout.
+
+We will then compare the factual model against the counterfactual model to determine if a difference is identified in the period following vaccine introduction. This process is generally referred to as detecting vaccine effect or vaccine impact.
+
+:::{.callout-warning}
+You want to be careful when applying causal inference methods to model building, perturbation, or prediction questions. While our analysis uses a causal framework to detect the possible impact of the vaccine introduction, this does not permit us to make definitive claims of causation.
+
+Additionally, it is important to remember that the model we have built may have other flaws influencing its sensitivity to the pre/post vaccination period. It is always best practice to test a model under different conditions and subject it to various tests to robustly justify its accuracy, precision, and generalizability.
+:::
+
+The figure below illustrates the three phases of the vaccine rollout: pre-vaccination, post-vaccination, and a latency period between the start of vaccine distribution and efficacy evaluation. Recall that our base negative binomial model accounts for three effector variables: an ordered, discrete variable organizing the outcomes temporally without seasonality, the month to capture seasonal periodicity, and an offset to the baseline accounting for population changes. Our baseline model is expected to, and is therefore assumed to, detect the drop in average cases during the post-vaccination period.
+
+![Figure by Dr. Dan Weinberger - From his recorded lecture _Interrupted time series analysis_\ [@isppd_video2].](Images/Vaccine Effect with Counterfactual.png){style="float: none; display: block; margin-left: auto; margin-right: auto; width: 90%;"}
+
+This model, however, does not explicitly assign outcomes to the three phases represented in the figure. Therefore, we need to set up variables that distinguish outcomes before and after the vaccine introduction, as well as before and after the entry to the vaccine evaluation phase, in order to convert the base model into our factual and counterfactual models.
+
+We also need to regenerate the model to produce factually-based and counterfactually-based predictions for comparison. There are three modeling approaches we will evaluate here, each employing a different method to define the pre/post and latency vaccination periods. These differences will impact our inference about vaccine effectiveness.
 
 1.  **Interrupted Time Series with Disconnected Segments:** This method fits different line segments through the data and tests whether the slope or level of the disease changes. It can sometimes result in abrupt jumps when fitting the model.
 
@@ -359,38 +375,57 @@ In this section we are going to test whether the trend or level of pneumoia as a
 
 ### Method 1. Interrupted Time Series with Disconnected Segments
 
-First we create "dummy variables" that are 0 before introduction of the PCV vaccine and 1 during the efficacy evaluation phase.
+We will add two new binary variables to our dataset: `vax_intro` and `vax_eval`. The `vax_intro` variable will be assigned a value of `0` before `r vax.intro.date` and `1` afterward; similarly, the `vax_eval` variable will be assigned a value of `0` before `r vax.eval.date` and `1` afterward.
 
 ```{r}
+# Assign outcomes to the known vaccine phases.
 df <- df %>%
   mutate(
-    period1 = ifelse(date >= vax.intro.date, 1, 0),
-    period2 = ifelse(date >= vax.eval.date, 1, 0)
+    vax_intro = ifelse(date >= vax.intro.date, 1, 0),
+    vax_eval = ifelse(date >= vax.eval.date, 1, 0)
   )
 
-# View the changes.
-df[c(1:5, 100:105), c("index", "date", "period1", "period2")]
+# View the changes by randomly selecting dates.
+df[sort(sample(1:144, 10)), c("index", "date", "vax_intro", "vax_eval")]
 ```
 
-Ok, now let's fit our ITS model and look at results.
+In linear modeling, it is common to include interaction terms. These terms allow the model to capture interdependencies between variables, showing how the effect of one variable on the outcome changes depending on the level of another variable. Interaction terms also enable the identification of synergistic effects, where the combined effect of two variables is greater (or less) than the sum of their individual effects.
 
-We will start with a simple step-change model to see if the average number of cases changes
+Equation 1 shows a multiple linear regression without an interaction term, and Equation 2 shows the inclusion of the interaction term. Notice that including the interaction term impacts the slope, making it dependent on the value of the other predictor. For example, the impact of $X_1$, holding $X_2$ constant, on the slope of $Y$ is a function of $(\beta_1 + \beta_3)\ X_2$.
+
+\begin{align}
+Y &= \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\\
+Y &= \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 (X_1 \times X_2) + \epsilon
+\end{align}
+
+We will not spend more time discussing interaction terms but will briefly examine if they enhance the model's predictive power. Note that while interaction terms can improve predictive accuracy, they also complicate the model and may result in a trade-off between predictive power and generalizability to other datasets. 
+
+First we will generate the two models, then we will evaluate their performance side-by-side.
+
+#### No Interaction Terms
+
+Create a simple step-change model without an interaction term involving the newly added variables, `vax_intro` and `vax_eval`.
 
 ```{r}
 # Additional seasonality controls covered in the collapsed box above.
-mod_method1 <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset) +
-          # Change in disease during administration and evaluation period.
-          period1 + period2, data = df)
+mod_method1a <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset) +
+                         # Change in disease during administration and 
+                         # evaluation period.
+                         vax_intro + vax_eval, data = df)
 
-summary(mod_method1)
+summary(mod_method1a)
 ```
 
 ```{r}
-#| fig.width: 6
-#| fig.height: 4
+## --------------------
+## Generate the factual model
 
 # Make predictions with confidence intervals.
-pred4 <- predict(mod_method1, type = "response", se.fit = TRUE)
+pred4 <- predict(mod_method1a, type = "response", se.fit = TRUE)
+
+
+## --------------------
+## Prepare a plot to visualize the factual model predictions
 
 # Add the model predictions and 95% COI to the dataframe.
 df.pred.its <- df %>%
@@ -401,7 +436,7 @@ df.pred.its <- df %>%
   )
 
 # Plot the newly created model fitting.
-p_m1 <- p_base +
+p_m1a <- p_base +
   # Add the fitting line.
   geom_line(data = df.pred.its, aes(x = date, y = pred),
             color = "#377eb8") +
@@ -409,70 +444,174 @@ p_m1 <- p_base +
   geom_ribbon(data = df.pred.its, aes(ymin = conf.low, ymax = conf.high), 
               alpha = 0.2, fill = "blue") +
   # Change the title name.
-  labs(title = "Deaths with a Negative Binomial Fit\nInterupted Time Series")
+  labs(title = "Deaths with a Negative Binomial Fit\nInterupted Time Series - No Interaction Terms")
 
-p_m1
-```
 
-Now get an estimate for the counterfactual (i.e. hold vaccine effect to 0 in the model).
+## --------------------
+## Generate the counterfactual model
 
-```{r}
 # Initialize the vacccine effect variables by setting them to 0.
-df.counterfactual <- df
-df.counterfactual$period1 <- 0
-df.counterfactual$period2 <- 0
+df.counterfactual.a <- df
+df.counterfactual.a$vax_intro <- 0
+df.counterfactual.a$vax_eval <- 0
 
 # Generate the fitted values using the counterfactual setup instead.
-df.pred.its$pred4.cf <- predict(mod_method1, type = "response", 
-                                newdata = df.counterfactual)
+df.pred.its$pred4.cf.a <- predict(mod_method1a, type = "response", 
+                                 newdata = df.counterfactual.a)
 
-# Overlay onto plot.
-p_m1 +
- geom_line(data = df.pred.its, aes(x = date, y = pred4.cf),
-           color = '#e41a1c', lty = 2)
 
+## --------------------
+## Rate ratio to evaluate performance
+
+# Generate the rate ratio between the fitted and counterfactual values.
+df.pred.its$rr.its.a <- df.pred.its$pred/df.pred.its$pred4.cf.a
 ```
 
-Calculate a rate ratio from this model as the ratio of the fitted value and the counterfactual values. We won't try to estimate a confidence interval here as the `InterventionEvaluatR` package does this for us automatically.
+#### With Interaction Terms
+
+Create the more complicated model option by adding an interaction term involving `vax_intro` and `vax_eval`, keeping both individually and including with an interaction with `index`.
 
 ```{r}
-# Generate the rate ratio between the fitted and counterfactual values.
-df.pred.its$rr.its <- df.pred.its$pred/df.pred.its$pred4.cf
+mod_method1b <- glm.nb(J12_J18_prim~index + month + offset(log.offset) +
+                         # Add the counterfactuals with an interaction term.
+                         vax_intro + vax_intro*index +
+                         vax_eval + vax_eval*index, data = df)
 
-p6 <- 
-  ggplot(df.pred.its, aes(x = date, y = rr.its)) +
+summary(mod_method1b)
+```
+
+```{r}
+## --------------------
+## Generate the factual model
+
+# Make predictions with confidence intervals.
+pred5 <- predict(mod_method1b, type = "response", se.fit = TRUE)
+
+
+## --------------------
+## Prepare a plot to visualize the factual model predictions
+
+# Add the model predictions and 95% COI to the dataframe.
+df.pred.its <- df.pred.its %>%
+  mutate(se.fit = pred5$se.fit, pred = pred4$fit) %>%
+  mutate(
+    conf.low = pred - 1.96 * se.fit,
+    conf.high = pred + 1.96 * se.fit
+  )
+
+# Plot the newly created model fitting.
+p_m1b <- p_base +
+  # Add the fitting line.
+  geom_line(data = df.pred.its, aes(x = date, y = pred),
+            color = "#377eb8") +
+  # Add the confidence interval.
+  geom_ribbon(data = df.pred.its, aes(ymin = conf.low, ymax = conf.high), 
+              alpha = 0.2, fill = "blue") +
+  # Change the title name.
+  labs(title = "Deaths with a Negative Binomial Fit\nInterupted Time Series - With Interaction Terms")
+
+
+## --------------------
+## Generate the counterfactual model
+
+# Initialize the vacccine effect variables by setting them to 0.
+df.counterfactual.b <- df
+df.counterfactual.b$vax_intro <- 0
+df.counterfactual.b$vax_eval <- 0
+
+# Generate the fitted values using the counterfactual setup instead.
+df.pred.its$pred4.cf.b <- predict(mod_method1b, type = "response", 
+                                  newdata = df.counterfactual.b)
+
+
+## --------------------
+## Rate ratio to evaluate performance
+
+# Generate the rate ratio between the fitted and counterfactual values.
+df.pred.its$rr.its.b <- df.pred.its$pred/df.pred.its$pred4.cf.b
+```
+
+
+#### Compare Model Complexity
+
+Let's start by comparing how the fit differs between the models.
+
+```{r}
+#| fig.width: 8
+#| fig.height: 8
+
+# Overlay onto plot.
+p_m1a_pred <- p_m1a +
+ geom_line(data = df.pred.its, aes(x = date, y = pred4.cf.a),
+           color = '#e41a1c', lty = 2)
+
+# Overlay onto plot.
+p_m1b_pred <- p_m1b +
+ geom_line(data = df.pred.its, aes(x = date, y = pred4.cf.b),
+           color = '#e41a1c', lty = 2)
+
+grid.arrange(p_m1a_pred, p_m1b_pred, ncol = 1)
+```
+
+
+We do see differences with the prediction adherance to the data we trained the model on. By qualitative examination, it appears the model with interaction terms diverge more in the post-vaccination period.
+
+The Akaike Information Criterion (AIC) is a one measure used to compare the goodness of fit of different statistical models, while also accounting for model complexity. It helps in model selection by balancing model fit and complexity, otherwise called the bias/variance trade-off.
+
+There are different variations of AIC, but the basic definition is
+
+$$
+\text{AIC} = 2k - 2\ln(\mathcal{L})
+$$
+
+where $k$ is the number of parameters in the model and $\mathcal{L}$ is the maximum likelihood of the model.
+
+```{r}
+AIC(mod_method1a, mod_method1b)
+```
+
+The results indicate that the AIC score is worse (higher) when interaction terms are included. Since there is no significant gain in performance, we will prefer the simpler model for better generalizability.
+
+Below, we also observe that the interaction terms create unexpected trends in the factual/counterfactual ratio. Notably, the ratio is not 1 (indicating that factual and counterfactual predictions are the same) in the pre-vaccination period, which is not ideal.
+
+```{r}
+#| fig.width: 5
+#| fig.height: 3
+
+# Inspect methods sensitivity to vaccine impact.
+p_ratio <- 
+  ggplot(df.pred.its, aes(x = date, y = rr.its.a)) +
       geom_line() +
       labs(title = "Rate Ratio for the ITS Mode",
          x = "Date", y = "Rate ratio") +
-      theme_linedraw() +
-      # Specify aspects of the theme plot formatting settings.
-      theme(panel.spacing = unit(2, 'lines'), 
-            axis.text.x = element_text(angle = 90)) +
-      geom_hline(yintercept = 1, col = "gray", lty = 2) 
+      ylim(0, NA) +
+      geom_vline(xintercept = vax.intro.date, col = "red", lty = 2) +
+      annotate("text", x = vax.intro.date + 30, y = 00.1, label = "Vaccine Introduced", color = "red", hjust = 0) +
+      theme_linedraw()
 
-p6
+p_ratio +
+  geom_line(data = df.pred.its, aes(x = date, y = rr.its.b),
+            color = "#4daf4a")
+  
 ```
 
-We could also try a slightly more complicated model where the slope of the line is also allowed to vary in the post vaccine period. This shows that the AIC score is worse (higher score) than the model that just accounts for a step change; so we will prefer that simpler model.
+:::{.callout-tip}
+## Code Like a Pro
+We won't try to estimate a confidence interval on the rate ratio here. Students are encouraged to checkout the the `InterventionEvaluatR` package, which will automatically calculate the confidence intervals for these ratios.
+:::
 
-```{r}
-mod3a <- glm.nb(J12_J18_prim~index + month + offset(log.offset) +
-                 # Add the counterfactuals with an interaction term.
-                 period1 + period1*index +
-                 period2 + period2*index, data = df)
-
-summary( mod3a)
-AIC(mod3, mod3a)
-```
 
 ### Method 2. Interrupted Time Series with Connected Segments (Spline Model)
 
-In this case, we force the changes to be smooth so that we don't get the weird jumps like in the ITS example.
+In this case, we force the changes to be smooth so that we don't get a drastic jump after vaccination introduction that prematurly shows impact during the expected latency period. Therefore, we will add two new binary variables to our dataset: `spl1` and `spl2`. The `spl1` variable will be assigned a value of `0` before `r vax.intro.date` and `index - intro.index + 1` afterward; similarly, the `spl2` variable will be assigned a value of `0` before `r vax.eval.date` and `index - eval.index + 1` afterward.
 
 ```{r}
+# Identifies the row index that represents when the vaccine was introduced
+# and when the evaluation period started.
 intro.index <- which(df$date == vax.intro.date)
-eval.index <- which(df$date == vax.eval.date)
+eval.index  <- which(df$date == vax.eval.date)
 
+# Assign outcomes to the known vaccine phases.
 df <- df %>%
   mutate(
     spl1 = ifelse(index - intro.index + 1 < 0, 0, index - intro.index + 1),
@@ -480,7 +619,7 @@ df <- df %>%
   )
 
 # Inspect the changes.
-df[65:80, c("date", "index", "spl1", "spl2")]
+df[sort(sample(1:144, 10)), c("date", "index", "spl1", "spl2")]
 ```
 
 ```{r}
@@ -491,12 +630,17 @@ mod4 <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset) +
 summary(mod4)
 ```
 
-Get fitted and counterfactual for the spline model
-
 ```{r}
-# Add the prediction using the smoothed model.
+## --------------------
+## Generate the factual model
+
+# Make predictions with confidence intervals.
 df.pred.spl <- df %>%
   mutate(pred.spl = predict(mod4, type = "response"))
+
+
+## --------------------
+## Generate the counterfactual model
 
 # Initialize the vacccine effect variables by setting them to 0.
 df.counterfactual.spl <- df
@@ -508,9 +652,21 @@ df.pred.spl$pred.spl.cf <- predict(mod4, type = "response",
   # Extract fitted value and add to df.pred.
   newdata = df.counterfactual.spl)
 
+
+## --------------------
+## Rate ratio to evaluate performance
+
+# Generate the rate ratio between the fitted and counterfactual values.
+df.pred.spl$rr.spline <- df.pred.spl$pred.spl/df.pred.spl$pred.spl.cf
 ```
 
 ```{r}
+#| fig.width: 6
+#| fig.height: 4
+
+## --------------------
+## Prepare a plot to visualize the factual model predictions
+
 # Make predictions with confidence intervals.
 pred7 <- predict(mod4, type = "response", se.fit = TRUE)
 
@@ -543,21 +699,22 @@ p7 <-
             axis.text.x = element_text(angle = 90))
 
 p7
-
 ```
 
 We can see here that the decline follows a smoother trajectory, by design. We can check the counterfactual performace by examining the ratio again.
 
 ```{r}
-# Generate the rate ratio between the fitted and counterfactual values.
-df.pred.spl$rr.spline <- df.pred.spl$pred.spl/df.pred.spl$pred.spl.cf
+#| fig.width: 5
+#| fig.height: 3
 
-p8 <- p6 +
+# Inspect methods sensitivity to vaccine impact.
+p_ratio <- p_ratio +
      geom_line(data = df.pred.spl, aes(x = date, y = rr.spline),
-               color = "red", lty = 2)
+               color = "#4daf4a") +
+      # Update the title.
+      labs(title = "Rate Ratio for the ITS Mode")
 
-p8
-
+p_ratio
 ```
 
 ### Method #3: Extrapolation Based on the Pre-Vaccine Period
@@ -585,6 +742,9 @@ df.pred.mod5 <- df %>%
 Plot the observed and extrapolated data. Note that here the comparison is the *observed* data with the model estimate extrapolated from the pre-vaccine period. This is different form the previous models where we were just comparing the model fitted value with the model fitted value with the vaccine-effects held to 0.
 
 ```{r}
+#| fig.width: 6
+#| fig.height: 4
+
 # Make predictions with confidence intervals.
 pred7 <- predict(mod5, type = "response", se.fit = TRUE, newdata = df)
 
@@ -621,9 +781,14 @@ Let's compare the rate ratio estimates from the 3 models.
 ```{r}
 df.pred.mod5$rr.trend <- df$J12_J18_prim/df.pred.mod5$pred.mod5
 
-p8 + geom_line(data = df.pred.mod5, aes(x = date, y = rr.trend),
-               color = '#377eb8', lwd = 1, lty = 1)
+# Inspect methods sensitivity to vaccine impact.
+p_ratio <- p_ratio +
+      geom_line(data = df.pred.mod5, aes(x = date, y = rr.trend),
+               color = '#377eb8') +
+      # Update the title.
+      labs(title = "Rate Ratio for the ITS Mode")
 
+p_ratio
 ```
 
 As a rough estimate of this, let's just average the point-by-point estimates of the rate ratio during the evaluation period.
