@@ -3,7 +3,10 @@ title: "Time Series Analysis"
 subtitle: |
    | In Class Hands-On Exercise
    | BDSY 2025 - Public Health Modeling Project
-author: "Dan Weinberger"
+author:
+  - "Daniel Weinberger, PhD"
+  - "Stephanie Perniciaro, PhD, MPH"
+  - "Shelby Golden, MS"
 bibliography: references.bib
 csl: nature.csl
 date: 6/24/2025
@@ -389,9 +392,9 @@ df <- df %>%
 df[sort(sample(1:144, 10)), c("index", "date", "vax_intro", "vax_eval")]
 ```
 
-In linear modeling, it is common to include interaction terms. These terms allow the model to capture interdependencies between variables, showing how the effect of one variable on the outcome changes depending on the level of another variable. Interaction terms also enable the identification of synergistic effects, where the combined effect of two variables is greater (or less) than the sum of their individual effects.
+In linear modeling, it is common to include interaction terms. These terms allow the model to capture interdependencies between variables, showing how the effect of one variable on the outcome changes depending on the level of another variable. Interaction terms also enable the identification of synergistic effects, where the combined effect of two variables is greater (or less) than the sum of their individual effects\ [@MontgomeryC2012].
 
-Equation 1 shows a multiple linear regression without an interaction term, and Equation 2 shows the inclusion of the interaction term. Notice that including the interaction term impacts the slope, making it dependent on the value of the other predictor. For example, the impact of $X_1$, holding $X_2$ constant, on the slope of $Y$ is a function of $(\beta_1 + \beta_3)\ X_2$.
+Equation 1 shows a multiple linear regression without an interaction term, and Equation 2 shows the inclusion of the interaction term. Notice that including the interaction term impacts the slope, making it dependent on the value of the other predictor. For example, the impact of $X_1$, holding $X_2$ constant, on the slope of $Y$ is a function of $(\beta_1 + \beta_3)\ X_2$\ [@MontgomeryC2012].
 
 \begin{align}
 Y &= \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\\
@@ -463,7 +466,7 @@ df.pred.its$pred4.cf.a <- predict(mod_method1a, type = "response",
 ## --------------------
 ## Rate ratio to evaluate performance
 
-# Generate the rate ratio between the fitted and counterfactual values.
+# Generate the rate ratio between the factual and counterfactual values.
 df.pred.its$rr.its.a <- df.pred.its$pred/df.pred.its$pred4.cf.a
 ```
 
@@ -527,7 +530,7 @@ df.pred.its$pred4.cf.b <- predict(mod_method1b, type = "response",
 ## --------------------
 ## Rate ratio to evaluate performance
 
-# Generate the rate ratio between the fitted and counterfactual values.
+# Generate the rate ratio between the factual and counterfactual values.
 df.pred.its$rr.its.b <- df.pred.its$pred/df.pred.its$pred4.cf.b
 ```
 
@@ -582,7 +585,7 @@ Below, we also observe that the interaction terms create unexpected trends in th
 p_ratio <- 
   ggplot(df.pred.its, aes(x = date, y = rr.its.a)) +
       geom_line() +
-      labs(title = "Rate Ratio for the ITS Mode",
+      labs(title = "Rate Ratio of the ITS Model",
          x = "Date", y = "Rate ratio") +
       ylim(0, NA) +
       geom_vline(xintercept = vax.intro.date, col = "red", lty = 2) +
@@ -603,7 +606,7 @@ We won't try to estimate a confidence interval on the rate ratio here. Students 
 
 ### Method 2. Interrupted Time Series with Connected Segments (Spline Model)
 
-In this case, we force the changes to be smooth so that we don't get a drastic jump after vaccination introduction that prematurly shows impact during the expected latency period. Therefore, we will add two new binary variables to our dataset: `spl1` and `spl2`. The `spl1` variable will be assigned a value of `0` before `r vax.intro.date` and `index - intro.index + 1` afterward; similarly, the `spl2` variable will be assigned a value of `0` before `r vax.eval.date` and `index - eval.index + 1` afterward.
+In this case, we force the changes to be smooth so that we don't get a drastic jump after vaccination introduction that prematurly shows impact during the expected latency period. Therefore, we will add two new variables to our dataset: `spl1` and `spl2`. The `spl1` variable will be assigned a value of `0` before `r vax.intro.date` and `index - intro.index + 1` afterward; similarly, the `spl2` variable will be assigned a value of `0` before `r vax.eval.date` and `index - eval.index + 1` afterward.
 
 ```{r}
 # Identifies the row index that represents when the vaccine was introduced
@@ -692,10 +695,7 @@ p_m2 <-
                 color = "#e41a1c", lty = 2) +
       labs(title = "Deaths with a Negative Binomial Fit\nITS with Spline Smoothing",
          x = "Date", y = "Counts for <5 yo") +
-      theme_linedraw() +
-      # Specify aspects of the theme plot formatting settings.
-      theme(panel.spacing = unit(2, 'lines'), 
-            axis.text.x = element_text(angle = 90))
+      theme_linedraw()
 
 p_m2
 ```
@@ -711,44 +711,55 @@ p_ratio <- p_ratio +
      geom_line(data = df.pred.spl, aes(x = date, y = rr.spline),
                color = "#4daf4a") +
       # Update the title.
-      labs(title = "Rate Ratio for the ITS Mode")
+      labs(title = "Rate Ratio with the Spline Model")
 
 p_ratio
 ```
 
 ### Method #3: Extrapolation Based on the Pre-Vaccine Period
 
-First set the pneumonia variable to NA during the post-vaccine period
+Now we are going to model only the pre-vaccination period and forecast outcomes based on the restricted fitting into the post-vaccination period. We will create a new variable that excludes any records following `r vax.intro.date`, `J12_J18_prim`.
 
 ```{r}
+# Create a new variable where it is J12_J18_prim until the vaccine is introduced,
+# then it is NA afterwards.
 df$J12_J18_prim_pre <- df$J12_J18_prim
-
 df$J12_J18_prim_pre[which(df$date >= vax.intro.date)] <- NA
 
-df[, c("date", "J12_J18_prim_pre")]
+# Inspect the changes.
+df[sort(sample(1:144, 10)), c("date", "J12_J18_prim_pre")]
 ```
 
 ```{r}
-mod5 <- glm.nb(J12_J18_prim_pre ~ index # Time trend
-              + month # Seasonality
-              + offset(log.offset), data = df)
+mod_method3 <- glm.nb(J12_J18_prim_pre ~ index + month + offset(log.offset), data = df)
 
 # Add the prediction using the smoothed model.
-df.pred.mod5 <- df %>%
-  mutate(pred.mod5 = predict(mod5, type = "response", newdata = df))
+df.pred.pre <- df %>%
+  mutate(pred.pre = predict(mod_method3, type = "response", newdata = df))
 ```
 
-Plot the observed and extrapolated data. Note that here the comparison is the *observed* data with the model estimate extrapolated from the pre-vaccine period. This is different form the previous models where we were just comparing the model fitted value with the model fitted value with the vaccine-effects held to 0.
+Unlike before, the original observed variable `J12_J18_prim` now represents the factual model, as we regressed on a subset of data assuming nothing was known following the vaccine introduction. The prediction results using the restricted regressand represents the counterfactual model, since it extrapolates data points missing from the model fitting.
+
+```{r}
+## --------------------
+## Rate ratio to evaluate performance
+
+# Generate the rate ratio between the factual and counterfactual values.
+df.pred.pre$rr.trend <- df$J12_J18_prim/df.pred.pre$pred.pre
+```
 
 ```{r}
 #| fig.width: 6
 #| fig.height: 4
 
+## --------------------
+## Prepare a plot to visualize the factual model predictions
+
 # Make predictions with confidence intervals.
-pred7 <- predict(mod5, type = "response", se.fit = TRUE, newdata = df)
+pred7 <- predict(mod_method3, type = "response", se.fit = TRUE, newdata = df)
 
 # Add the model predictions and 95% COI to the dataframe.
-df.pred.mod5 <- df.pred.mod5 %>%
+df.pred.pre <- df.pred.pre %>%
   mutate(se.fit = pred7$se.fit, pred = pred7$fit) %>%
   mutate(
     conf.low = pred - 1.96 * se.fit,
@@ -756,59 +767,63 @@ df.pred.mod5 <- df.pred.mod5 %>%
   )
 
 
-p9 <- 
-  ggplot(df.pred.mod5, aes(x = date, y = J12_J18_prim)) +
+p_m3 <- 
+  ggplot(df.pred.pre, aes(x = date, y = J12_J18_prim)) +
       geom_point() +
       # Add the fitted line.
-      geom_line(data = df.pred.mod5, aes(x = date, y = pred.mod5),
+      geom_line(data = df.pred.pre, aes(x = date, y = pred.pre),
                 color = "#377eb8") +
       # Add the confidence interval.
-      geom_ribbon(data = df.pred.mod5, aes(ymin = conf.low, ymax = conf.high),
+      geom_ribbon(data = df.pred.pre, aes(ymin = conf.low, ymax = conf.high),
                   alpha = 0.2, fill = "blue") +
       labs(title = "Deaths with a Negative Binomial Fit\nExtrapolating Based on the Pre-Vaccine Period",
          x = "Date", y = "Counts for <5 yo") +
-      theme_linedraw() +
-      # Specify aspects of the theme plot formatting settings.
-      theme(panel.spacing = unit(2, 'lines'), 
-            axis.text.x = element_text(angle = 90))
+      theme_linedraw()
 
-p9
+p_m3
 ```
 
-Let's compare the rate ratio estimates from the 3 models.
-
 ```{r}
-df.pred.mod5$rr.trend <- df$J12_J18_prim/df.pred.mod5$pred.mod5
+#| fig.width: 5
+#| fig.height: 3
 
 # Inspect methods sensitivity to vaccine impact.
 p_ratio <- p_ratio +
-      geom_line(data = df.pred.mod5, aes(x = date, y = rr.trend),
-               color = '#377eb8') +
-      # Update the title.
-      labs(title = "Rate Ratio for the ITS Mode")
+  geom_line(data = df.pred.pre, aes(x = date, y = rr.trend),
+            color = '#377eb8') +
+  # Update the title.
+  labs(title = "Rate Ratio with the Extrapolation Model")
 
 p_ratio
 ```
 
-As a rough estimate of this, let's just average the point-by-point estimates of the rate ratio during the evaluation period.
+### Compare the Methods
+
+Let's compare the rate ratio estimates from the three models. As a rough estimate, we will average the point-by-point estimates of the rate ratio during the evaluation period.
 
 ```{r}
+# Create a Boolean variable that defines the vaccine evaluation period.
 eval.period <- df$date > vax.eval.date
 
-rr.its.eval<- mean(df.pred.its$rr.its[eval.period])
+# Calculate the average outcome during the vaccine evaluation period.
+rr.its.eval    <- mean(df.pred.its$rr.its.a[eval.period])
+rr.spline.eval <- mean(df.pred.spl$rr.spline[eval.period])
+rr.trend.eval  <- sum(df.pred.pre$J12_J18_prim[eval.period])/sum(df.pred.pre$pred.pre[eval.period])
 
-rr.spline.eval<- mean(df.pred.spl$rr.spline[eval.period])
+# Average decline detected from 1.
+round(c("ITS - Disconnected" = rr.its.eval, "ITS - Spline" = rr.spline.eval,
+        "Extrapolation" = rr.trend.eval), digits = 2)
 
-rr.trend.eval<- sum(df.pred.mod5$J12_J18_prim[eval.period])/sum(df.pred.mod5$pred.mod5[eval.period])
-
-round(c('ITS'=rr.its.eval,'Spline'=rr.spline.eval,'Trend Extrapolation'=rr.trend.eval ),2)
-
-#Percent decline
-100*(1- round(c('ITS'=rr.its.eval,'Spline'=rr.spline.eval,'Trend Extrapolation'=rr.trend.eval ),2))
-
+# Percent decline detected.
+100*(1 - round(c("ITS - Disconnected" = rr.its.eval, "ITS - Spline" = rr.spline.eval, 
+                 "Extrapolation" = rr.trend.eval), digits = 2))
 ```
 
-*Depending on the dataset, these 3 methods might or might not agree*
+Two of the modeling methods identified a decrease of approximately 10% in pneumonia deaths due to pneumococcal disease after the release of the PCV10 vaccine. The extrapolation method indicates a stronger vaccine effect; however, we expect some of this result to be spurious due to the level of random noise introduced by applying the observed values in the counterfactual ratio calculation.
+
+:::{.callout-caution}
+Depending on the dataset, these three methods may or may not agree to a greater extent.
+:::
 
 ## References
 
