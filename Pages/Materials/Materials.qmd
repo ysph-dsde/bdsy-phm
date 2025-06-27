@@ -1,0 +1,24 @@
+---
+title: "Course Materials"
+format: html
+editor: visual
+---
+
+## Weekly Codespaces
+
+
+
+## Templates
+
+[BDSY Slides Template 2025](BDSY Slides Template 2025.potx)
+
+
+## Tips and Advice
+
+
+:::{.callout-tip}
+## Research Like a Pro
+It is vital that you keep track of and disclose all the references you use to support your research. There are many tools available to help you with this, so discuss with your team and decide on a preferred method for reference tracking.
+
+In my research, I use [Mendeley](https://www.mendeley.com/search/), which comes with a Web Importer plug-in that makes it easy to compile different types of references. It conveniently formats these entries to various styles, including LaTeX and BibTeX.
+:::

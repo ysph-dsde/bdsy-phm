@@ -1,0 +1,57 @@
+---
+title: "Welcome!"
+back-to-top-navigation: false
+format:
+  html:
+    toc: false
+editor: visual
+listing:
+  - id: contributors
+    template: views/index.ejs
+    contents: about-us-listings.yml
+    categories: false
+    sort-ui: false
+    filter-ui: false
+---
+
+Welcome to our project on modeling pneumococcal disease, a leading cause of death in children under 5 worldwide. Public health is an interdisciplinary field that measures and tracks disease trends and promotes health through policy and treatment interventions. We will investigate the impact of pneumococcal vaccines and the phenomenon of serotype replacement, where non-disease-causing bacteria can evolve to become predominant after vaccination. Using data from infectious disease surveillance systems and statistical methods such as time series analysis, hierarchical modeling, and spatial regression, we aim to understand serotype replacement and its implications. Our analyses will be conducted in R.
+
+Our objectives for this course will be to: 
+
+- Characterize and contextualize pneumococcal serotype replacement in several global populations. 
+- Explore the implications of different vaccine programs on the serotype distribution of invasive pneumococcal disease. 
+- Discuss biological, epidemiological, and policy choices that can contribute to our understanding of serotype replacement and pneumococcal evolution. 
+
+We will accomplish these objectives using data from national and multinational infectious disease surveillance systems, and the following statistical methods: 
+
+- Time series analysis 
+- Hierarchical modeling 
+- Spatial regression 
+
+[Full project statement](Project Statement.pdf)
+
+
+## Purpose of This Site
+
+Sharing code-based materials poses a challenging technical problem that Canvas is not well suited to handle. Therefore, we have created an instructor GitHub webpage where we can effectively create, communicate, and distribute course materials. This platform provides students with the most current information in an easily accessible format and allows us, the instructors, to distribute materials more efficiently.
+
+On this site, you will find:
+
+- A schedule of important project goals and assignment dates.
+- Webpages with full weekly hands-on demonstrations of concepts.
+- Weekly codebases for students to apply in their own projects, reflecting that week's concepts.
+- Links to the subgroup dataset zip files, the associated paper, and brief descriptions of them.
+- Links to other course materials, including blank slide decks, poster layouts, slides, and more.
+
+
+
+::: column-screen
+```{=html}
+<div class="subheader">
+    <h2 style="padding-bottom: 0px">About the Instructors</h2>
+</div>
+```
+:::
+
+::: {#contributors .column-screen-inset}
+:::

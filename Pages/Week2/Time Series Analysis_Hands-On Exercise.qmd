@@ -11,13 +11,7 @@ bibliography: references.bib
 csl: nature.csl
 date: 6/24/2025
 date-format: long
-format:
-  html:
-    theme: sandstone
-    toc: true
-    html-math-method: katex
 editor: visual
-highlight-style: tango
 ---
 
 ## Introduction

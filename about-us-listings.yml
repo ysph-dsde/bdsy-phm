@@ -1,0 +1,40 @@
+# -----------
+# 2025 BDSY Public Health Modeling github.io page
+# yaml listing for the instructors
+# 
+# Author: Shelby Golden, M.S.
+#   Date: June 26th, 2025
+
+items:
+  tiles:
+    - name: Stephanie Perniciaro, PhD, MPH
+      date-added: 2025-06-26
+      date-updated: 2025-06-26
+      titles: |
+        Associate Research Scientist in Epidemiology (Microbial Diseases)
+      bio: |
+        The surveillance and epidemiology of vaccine-preventable respiratory diseases, especially pneumococcal disease, is my passion. I want to determine how to efficiently and effectively protect populations from pneumococcal disease, both invasive (bacteremia, meningitis) and non-invasive (otitis media, non-bacteremic pneumonia). I'm interested in respiratory disease surveillance, serotype replacement, antibiotic resistance, vulnerable populations, vaccine schedules, vaccine advocacy, and overcoming vaccine hesitancy.
+      image: Images/stephanie-perniciaro.jpeg
+      email: stephanie.perniciaro@yale.edu
+      ysph-site: https://ysph.yale.edu/profile/stephanie-perniciaro/
+      linkedin: https://www.linkedin.com/in/stephanie-perniciaro-72789548/
+      github: https://github.com/sterusper
+      orcid: 0000-0002-3146-2182
+    - name: Shelby Golden, MS
+      date-added: 2025-06-11
+      date-updated: 2025-06-11
+      titles: | 
+        Data Scientist I
+      bio: |
+        With my work I aim to contribute to impactful projects that advance scientific understanding by utilizing strong analytical skills and a deep commitment to reliable data-driven decision-making. 
+        <br>
+        <br>
+        My background is in computational mathematics, molecular biology, and biochemistry. I hold a Master of Science in Applied Computational Mathematics from Johns Hopkins University and dual Bachelor of Science degrees in Molecular, Cellular, Developmental Biology and Biochemistry, alongside a minor in Engineering in Applied Mathematics.
+      image: Images/shelby-golden.jpeg
+      email: shelby.golden@yale.edu
+      ysph-site: https://ysph.yale.edu/profile/shelby-golden/
+      group: https://ysph-dsde.github.io/mukherjee-lab/
+      linkedin: https://www.linkedin.com/in/shelby-golden/
+      github: https://github.com/sgolde13
+      orcid: 0009-0009-8692-3466
+      

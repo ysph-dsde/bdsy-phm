@@ -1,0 +1,118 @@
+---
+format: html
+editor: visual
+---
+
+## Expectations Overview
+
+At the end of the program, you will present your work at a symposium, which will include both a presentation with slides and a poster session. Each group will have 25 minutes to present their slide deck, followed by 5 minutes for questions. The poster session will last 45 minutes. 
+
+:::{.callout-important}
+During the poster session, at least one member of your group should be stationed at the poster at all times, while the other two can explore the room. We expect that you will switch every 15 minutes so that everyone spends at least 15 minutes at the poster and the remaining 30 minutes exploring other projects.
+:::
+
+To help you stay on track with compiling your materials, we have prepared the following scheduled assignments. Over the coming weeks, we will guide you through preparing the materials for this symposium and aim to expose you to the process of developing these materials in a professional environment.
+
+When working on a research team, it is expected that you can clearly articulate your research to people outside your specific area of expertise and provide meaningful, constructive feedback to help teammates improve their research. At some companies, to be considered for a promotion, you will be required to present an annual summary of our research and a literature review to the group/department, as well as regularly provide insightful comments and constructive criticisms to colleagues.
+
+This is an ambitious schedule, and we acknowledge the extensive workload you each have during the program. It is equally important for you to experience the research project process as it is to execute the techniques we will teach you to support your project hypothesis/research question. You will not be expected to conduct additional analyses beyond the content we provide and assign. 
+
+If you encounter insurmountable difficulties implementing any part of the study, please prioritize completing the overall study over finishing any single part that proves too challenging. We are here to answer any questions you might have and help troubleshoot any implementation problems.
+
+
+## Format
+
+Each Thursday, you will be expected to have completed specific aspects of your analysis to allow time to process the upcoming material. Additionally, each group will present summaries of their work. The specifics of these expectations are outlined below for each week.
+
+:::{.callout-important}
+Time around 1 minute of discussion for each slide. If you need pointers on how to effectively present your work, please check out our tips provided in the [Project Materials](Materials/Materials.qmd) page.
+:::
+
+We expect the audience to provide insightful, constructive feedback to help improve and compliment the presenting groups on their work. Additionally, we expect you to foster a positive, collaborative environment within your group, allowing everyone the opportunity to participate meaningfully.
+
+It is critical that each member of your group equally shares the responsibilities of conducting the research and presenting the weekly updates. Complimenting colleagues' work demonstrates good professionalism and helps the team identify and maintain effective practices.
+
+
+## Thursday July 2nd
+
+**Have Completed:**
+
+- Conducted a literature search for peer-reviewed references (at least 5 relevant papers), focusing on publications from the last 5-10 years.
+- Any exploratory data analysis (EDA) of your dataset, with simple visualization of the variables (i.e. histograms of variables, etc.).
+- Prepared a background outline.
+- Developed a hypothesis/research question.
+
+**Present (12-15 slides):**
+
+- 1 slide describing your hypothesis/research question. Try to explain how you hope the techniques learned thus far will help you justify any conclusion about this hypothesis/research question.
+- "Journal Club" like presentation where you will include:
+    - 5-6 slides, with each slide providing a high-level overview of one peer-reviewed reference. Cover 5-6 of your references. For each paper, briefly explain what the paper is about, methods, if it applies any of the techniques we will be learning, and how it will help you with your study.
+    - 3 slides giving a deeper dive into one paper.
+- In less than 3-5 slides, summarize your EDA findings, like:
+    - Time-span it covers, categories (i.e. age groups or regions), number of unique data points, etc.
+    - Briefly discuss the variables, especially if the variables imply features that are not readily obvious.
+    - Discuss any potential gaps or pitfalls found with the data, such as data collection limitations, missing data, or combined outcomes that could confound the observations.
+
+
+## Thursday, July 10th
+
+**Have Completed:**
+
+- Implemented Time Series and Hierarchical Modeling, focusing on how they support your hypothesis/research questions.
+- Started on methods-specific visualizations and drafting the methods report.
+
+**Present (7-9 slides):**
+
+- 3-5 slides summarizing current results and any conclusions you might have with visualizations and any interesting/unexpected findings.
+- 3 slides explaining what Time Series and Hierarchical Modeling are addressing in layman's terms and how they support your hypothesis/study question.
+- 1 slide to discuss whether working with the data and seeing the results has shaped the research question/hypothesis.
+
+
+## Thursday, July 16th
+
+**Have Completed:**
+
+- Implemented GPS and Market Basket analysis, focusing on how they support your hypothesis/research questions.
+- Finished the methods section with GPS and Market Basket analysis and relevant visualizations.
+- Slide deck first draft for the 25 minute symposium presentation.
+- Poster first draft.
+
+**Present (4 slides):**
+
+- 1 slide summarizing current results and any conclusions you might have with visualizations and any interesting/unexpected findings.
+- 2 slides explaining what GPS and Market Basket are addressing in layman's terms and how they support your hypothesis/study question.
+- 1 slide to discuss whether working with the data and seeing the results has shaped the research question/hypothesis.
+
+**Mock Symposium:**
+
+After a brief catch-up on the group's progress, we aim to spend most of the day practicing the presentations and poster sessions. This time is intended to help you practice with peers who understand the type of study you conducted and give you an opportunity to implement any last-minute changes to improve your content.
+
+Each group will be given 25 minutes to present their slides followed by 5-10 minutes of peer-feedback. For the audience, provide feedback about:
+
+- Whether the presentation was cohesive from start to finish and told a "story" about the study.
+- Highlighted interesting findings unique to their data and hypothesis/research question.
+- If presenters clearly explained the takeaway from each slide and equally shared the responsibilities of presenting.
+- Whether the group explained any shortcomings in their analysis, such as limitations imposed by the dataset's original data collection methods.
+- Whether the slides were light on text and effectively used visuals to communicate the core takeaways from each slide.
+- Whether the presentation formatting was consistent enough to make the progression of information easy to follow. For example, ensuring serotypes are color-coded the same way in each figure.
+
+You will then be mixed into groups of three people with one representative from each group. Each person will be given time to pull up their groups poster on their computer and give a 30 second to 1 minute elevator speech, or "hook". Then explain some of the more detailed highlights you might provide someone who stops at your poster to hear more.
+
+For poster visiters, practice asking questions from the perspective of someone from another project group. Provide feedback about:
+
+- If the primary 30-second to 1-minute "hook" is engaging and covers relevant points that encompass the study's purpose and findings.
+- How easy it is to understand the project goals and conclusions if you have not conducted a similar study.
+- The effectiveness of the visualizations.
+- Whether the poster is easy for casual browsers to understand, or if it requires a lot of focus to comprehend.
+
+
+## Monday July 21st
+
+Use this time to finalize any remaining details and practice the slide presentation or poster with your group.
+
+**Have Completed:**
+
+- Finalized poster by end of day (EOD) for printing. The instructors will send these to Jackson/Aquielle for printing.
+
+
+

@@ -1,3 +1,58 @@
 project:
   type: website
   output-dir: docs
+  
+website:
+  title: "Public Health Modeling Group"
+  page-navigation: true
+  back-to-top-navigation: true
+  bread-crumbs: false
+  favicon: Images/DSDE-Visuals/DSDE-Social-Media-Profile.png
+  search: false
+  repo-url: https://github.com/ysph-dsde/bdsy-phm
+  issue-url: https://github.com/ysph-dsde/bdsy-phm/issues
+  repo-actions: [source, issue]
+  navbar:
+    left:
+      - text: "Assignments"
+        href: Pages/Schedule.qmd
+      - text: "Project Materials"
+        href: Pages/Materials/Materials.qmd
+      - text: "Time Series"
+        href: Pages/Week2/Time Series Analysis_Hands-On Exercise.qmd
+    right:
+      - text: 2025 BDSY
+        href: https://ysph.yale.edu/school-of-public-health/special-programs/big-data-summer-immersion-at-yale/
+        target: _blank
+  page-footer:
+    background: light 
+    left: |
+      This site was built on a ysph-dsde.github.io page.
+      <br>
+      It was rendered using Quarto (v 1.6.3) and theme [flatly](https://github.com/thomaspark/bootswatch).
+    center:
+      - text: Course Canvas
+        href: https://canvas.yale.edu/login
+        target: _blank
+      - icon: envelope 
+        href: mailto:BDSY2025PublicHealthModeling@yale.edu
+    right: 
+      - text: |
+          Office Hours 12:30 PM - 1:30 PM 
+          <br>
+          60 College St., Room 206 or Zoom upon request
+          <br>
+          Walk-In: Tuesday or Wednesday
+          <br>
+          <a href="https://outlook.office.com/book/BigDataSummerImmersionatYaleBDSYOfficeHours@yale.edu/?ismsaljsauthenabled">Book Appointment</a>: Monday or Thursday
+
+format:
+  html:
+    theme: 
+      - flatly
+      - _styles/custom.scss
+    toc: true
+    from: markdown+autolink_bare_uris
+    html-math-method: katex
+    
+highlight-style: tango
