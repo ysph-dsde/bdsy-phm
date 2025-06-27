@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Welcome! – Public Health Modeling Group</title>
+<title>Course Materials – Public Health Modeling Group</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,21 +23,19 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<link href="./Images/DSDE-Visuals/DSDE-Social-Media-Profile.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-05fe91a66cf75bbbb8c9664867fe5124.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6a39d32c44824e31f328191c6e9c925a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../../Images/DSDE-Visuals/DSDE-Social-Media-Profile.png" rel="icon" type="image/png">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-05fe91a66cf75bbbb8c9664867fe5124.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-6a39d32c44824e31f328191c6e9c925a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -53,90 +51,18 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-contributors .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-items',{ data: ['index'] },{ data: ['categories'] }],
-      
-      searchColumns: ["listing-items"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-contributors'] = new List('listing-contributors', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
- var mathElements = document.getElementsByClassName("math");
- var macros = [];
- for (var i = 0; i < mathElements.length; i++) {
-  var texText = mathElements[i].firstChild;
-  if (mathElements[i].tagName == "SPAN") {
-   katex.render(texText.data, mathElements[i], {
-    displayMode: mathElements[i].classList.contains('display'),
-    throwOnError: false,
-    macros: macros,
-    fleqn: false
-   });
-}}});
-  </script>
-  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
-<body class="people nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Public Health Modeling Group</span>
     </a>
   </div>
@@ -146,15 +72,15 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./Pages/Schedule.html"> 
+    <a class="nav-link" href="../../Pages/Schedule.html"> 
 <span class="menu-text">Assignments</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Pages/Materials/Materials.html"> 
+    <a class="nav-link active" href="../../Pages/Materials/Materials.html" aria-current="page"> 
 <span class="menu-text">Project Materials</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Pages/Week2/Time Series Analysis_Hands-On Exercise.html"> 
+    <a class="nav-link" href="../../Pages/Week2/Time Series Analysis_Hands-On Exercise.html"> 
 <span class="menu-text">Time Series</span></a>
   </li>  
 </ul>
@@ -174,13 +100,23 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#weekly-codespaces" id="toc-weekly-codespaces" class="nav-link active" data-scroll-target="#weekly-codespaces">Weekly Codespaces</a></li>
+  <li><a href="#templates" id="toc-templates" class="nav-link" data-scroll-target="#templates">Templates</a></li>
+  <li><a href="#tips-and-advice" id="toc-tips-and-advice" class="nav-link" data-scroll-target="#tips-and-advice">Tips and Advice</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/Pages/Materials/Materials.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Welcome!</h1>
+<h1 class="title">Course Materials</h1>
 </div>
 
 
@@ -197,141 +133,34 @@ window.Quarto = {
 </header>
 
 
-<p>Welcome to our project on modeling pneumococcal disease, a leading cause of death in children under 5 worldwide. Public health is an interdisciplinary field that measures and tracks disease trends and promotes health through policy and treatment interventions. We will investigate the impact of pneumococcal vaccines and the phenomenon of serotype replacement, where non-disease-causing bacteria can evolve to become predominant after vaccination. Using data from infectious disease surveillance systems and statistical methods such as time series analysis, hierarchical modeling, and spatial regression, we aim to understand serotype replacement and its implications. Our analyses will be conducted in R.</p>
-<p>Our objectives for this course will be to:</p>
-<ul>
-<li>Characterize and contextualize pneumococcal serotype replacement in several global populations.</li>
-<li>Explore the implications of different vaccine programs on the serotype distribution of invasive pneumococcal disease.</li>
-<li>Discuss biological, epidemiological, and policy choices that can contribute to our understanding of serotype replacement and pneumococcal evolution.</li>
-</ul>
-<p>We will accomplish these objectives using data from national and multinational infectious disease surveillance systems, and the following statistical methods:</p>
-<ul>
-<li>Time series analysis</li>
-<li>Hierarchical modeling</li>
-<li>Spatial regression</li>
-</ul>
-<p><a href="Project Statement.pdf">Full project statement</a></p>
-<section id="purpose-of-this-site" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="purpose-of-this-site">Purpose of This Site</h2>
-<p>Sharing code-based materials poses a challenging technical problem that Canvas is not well suited to handle. Therefore, we have created an instructor GitHub webpage where we can effectively create, communicate, and distribute course materials. This platform provides students with the most current information in an easily accessible format and allows us, the instructors, to distribute materials more efficiently.</p>
-<p>On this site, you will find:</p>
-<ul>
-<li>A schedule of important project goals and assignment dates.</li>
-<li>Webpages with full weekly hands-on demonstrations of concepts.</li>
-<li>Weekly codebases for students to apply in their own projects, reflecting that week’s concepts.</li>
-<li>Links to the subgroup dataset zip files, the associated paper, and brief descriptions of them.</li>
-<li>Links to other course materials, including blank slide decks, poster layouts, slides, and more.</li>
-</ul>
-<div class="column-screen">
-<div class="subheader">
-    <h2 style="padding-bottom: 0px" class="anchored">About the Instructors</h2>
+<section id="weekly-codespaces" class="level2">
+<h2 class="anchored" data-anchor-id="weekly-codespaces">Weekly Codespaces</h2>
+</section>
+<section id="templates" class="level2">
+<h2 class="anchored" data-anchor-id="templates">Templates</h2>
+<p><a href="BDSY Slides Template 2025.potx">BDSY Slides Template 2025</a></p>
+</section>
+<section id="tips-and-advice" class="level2">
+<h2 class="anchored" data-anchor-id="tips-and-advice">Tips and Advice</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Like a Pro
 </div>
 </div>
-<div id="listing-contributors" class="column-screen-inset quarto-listing quarto-listing-container-custom">
-
-
-  <meta charset="UTF-8">
-  <title>People Tiles</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-
-  <div class="tile-container">
-    
-      
-        <div class="tile">
-          <div class="img-container">
-            <img src="Images/stephanie-perniciaro.jpeg" alt="Image for Stephanie Perniciaro, PhD, MPH">
-          </div>
-          <div class="tile-content">
-            <h2 class="anchored">Stephanie Perniciaro, PhD, MPH</h2>
-            <p class="title-paragraph">Associate Research Scientist in Epidemiology (Microbial Diseases)
-</p>
-            <div class="link-bar">
-              <small class="link-bar-text">
-                
-                  <a href="https://ysph.yale.edu/profile/stephanie-perniciaro/" title="YSPH Site"><i class="bi-globe"></i></a>
-                
-                
-                
-                  <a href="https://www.linkedin.com/in/stephanie-perniciaro-72789548/" title="LinkedIn"><i class="bi-linkedin"></i></a>
-                
-                
-                  <a href="https://github.com/sterusper" title="GitHub"><i class="bi-github"></i></a>
-                
-                
-                  <a href="https://orcid.org/0000-0002-3146-2182" title="ORCID"><i class="fab fa-orcid"></i></a>
-                
-              </small>
-            </div>
-            <p class="description">The surveillance and epidemiology of vaccine-preventable respiratory diseases, especially pneumococcal disease, is my passion. I want to determine how to efficiently and effectively protect populations from pneumococcal disease, both invasive (bacteremia, meningitis) and non-invasive (otitis media, non-bacteremic pneumonia). I'm interested in respiratory disease surveillance, serotype replacement, antibiotic resistance, vulnerable populations, vaccine schedules, vaccine advocacy, and overcoming vaccine hesitancy.
-</p>
-            <div class="contact-info">
-              
-                Email: <a href="mailto:stephanie.perniciaro@yale.edu">stephanie.perniciaro@yale.edu</a><br>
-              
-              
-            </div>
-            
-          </div>
-        </div>
-      
-        <div class="tile">
-          <div class="img-container">
-            <img src="Images/shelby-golden.jpeg" alt="Image for Shelby Golden, MS">
-          </div>
-          <div class="tile-content">
-            <h2 class="anchored">Shelby Golden, MS</h2>
-            <p class="title-paragraph">Data Scientist I
-</p>
-            <div class="link-bar">
-              <small class="link-bar-text">
-                
-                  <a href="https://ysph.yale.edu/profile/shelby-golden/" title="YSPH Site"><i class="bi-globe"></i></a>
-                
-                
-                  <a href="https://ysph-dsde.github.io/mukherjee-lab/" title="Group Site"><i class="bi-people-fill"></i></a>
-                
-                
-                  <a href="https://www.linkedin.com/in/shelby-golden/" title="LinkedIn"><i class="bi-linkedin"></i></a>
-                
-                
-                  <a href="https://github.com/sgolde13" title="GitHub"><i class="bi-github"></i></a>
-                
-                
-                  <a href="https://orcid.org/0009-0009-8692-3466" title="ORCID"><i class="fab fa-orcid"></i></a>
-                
-              </small>
-            </div>
-            <p class="description">With my work I aim to contribute to impactful projects that advance scientific understanding by utilizing strong analytical skills and a deep commitment to reliable data-driven decision-making. 
-<br>
-<br>
-My background is in computational mathematics, molecular biology, and biochemistry. I hold a Master of Science in Applied Computational Mathematics from Johns Hopkins University and dual Bachelor of Science degrees in Molecular, Cellular, Developmental Biology and Biochemistry, alongside a minor in Engineering in Applied Mathematics.
-</p>
-            <div class="contact-info">
-              
-                Email: <a href="mailto:shelby.golden@yale.edu">shelby.golden@yale.edu</a><br>
-              
-              
-            </div>
-            
-          </div>
-        </div>
-      
-    
-  </div>
-
-
-<div class="listing-no-matching d-none">
-No matching items
+<div class="callout-body-container callout-body">
+<p>It is vital that you keep track of and disclose all the references you use to support your research. There are many tools available to help you with this, so discuss with your team and decide on a preferred method for reference tracking.</p>
+<p>In my research, I use <a href="https://www.mendeley.com/search/">Mendeley</a>, which comes with a Web Importer plug-in that makes it easy to compile different types of references. It conveniently formats these entries to various styles, including LaTeX and BibTeX.</p>
 </div>
 </div>
-
 
 
 </section>
 
-</main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -769,7 +598,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </a>
   </li>  
 </ul>
-    <div class="toc-actions"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/Pages/Materials/Materials.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
