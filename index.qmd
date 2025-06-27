@@ -14,22 +14,22 @@ listing:
     filter-ui: false
 ---
 
-Welcome to our project on modeling pneumococcal disease, a leading cause of death in children under 5 worldwide. Public health is an interdisciplinary field that measures and tracks disease trends and promotes health through policy and treatment interventions. We will investigate the impact of pneumococcal vaccines and the phenomenon of serotype replacement, where non-disease-causing bacteria can evolve to become predominant after vaccination. Using data from infectious disease surveillance systems and statistical methods such as time series analysis, hierarchical modeling, and spatial regression, we aim to understand serotype replacement and its implications. Our analyses will be conducted in R.
+Welcome to our project on modeling pneumococcal disease, a leading cause of death in children under 5 worldwide. Public health is an interdisciplinary field that measures and tracks disease trends and promotes health through policy and treatment interventions. We will investigate the impact of pneumococcal vaccines and the phenomenon of serotype replacement, where uncommon serotypes variations not targeted by the therapy flourish and take over as the predominant causes of disease after vaccination. Using data from infectious disease surveillance systems and statistical methods such as time series analysis, hierarchical modeling, and serotype clustering and association, we aim to understand serotype replacement and its implications. Our analyses will be conducted in R.
 
-Our objectives for this course will be to: 
+Our objectives for this course will be to:
 
-- Characterize and contextualize pneumococcal serotype replacement in several global populations. 
-- Explore the implications of different vaccine programs on the serotype distribution of invasive pneumococcal disease. 
-- Discuss biological, epidemiological, and policy choices that can contribute to our understanding of serotype replacement and pneumococcal evolution. 
+-   Characterize and contextualize pneumococcal serotype replacement in several global populations.
+-   Explore the implications of different vaccine programs on the serotype distribution of invasive pneumococcal disease.
+-   Discuss biological, epidemiological, and policy choices that can contribute to our understanding of serotype replacement and pneumococcal evolution.
 
-We will accomplish these objectives using data from national and multinational infectious disease surveillance systems, and the following statistical methods: 
+We will accomplish these objectives using data from national and multinational infectious disease surveillance systems, and the following statistical methods:
 
-- Time series analysis 
-- Hierarchical modeling 
-- Spatial regression 
+-   Time series analysis
+-   Hierarchical modeling
+-   Sequence clustering with the [Global Pneumococcal Sequencing (GPS) project](https://www.pneumogen.net/gps/#/) analysis pipeline
+-   Association detection Market Basket
 
-[Full project statement](Project Statement.pdf)
-
+[Full project statement](Project%20Statement.pdf)
 
 ## Purpose of This Site
 
@@ -37,13 +37,11 @@ Sharing code-based materials poses a challenging technical problem that Canvas i
 
 On this site, you will find:
 
-- A schedule of important project goals and assignment dates.
-- Webpages with full weekly hands-on demonstrations of concepts.
-- Weekly codebases for students to apply in their own projects, reflecting that week's concepts.
-- Links to the subgroup dataset zip files, the associated paper, and brief descriptions of them.
-- Links to other course materials, including blank slide decks, poster layouts, slides, and more.
-
-
+-   A schedule of important project goals and assignment dates.
+-   Webpages with full weekly hands-on demonstrations of concepts.
+-   Weekly codebases for students to apply in their own projects, reflecting that week's concepts.
+-   Links to the subgroup dataset zip files, the associated paper, and brief descriptions of them.
+-   Links to other course materials, including blank slide decks, poster layouts, slides, and more.
 
 ::: column-screen
 ```{=html}

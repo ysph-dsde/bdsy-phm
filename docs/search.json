@@ -151,7 +151,7 @@
     "href": "index.html",
     "title": "Welcome!",
     "section": "",
-    "text": "Welcome to our project on modeling pneumococcal disease, a leading cause of death in children under 5 worldwide. Public health is an interdisciplinary field that measures and tracks disease trends and promotes health through policy and treatment interventions. We will investigate the impact of pneumococcal vaccines and the phenomenon of serotype replacement, where non-disease-causing bacteria can evolve to become predominant after vaccination. Using data from infectious disease surveillance systems and statistical methods such as time series analysis, hierarchical modeling, and spatial regression, we aim to understand serotype replacement and its implications. Our analyses will be conducted in R.\nOur objectives for this course will be to:\nWe will accomplish these objectives using data from national and multinational infectious disease surveillance systems, and the following statistical methods:\nFull project statement"
+    "text": "Welcome to our project on modeling pneumococcal disease, a leading cause of death in children under 5 worldwide. Public health is an interdisciplinary field that measures and tracks disease trends and promotes health through policy and treatment interventions. We will investigate the impact of pneumococcal vaccines and the phenomenon of serotype replacement, where uncommon serotypes variations not targeted by the therapy flourish and take over as the predominant causes of disease after vaccination. Using data from infectious disease surveillance systems and statistical methods such as time series analysis, hierarchical modeling, and serotype clustering and association, we aim to understand serotype replacement and its implications. Our analyses will be conducted in R.\nOur objectives for this course will be to:\nWe will accomplish these objectives using data from national and multinational infectious disease surveillance systems, and the following statistical methods:\nFull project statement"
   },
   {
     "objectID": "index.html#quarto",
@@ -312,7 +312,7 @@
     "href": "index.html#purpose-of-this-site",
     "title": "Welcome!",
     "section": "Purpose of This Site",
-    "text": "Purpose of This Site\nSharing code-based materials poses a challenging technical problem that Canvas is not well suited to handle. Therefore, we have created an instructor GitHub webpage where we can effectively create, communicate, and distribute course materials. This platform provides students with the most current information in an easily accessible format and allows us, the instructors, to distribute materials more efficiently.\nOn this site, you will find:\n\nA schedule of important project goals and assignment dates.\nWebpages with full weekly hands-on demonstrations of concepts.\nWeekly codebases for students to apply in their own projects, reflecting that week’s concepts.\nLinks to the subgroup dataset zip files, the associated paper, and brief descriptions of them.\nLinks to other course materials, including blank slide decks, poster layouts, slides, and more.\n\n\n\n    About the Instructors\n\n\n\n\n\n  \n  People Tiles\n  \n  \n\n\n  \n    \n      \n        \n          \n            \n          \n          \n            Stephanie Perniciaro, PhD, MPH\n            Associate Research Scientist in Epidemiology (Microbial Diseases)\n\n            \n              \n                \n                  \n                \n                \n                \n                  \n                \n                \n                  \n                \n                \n                  \n                \n              \n            \n            The surveillance and epidemiology of vaccine-preventable respiratory diseases, especially pneumococcal disease, is my passion. I want to determine how to efficiently and effectively protect populations from pneumococcal disease, both invasive (bacteremia, meningitis) and non-invasive (otitis media, non-bacteremic pneumonia). I'm interested in respiratory disease surveillance, serotype replacement, antibiotic resistance, vulnerable populations, vaccine schedules, vaccine advocacy, and overcoming vaccine hesitancy.\n\n            \n              \n                Email: stephanie.perniciaro@yale.edu\n              \n              \n            \n            \n          \n        \n      \n        \n          \n            \n          \n          \n            Shelby Golden, MS\n            Data Scientist I\n\n            \n              \n                \n                  \n                \n                \n                  \n                \n                \n                  \n                \n                \n                  \n                \n                \n                  \n                \n              \n            \n            With my work I aim to contribute to impactful projects that advance scientific understanding by utilizing strong analytical skills and a deep commitment to reliable data-driven decision-making. \n\n\nMy background is in computational mathematics, molecular biology, and biochemistry. I hold a Master of Science in Applied Computational Mathematics from Johns Hopkins University and dual Bachelor of Science degrees in Molecular, Cellular, Developmental Biology and Biochemistry, alongside a minor in Engineering in Applied Mathematics.\n\n            \n              \n                Email: shelby.golden@yale.edu\n              \n              \n            \n            \n          \n        \n      \n    \n  \n\n\n\nNo matching items"
+    "text": "Purpose of This Site\nSharing code-based materials poses a challenging technical problem that Canvas is not well suited to handle. Therefore, we have created an instructor GitHub webpage where we can effectively create, communicate, and distribute course materials. This platform provides students with the most current information in an easily accessible format and allows us, the instructors, to distribute materials more efficiently.\nOn this site, you will find:\n\nA schedule of important project goals and assignment dates.\nWebpages with full weekly hands-on demonstrations of concepts.\nWeekly codebases for students to apply in their own projects, reflecting that week’s concepts.\nLinks to the subgroup dataset zip files, the associated paper, and brief descriptions of them.\nLinks to other course materials, including blank slide decks, poster layouts, slides, and more.\n\n\n\n    About the Instructors\n\n\n\n\n\n  \n  People Tiles\n  \n  \n\n\n  \n    \n      \n        \n          \n            \n          \n          \n            Stephanie Perniciaro, PhD, MPH\n            Associate Research Scientist in Epidemiology (Microbial Diseases)\n\n            \n              \n                \n                  \n                \n                \n                \n                  \n                \n                \n                  \n                \n                \n                  \n                \n              \n            \n            The surveillance and epidemiology of vaccine-preventable respiratory diseases, especially pneumococcal disease, is my passion. I want to determine how to efficiently and effectively protect populations from pneumococcal disease, both invasive (bacteremia, meningitis) and non-invasive (otitis media, non-bacteremic pneumonia). I'm interested in respiratory disease surveillance, serotype replacement, antibiotic resistance, vulnerable populations, vaccine schedules, vaccine advocacy, and overcoming vaccine hesitancy.\n\n            \n              \n                Email: stephanie.perniciaro@yale.edu\n              \n              \n            \n            \n          \n        \n      \n        \n          \n            \n          \n          \n            Shelby Golden, MS\n            Data Scientist I\n\n            \n              \n                \n                  \n                \n                \n                  \n                \n                \n                  \n                \n                \n                  \n                \n                \n                  \n                \n              \n            \n            With my work I aim to contribute to impactful projects that advance scientific understanding by utilizing strong analytical skills and a deep commitment to reliable data-driven decision-making. \n\n\nMy background is in computational mathematics, molecular biology, and biochemistry. I hold a Master of Science in Applied Computational Mathematics from Johns Hopkins University and dual Bachelor of Science degrees in Molecular, Cellular, Developmental Biology and Biochemistry, alongside a minor in Engineering in Applied Mathematics from the University of Colorado at Boulder.\n\n            \n              \n                Email: shelby.golden@yale.edu\n              \n              \n            \n            \n          \n        \n      \n    \n  \n\n\n\nNo matching items"
   },
   {
     "objectID": "Pages/Schedule.html",
@@ -401,9 +401,9 @@
   {
     "objectID": "Pages/Materials/Materials.html",
     "href": "Pages/Materials/Materials.html",
-    "title": "Materials",
+    "title": "Public Health Modeling Group",
     "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+    "text": "Weinberger and Warren et al_2020_Hierarchical Models\nWeinberger and Warren et al_2018_Serotype Replacement\nJoshi and Al-Mamun et al_Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus\nInvasive pneumococcal disease_2022 Annual Epidemiological Report"
   },
   {
     "objectID": "Pages/Materials/Materials.html#quarto",
@@ -471,15 +471,36 @@
   {
     "objectID": "Pages/Materials/Materials.html#tips-and-advice",
     "href": "Pages/Materials/Materials.html#tips-and-advice",
-    "title": "Course Materials",
+    "title": "Public Health Modeling Group",
     "section": "Tips and Advice",
     "text": "Tips and Advice\n\n\n\n\n\n\nResearch Like a Pro\n\n\n\nIt is vital that you keep track of and disclose all the references you use to support your research. There are many tools available to help you with this, so discuss with your team and decide on a preferred method for reference tracking.\nIn my research, I use Mendeley, which comes with a Web Importer plug-in that makes it easy to compile different types of references. It conveniently formats these entries to various styles, including LaTeX and BibTeX."
   },
   {
     "objectID": "Pages/Materials/Materials.html#templates",
     "href": "Pages/Materials/Materials.html#templates",
-    "title": "Course Materials",
+    "title": "Public Health Modeling Group",
     "section": "Templates",
     "text": "Templates\nBDSY Slides Template 2025"
+  },
+  {
+    "objectID": "Pages/Materials/Materials.html#lecture-slides",
+    "href": "Pages/Materials/Materials.html#lecture-slides",
+    "title": "Public Health Modeling Group",
+    "section": "Lecture Slides",
+    "text": "Lecture Slides\n Day 4 Slide Deck   Day 5 Slide Deck"
+  },
+  {
+    "objectID": "Pages/Materials/Materials.html#weekly-codespaces",
+    "href": "Pages/Materials/Materials.html#weekly-codespaces",
+    "title": "Public Health Modeling Group",
+    "section": "Weekly Codespaces",
+    "text": "Weekly Codespaces\n Starter individual project with Week 2 code"
+  },
+  {
+    "objectID": "Pages/Materials/Materials.html#course-papers",
+    "href": "Pages/Materials/Materials.html#course-papers",
+    "title": "Public Health Modeling Group",
+    "section": "",
+    "text": "Weinberger and Warren et al_2020_Hierarchical Models\nWeinberger and Warren et al_2018_Serotype Replacement\nJoshi and Al-Mamun et al_Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus\nInvasive pneumococcal disease_2022 Annual Epidemiological Report"
   }
 ]

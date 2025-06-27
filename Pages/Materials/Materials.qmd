@@ -1,23 +1,32 @@
 ---
-title: "Course Materials"
 format: html
 editor: visual
 ---
 
+## Course Papers
+
+- [Weinberger and Warren et al_2020_Hierarchical Models](Course Papers/Weinberger and Warren et al_2020_Hierarchical Models.pdf)
+- [Weinberger and Warren et al_2018_Serotype Replacement](Course Papers/Weinberger and Warren et al_2018_Serotype Replacement.pdf)
+- [Joshi and Al-Mamun et al_Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus](Course Papers/Joshi and Al-Mamun et al_Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus.pdf)
+- [Invasive pneumococcal disease_2022 Annual Epidemiological Report](Course Papers/Invasive pneumococcal disease_2022 Annual Epidemiological Report.pdf)
+
+## Lecture Slides
+
+{{< downloadthis "In Class Presentations/Day4.pptx" label="Day 4 Slide Deck" id=download_btn >}} {{< downloadthis "In Class Presentations/Day5.pptx" label="Day 5 Slide Deck" id=download_btn >}}
+
 ## Weekly Codespaces
 
-
+{{< downloadthis "bdsy-phm-individual.zip" label="Starter individual project with Week 2 code" id=download_btn >}}
 
 ## Templates
 
-[BDSY Slides Template 2025](BDSY Slides Template 2025.potx)
-
+[BDSY Slides Template 2025](BDSY%20Slides%20Template%202025.potx)
 
 ## Tips and Advice
 
-
-:::{.callout-tip}
+::: callout-tip
 ## Research Like a Pro
+
 It is vital that you keep track of and disclose all the references you use to support your research. There are many tools available to help you with this, so discuss with your team and decide on a preferred method for reference tracking.
 
 In my research, I use [Mendeley](https://www.mendeley.com/search/), which comes with a Web Importer plug-in that makes it easy to compile different types of references. It conveniently formats these entries to various styles, including LaTeX and BibTeX.
