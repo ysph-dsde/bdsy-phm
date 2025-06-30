@@ -20,6 +20,8 @@ website:
         href: Pages/Materials/Materials.qmd
       - text: "Time Series"
         href: Pages/Week2/Time Series Analysis_Hands-On Exercise.qmd
+      - text: "Hierarchical Modeling"
+        href: Pages/Week3/Hierarchical Modeling.qmd
     right:
       - text: 2025 BDSY
         href: https://ysph.yale.edu/school-of-public-health/special-programs/big-data-summer-immersion-at-yale/
