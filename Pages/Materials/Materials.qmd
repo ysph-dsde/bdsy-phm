@@ -20,9 +20,12 @@ editor: visual
 
 ## Templates
 
-[BDSY Slides Template 2025](BDSY%20Slides%20Template%202025.potx)
+{{< downloadthis "BDSY%20Slides%20Template%202025.potx" label="BDSY Slides Template 2025" id=download_btn >}}
+
 
 ## Tips and Advice
+
+[Tips for Effective Presentations](Tips for Effective Presentations.pdf)
 
 ::: callout-tip
 ## Research Like a Pro

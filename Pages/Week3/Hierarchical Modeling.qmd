@@ -1,0 +1,176 @@
+---
+title: "Hierarchical Modeling"
+subtitle: |
+   | In Class Hands-On Exercise
+   | BDSY 2025 - Public Health Modeling Project
+author:
+  - "Stephanie Perniciaro, PhD, MPH"
+  - "Shelby Golden, MS"
+bibliography: references.bib
+csl: nature.csl
+date: 6/30/2025
+date-format: long
+editor: visual
+---
+
+## Set Up the Environment
+
+### Installing JAGS
+
+The `rjags` package requires [JAGS](https://mcmc-jags.sourceforge.io/) to be installed separately. `rjags` will reference the JAGS `libjags.4.dylib` library file and the `modules-4` directory, which contains seven `*.so` files, such as `bugs.so.` The next steps will walk you through installation, and an optional troubleshooting guide if R cannot find the JAGS file path.
+
+:::{.callout-note}
+This page was developed on a Mac, and so the directions for a PC were not able to be tested.
+:::
+
+1.  From [JAGS](https://mcmc-jags.sourceforge.io/), open the download link that will take you to a SourceForge page.
+
+2.  Download the latest version. At the time of this writing, the current version is JAGS-4.3.2.
+
+3.  Open and run the downloaded installer.
+
+4.  **PC ONLY:** You will need to also download the latest version of [RTools](https://cran.r-project.org/bin/windows/Rtools/), which at the time of this writing is RTools 4.5. Add `Rtools` to your `PATH` if it is not done automatically.
+
+    ``` {.bash filename="Command-Line Application"}
+    where make   # Should give the result "C:\Rtools\bin\make.exe"
+    echo %PATH%  # Should give the result "C:\Rtools\bin;C:\Rtools\mingw_64\bin"
+    ```
+
+    If this does not give the expected results, you can set the path:
+
+    ``` {.bash filename="Command-Line Application"}
+    # ONLY IF the PATH for Rtools is incorrect.
+    setx PATH "%PATH%;C:\Rtools\bin;C:\Rtools\mingw_64\bin"
+    ```
+
+5.  Confirm that the installation is located where we need it to be.
+
+::::: panel-tabset
+## Mac
+
+The library file and directory need to be in `/usr/local/lib/`.
+
+``` {.bash filename="Command-Line Application"}
+# Running both should NOT give you "No such file or directory"
+ls -l /usr/local/lib/libjags.4.dylib
+ls -l /usr/local/lib/JAGS/modules-4/
+```
+
+::: {.callout-tip collapse="true"}
+## If the namespace load failed
+
+Sometimes the installer might place the JAGS program in a different location. For example, if you installed JAGS using Homebrew, then it might have placed the program in the Homebrew library. Depending on how the file path got set differently, you will need to modify the following code accordingly before reinstalling in R.
+
+``` {.bash filename="Command-Line Application"}
+# This example assumes that Homebrew was used
+brew install jags
+```
+
+1.  Open `/usr/local/lib` by searching for it with "Go to Folder" in an open Finder Window. If it does not already exist, create the file path using the following code.
+
+    ``` {.bash filename="Command-Line Application"}
+    # ONLY IF there is no existing directory
+    sudo mkdir -p /usr/local/lib
+    ```
+
+2.  Create a symbolic link from the Homebrew-installed `libjags.4.dylib` JAGS library to the expected location:
+
+    ``` {.bash filename="Command-Line Application"}
+    sudo ln -s /opt/homebrew/lib/libjags.4.dylib /usr/local/lib/libjags.4.dylib
+    ```
+
+3.  Create another symbolic link for the Homebrew-installed JAGS modules directory to the expected location:
+
+    ``` {.bash filename="Command-Line Application"}
+    sudo mkdir -p /usr/local/lib/JAGS/modules-4
+    sudo ln -s /opt/homebrew/lib/JAGS/modules-4/* /usr/local/lib/JAGS/modules-4/
+    ```
+
+4.  **OPTIONAL:** You can verify the linking worked if you see the intended directory listed for both of the following lines of code.
+
+    ``` {.bash filename="Command-Line Application"}
+    # Running both should NOT give you "No such file or directory"
+    ls -l /usr/local/lib/libjags.4.dylib
+    ls -l /usr/local/lib/JAGS/modules-4/
+    ```
+
+5.  Reinstalling rjags with the connection in place.
+
+    ``` {.r filename="RStudio"}
+    # Remove existing installation
+    remove.packages("rjags")
+
+    # Reinstall rjags
+    install.packages("rjags")
+
+    # Load the package
+    library(rjags)
+    ```
+:::
+
+## PC
+
+The library file and directory need to be in `C:\Program Files\JAGS\JAGS-4.x\bin`
+
+``` {.bash filename="Command-Line Application"}
+echo %JAGS_HOME%  # Should say "C:\Program Files\JAGS\JAGS-4.x"
+echo %PATH%       # Should say "...;C:\Program Files\JAGS\JAGS-4.x\bin;..."
+```
+
+::: {.callout-tip collapse="true"}
+## If the namespace load failed
+
+Sometimes the installer might place the JAGS program in a different location. If this happens, you can set the file path in the command line application as follows and retry installing the package through R.
+
+1.  Modify the environment variables as needed.
+
+    ``` {.bash filename="Command-Line Application"}
+    setx JAGS_HOME "C:\Program Files\JAGS\JAGS-4.x"
+    setx PATH "%PATH%;C:\Program Files\JAGS\JAGS-4.x\bin"
+    ```
+
+2.  **OPTIONAL:** You can verify the setting worked.
+
+    ``` {.bash filename="Command-Line Application"}
+    echo %JAGS_HOME%  # Should say "C:\Program Files\JAGS\JAGS-4.x"
+    echo %PATH%       # Should say "...;C:\Program Files\JAGS\JAGS-4.x\bin;..."
+    ```
+
+3.  Reinstalling rjags with the connection in place.
+
+    ``` {.r filename="RStudio"}
+    # Remove existing installation
+    remove.packages("rjags")
+
+    # Reinstall rjags
+    install.packages("rjags")
+
+    # Load the package
+    library(rjags)
+    ```
+:::
+:::::
+
+
+
+```{r}
+#| eval: FALSE
+
+renv::init()      # Initialize the project     
+renv::restore()   # Download packages and their version saved in the lockfile
+```
+
+
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
