@@ -3,8 +3,8 @@ library(tidyr)
 library(stringr)
 library(reshape2)
 library(lubridate)
-library(rgdal)
-library(maptools)
+library(rgdal)    #######
+library(maptools) #######
 library(MASS)
 library(rjags)
 library(HDInterval)
@@ -17,11 +17,12 @@ library(gridExtra)
 library(RColorBrewer)
 library(readr)
 library(wesanderson)
+library(viridisLite)
 library(viridis)
 library(ggspatial)
 library(janitor)
 
-d1.adults<-read.csv("./testDE2.csv")
+d1.adults<-read.csv("Data/testDE2.csv")
 
 
 # Aggregate data

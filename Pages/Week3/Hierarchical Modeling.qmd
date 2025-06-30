@@ -13,6 +13,14 @@ date-format: long
 editor: visual
 ---
 
+## Files
+
+**Code:**
+{{< downloadthis "R/MinimalDE.R" label="Hierarchical Modeling Code" id=download_btn >}} {{< downloadthis "R/Model2.R" label="Model Statements" id=download_btn >}}
+
+**Date:**
+{{< downloadthis "Data/testDE2.csv" label="Data" id=download_btn >}}
+
 ## Set Up the Environment
 
 ### Installing JAGS
@@ -152,7 +160,6 @@ Sometimes the installer might place the JAGS program in a different location. If
 :::::
 
 
-
 ```{r}
 #| eval: FALSE
 
@@ -162,15 +169,11 @@ renv::restore()   # Download packages and their version saved in the lockfile
 
 
 
-```{r}
-1 + 1
-```
 
-You can add options to executable code like this
 
-```{r}
-#| echo: false
-2 * 2
-```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+
+
+
+
+
