@@ -62,7 +62,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<link href="../../Images/DSDE-Visuals/DSDE-Social-Media-Profile.png" rel="icon" type="image/png">
+<link href="../../Images/DSDE-Social-Media-Profile.png" rel="icon" type="image/png">
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -72,7 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-05fe91a66cf75bbbb8c9664867fe5124.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6a39d32c44824e31f328191c6e9c925a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-2000b66f7733e4f0e9888b98da55e90a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -89,6 +89,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -116,14 +159,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="../../Pages/Materials/Materials.html"> 
 <span class="menu-text">Project Materials</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../Pages/Week2/Time Series Analysis_Hands-On Exercise.html"> 
-<span class="menu-text">Time Series</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weekly-modules" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Weekly Modules</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-modules">    
+        <li>
+    <a class="dropdown-item" href="../../Pages/Week2/Time Series Analysis_Hands-On Exercise.html">
+ <span class="dropdown-text">Time Series</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link active" href="../../Pages/Week3/Hierarchical Modeling.html" aria-current="page"> 
-<span class="menu-text">Hierarchical Modeling</span></a>
+        <li>
+    <a class="dropdown-item" href="../../Pages/Week3/Hierarchical Modeling.html">
+ <span class="dropdown-text">Hierarchical Modeling</span></a>
   </li>  
+    </ul>
+  </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
@@ -146,7 +196,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#files" id="toc-files" class="nav-link active" data-scroll-target="#files">Files</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#distribution-estimation-by-particle-sampling" id="toc-distribution-estimation-by-particle-sampling" class="nav-link" data-scroll-target="#distribution-estimation-by-particle-sampling">Distribution Estimation by Particle Sampling</a>
+  <ul class="collapse">
+  <li><a href="#recall-markov-chains---a-stochastic-process" id="toc-recall-markov-chains---a-stochastic-process" class="nav-link" data-scroll-target="#recall-markov-chains---a-stochastic-process">Recall Markov Chains - A Stochastic Process</a></li>
+  <li><a href="#gibbs-sampling" id="toc-gibbs-sampling" class="nav-link" data-scroll-target="#gibbs-sampling">Gibbs Sampling</a></li>
+  <li><a href="#translating-equations-to-graphical-models" id="toc-translating-equations-to-graphical-models" class="nav-link" data-scroll-target="#translating-equations-to-graphical-models">Translating Equations to Graphical Models</a></li>
+  </ul></li>
+  <li><a href="#higherarchical-modeling" id="toc-higherarchical-modeling" class="nav-link" data-scroll-target="#higherarchical-modeling">Higherarchical Modeling</a></li>
   <li><a href="#set-up-the-environment" id="toc-set-up-the-environment" class="nav-link" data-scroll-target="#set-up-the-environment">Set Up the Environment</a>
   <ul class="collapse">
   <li><a href="#installing-jags" id="toc-installing-jags" class="nav-link" data-scroll-target="#installing-jags">Installing JAGS</a></li>
@@ -191,17 +248,203 @@ BDSY 2025 - Public Health Modeling Project</div><p></p>
 </header>
 
 
-<section id="files" class="level2">
-<h2 class="anchored" data-anchor-id="files">Files</h2>
-<p><strong>Code:</strong></p>
-<p> </p>
-<p><strong>Date:</strong></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Page still in progress!!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Real-world analytical problems are often complex, making it difficult to define or derive deterministic solutions. Two common approaches to support complex analytical projects are:</p>
+<ol type="1">
+<li>Approximating with a known solvable function.</li>
+<li>Using stochastic search and optimization, often referred to as Monte Carlo methods.</li>
+</ol>
+<p>While the first approach has many advantages, there are circumstances where approximating a problem with a known distribution is computationally prohibitive, overly reductive, or infeasible. In such cases, we leverage abstract probabilistic and statistical concepts, using stochastic search and optimization to transform randomness into inferential statistics. When applied correctly, these concepts can surprisingly guarantee robust solutions to otherwise unsolvable problems.</p>
+<p>One of these powerful techniques is Markov chain Monte Carlo (MCMC). Random samples generated with MCMC can be used for various purposes, including computing statistical estimates, numerical integrals, and estimating the marginal or joint probabilities of multivariate distributions and densities. Notably, MCMC provides a means to generate samples from joint distributions by utilizing conditional, factorized distributions.</p>
+<p>Two common MCMC methods are:</p>
+<ol type="1">
+<li>Metropolis-Hastings (M-H)</li>
+<li>Gibbs sampling</li>
+</ol>
+<p>Students are encouraged to explore M-H further on their own by reading the relevant sections of the supporting textbooks listed below. Today, we will focus on Gibbs sampling, as this technique is particularly well-suited for reducing high-dimensional problems into several one-dimensional ones.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solid theory supports effective and accurate application!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, to help students deepen their theoretical understanding of this week’s material. This foundation will aid in generating better analysis in practice.</p>
+</div>
+</div>
+</section>
+<section id="distribution-estimation-by-particle-sampling" class="level2">
+<h2 class="anchored" data-anchor-id="distribution-estimation-by-particle-sampling">Distribution Estimation by Particle Sampling</h2>
+<section id="recall-markov-chains---a-stochastic-process" class="level3">
+<h3 class="anchored" data-anchor-id="recall-markov-chains---a-stochastic-process">Recall Markov Chains - A Stochastic Process</h3>
+<p>This section is drawn from Wasserman, specifically Chapter 23 and 24.</p>
+<p>A <strong>stochastic process</strong> <span class="math inline">\{X_t : t \in T\}</span> is a collection of random variables taken from a <strong>state space</strong>, <span class="math inline">\mathcal{X}</span>, and indexed by an ordered set <span class="math inline">T</span>, which can be interpreted as time. The index set <span class="math inline">T</span> can be discrete, such as <span class="math inline">T = \{0, 1, 2, \dots\}</span>, or continuous, such as <span class="math inline">T = [0, \infty)</span>. To denote the stochastic nature of <span class="math inline">X</span>, it can be written as <span class="math inline">X_t</span> or <span class="math inline">X(t)</span>.</p>
+<div class="img-float">
+<div class="quarto-figure quarto-figure-center" style="float: left; position: relative; top: 0px; padding-right: 10px; margin: auto auto auto auto;">
+<figure class="figure">
+<p><img src="Images/Lee and Ni 2012_Figure 1.jpg" class="img-fluid figure-img" width="450"></p>
+<figcaption>Illustration of state transition diagram for the Markov chain.</figcaption>
+</figure>
+</div>
+</div>
+<p>A <strong>Markov chain</strong> is a type of stochastic process where the distribution of future states depends only on the current state and not on the sequence of events that preceded it. For example, the outcome for <span class="math inline">X_t</span> depends only on what the outcome was for <span class="math inline">X_{t-1}</span>. Notice that sometimes, authors with specify that <span class="math inline">X</span> is a Markov chain stochastic process by writing <span class="math inline">X_n</span> instead of <span class="math inline">X_t</span>.</p>
+<p>The figure on the left shows a state transition diagram for a discrete-time Markov chain with <strong>transition probabilities</strong> <span class="math inline">p_{ij} = \mathbb{P}(X_{n+1}= j\ \lvert\ X_n = i)</span>. Below the diagram is the matrix representation of these interactions, known as the <strong>transition matrix</strong>, <span class="math inline">\mathbf{P}</span>, where each row is a probability mass function. A generalized definition for a Markov chain is given by</p>
+<p><span class="math display">\begin{align}
+\mathbb{P}(X_n = x\ \lvert\ X_0, \dots, X_{n-1}) = \mathbb{P}(X_n = x\ \lvert\ X_{n-1})
+\end{align}</span></p>
+<p>for all <span class="math inline">n</span> and for all <span class="math inline">x \in \mathcal{X}</span>. Markov chains have many aspects, but for this application, it is essential to consider the properties of a specific transitional stage denoted by, <span class="math inline">\pi = (\pi_i : i \in \mathcal{X})</span>. The vector <span class="math inline">\pi</span> consists of non-negative numbers that sum to one and is stationary (or invariant) distribution if <span class="math inline">\pi = \pi\mathbf{P}</span>.</p>
+<p>By applying the Chapman-Kolmogorov equations for n-step probabilities <span class="math inline">(p_{ij}(m+n) = \sum_k p_{ik}(m) p_{kj}(n))</span>, we derive that a key characteristic of a stationary distribution <span class="math inline">\pi</span> for a Markov chain is that it is limiting. This means that, after any number of steps <span class="math inline">n</span>, the distribution remains <span class="math inline">\pi</span>:</p>
+<ol type="1">
+<li><p>Draw <span class="math inline">X_0</span> from the distribution <span class="math inline">\pi</span> gives <span class="math inline">\mu_0 = \pi</span>.</p></li>
+<li><p>Draw <span class="math inline">X_1</span> from the distribution <span class="math inline">\pi</span> gives <span class="math inline">\mu_1 = \mu_0\mathbf{P} = \pi\mathbf{P} = \pi</span>.</p></li>
+<li><p>Draw <span class="math inline">X_2</span> from the distribution <span class="math inline">\pi</span> gives <span class="math inline">\pi\mathbf{P}^2 = (\pi\mathbf{P})\mathbf{P} = \pi\mathbf{P} = \pi</span>.</p>
+<p><span class="math inline">\dots</span> etc.</p></li>
+</ol>
+<p>Here, <span class="math inline">\mu_n(i) = \mathbb{P}(X_n = i)</span> denotes the marginal probability that the chain is in state <span class="math inline">i</span> at time <span class="math inline">n</span>, while <span class="math inline">\mu_0</span> represents the <strong>initial distribution</strong>. Once the chain limits to the distribution <span class="math inline">\pi</span>, it will remain in this distribution indefinitely. However, ensuring the process is stationary is not sufficient; it is also important to guarantee that <span class="math inline">\pi</span> is unique. This uniqueness is guaranteed if the Markov chain is <strong>ergodic</strong>, which must satisfy the following two characteristics:</p>
+<ol type="1">
+<li><strong>Aperiodicity:</strong> The states do not get trapped in cycles of fixed length. This means revisiting any state does not happen at regular intervals, ensuring more general behavior. For <span class="math inline">d = \text{gcd}\{n\ :\ p_{ii}(n) &gt; 0\}</span> then <span class="math inline">d(i) = 1</span>, where gcd means “greatest common divisor”.</li>
+<li><strong>Positive Recurrence:</strong> The expected number of steps to return to that state is finite. A Markov chain is positive recurrent if every state is positive recurrent.</li>
+</ol>
+<p>If the Markov chain is also <strong>irreducible</strong>, then all states communicate, meaning it is possible to get from any state to any other state, denoted by <span class="math inline">i \leftrightarrow j</span>. Having an irreducible, ergodic Markov chain guarantees that it has a unique stationary distribution, <span class="math inline">\pi</span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A Markov chain with a stationary distrubtion does not mean that it converges.</p>
+</div>
+</div>
+<p>There is much more to learn about Markov chains beyond what was discussed here, but these fundamental concepts provide a foundation for understanding their use in Monte Carlo methods.</p>
+</section>
+<section id="gibbs-sampling" class="level3">
+<h3 class="anchored" data-anchor-id="gibbs-sampling">Gibbs Sampling</h3>
+<p><span class="math inline">\pi</span> satisfies <strong>detailed balance</strong> if <span class="math inline">\pi_i p_{ij} = \pi_j p_{ji}</span>, guaranteeing that <span class="math inline">\pi</span> is a stationary distribution.</p>
+</section>
+<section id="translating-equations-to-graphical-models" class="level3">
+<h3 class="anchored" data-anchor-id="translating-equations-to-graphical-models">Translating Equations to Graphical Models</h3>
+</section>
+</section>
+<section id="higherarchical-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="higherarchical-modeling">Higherarchical Modeling</h2>
 </section>
 <section id="set-up-the-environment" class="level2">
 <h2 class="anchored" data-anchor-id="set-up-the-environment">Set Up the Environment</h2>
 <section id="installing-jags" class="level3">
 <h3 class="anchored" data-anchor-id="installing-jags">Installing JAGS</h3>
 <p>The <code>rjags</code> package requires <a href="https://mcmc-jags.sourceforge.io/">JAGS</a> to be installed separately. <code>rjags</code> will reference the JAGS <code>libjags.4.dylib</code> library file and the <code>modules-4</code> directory, which contains seven <code>*.so</code> files, such as <code>bugs.so.</code> The next steps will walk you through installation, and an optional troubleshooting guide if R cannot find the JAGS file path.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">PC</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ol type="1">
+<li><p>From <a href="https://mcmc-jags.sourceforge.io/">JAGS</a>, open the download link that will take you to a SourceForge page.</p></li>
+<li><p>Download the latest version. At the time of this writing, the current version is JAGS-4.3.2.</p></li>
+<li><p>Open and run the downloaded installer.</p></li>
+<li><p>Confirm that the installation is located where we need it to be: <code>/usr/local/lib/</code>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Command-Line Application</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running both should NOT give you "No such file or directory"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> /usr/local/lib/libjags.4.dylib</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> /usr/local/lib/JAGS/modules-4/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+If the namespace load failed
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Sometimes, the installer might place the JAGS program in a different location. For example, if you installed JAGS using Homebrew, the program might have been placed in the Homebrew library. If the file path differs, you will need to adjust the following code accordingly before reinstalling it in R.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Command-Line Application</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This example assumes that Homebrew was used</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install jags</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li><p>Open <code>/usr/local/lib</code> by searching for it with “Go to Folder” in an open Finder Window. If it does not already exist, create the file path using the following code.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Command-Line Application</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ONLY IF there is no existing directory</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> mkdir <span class="at">-p</span> /usr/local/lib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>Create a symbolic link from the Homebrew-installed <code>libjags.4.dylib</code> JAGS library to the expected location:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Command-Line Application</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ln <span class="at">-s</span> /opt/homebrew/lib/libjags.4.dylib /usr/local/lib/libjags.4.dylib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>Create another symbolic link for the Homebrew-installed JAGS modules directory to the expected location:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Command-Line Application</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> mkdir <span class="at">-p</span> /usr/local/lib/JAGS/modules-4</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ln <span class="at">-s</span> /opt/homebrew/lib/JAGS/modules-4/<span class="pp">*</span> /usr/local/lib/JAGS/modules-4/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p><strong>OPTIONAL:</strong> You can verify the linking worked if you see the intended directory listed for both of the following lines of code.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Command-Line Application</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running both should NOT give you "No such file or directory"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> /usr/local/lib/libjags.4.dylib</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> /usr/local/lib/JAGS/modules-4/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>Reinstalling rjags with the connection in place.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>RStudio</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" data-filename="RStudio"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove existing installation</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove.packages</span>(<span class="st">"rjags"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reinstall rjags</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rjags"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjags)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -219,120 +462,33 @@ Note
 <li><p>From <a href="https://mcmc-jags.sourceforge.io/">JAGS</a>, open the download link that will take you to a SourceForge page.</p></li>
 <li><p>Download the latest version. At the time of this writing, the current version is JAGS-4.3.2.</p></li>
 <li><p>Open and run the downloaded installer.</p></li>
-<li><p><strong>PC ONLY:</strong> You will need to also download the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">RTools</a>, which at the time of this writing is RTools 4.5. Add <code>Rtools</code> to your <code>PATH</code> if it is not done automatically.</p>
+<li><p>You will need to also download the latest version of <a href="https://cran.r-project.org/bin/windows/Rtools/">RTools</a>, which at the time of this writing is RTools 4.5. Add <code>Rtools</code> to your <code>PATH</code> if it is not done automatically.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Command-Line Application</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">where</span> make   <span class="co"># Should give the result "C:\Rtools\bin\make.exe"</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> %PATH%  <span class="co"># Should give the result "C:\Rtools\bin;C:\Rtools\mingw_64\bin"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">where</span> make   <span class="co"># Should give the result "C:\Rtools\bin\make.exe"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> %PATH%  <span class="co"># Should give the result "C:\Rtools\bin;C:\Rtools\mingw_64\bin"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If this does not give the expected results, you can set the path:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Command-Line Application</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ONLY IF the PATH for Rtools is incorrect.</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">setx</span> PATH <span class="st">"%PATH%;C:\Rtools\bin;C:\Rtools\mingw_64\bin"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ONLY IF the PATH for Rtools is incorrect.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">setx</span> PATH <span class="st">"%PATH%;C:\Rtools\bin;C:\Rtools\mingw_64\bin"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
-<li><p>Confirm that the installation is located where we need it to be.</p></li>
-</ol>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">PC</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>The library file and directory need to be in <code>/usr/local/lib/</code>.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Command-Line Application</strong></pre>
-</div>
-<div class="sourceCode" id="cb3" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running both should NOT give you "No such file or directory"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> /usr/local/lib/libjags.4.dylib</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> /usr/local/lib/JAGS/modules-4/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-If the namespace load failed
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Sometimes the installer might place the JAGS program in a different location. For example, if you installed JAGS using Homebrew, then it might have placed the program in the Homebrew library. Depending on how the file path got set differently, you will need to modify the following code accordingly before reinstalling in R.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Command-Line Application</strong></pre>
-</div>
-<div class="sourceCode" id="cb4" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This example assumes that Homebrew was used</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install jags</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ol type="1">
-<li><p>Open <code>/usr/local/lib</code> by searching for it with “Go to Folder” in an open Finder Window. If it does not already exist, create the file path using the following code.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Command-Line Application</strong></pre>
-</div>
-<div class="sourceCode" id="cb5" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ONLY IF there is no existing directory</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> mkdir <span class="at">-p</span> /usr/local/lib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></li>
-<li><p>Create a symbolic link from the Homebrew-installed <code>libjags.4.dylib</code> JAGS library to the expected location:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Command-Line Application</strong></pre>
-</div>
-<div class="sourceCode" id="cb6" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ln <span class="at">-s</span> /opt/homebrew/lib/libjags.4.dylib /usr/local/lib/libjags.4.dylib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></li>
-<li><p>Create another symbolic link for the Homebrew-installed JAGS modules directory to the expected location:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Command-Line Application</strong></pre>
-</div>
-<div class="sourceCode" id="cb7" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> mkdir <span class="at">-p</span> /usr/local/lib/JAGS/modules-4</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ln <span class="at">-s</span> /opt/homebrew/lib/JAGS/modules-4/<span class="pp">*</span> /usr/local/lib/JAGS/modules-4/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></li>
-<li><p><strong>OPTIONAL:</strong> You can verify the linking worked if you see the intended directory listed for both of the following lines of code.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Command-Line Application</strong></pre>
-</div>
-<div class="sourceCode" id="cb8" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running both should NOT give you "No such file or directory"</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> /usr/local/lib/libjags.4.dylib</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> /usr/local/lib/JAGS/modules-4/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></li>
-<li><p>Reinstalling rjags with the connection in place.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>RStudio</strong></pre>
-</div>
-<div class="sourceCode" id="cb9" data-filename="RStudio"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove existing installation</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove.packages</span>(<span class="st">"rjags"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reinstall rjags</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rjags"</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjags)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>The library file and directory need to be in <code>C:\Program Files\JAGS\JAGS-4.x\bin</code></p>
+<li><p>Confirm that the installation is located where we need it to be: <code>C:\Program Files\JAGS\JAGS-4.x\bin</code>.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Command-Line Application</strong></pre>
 </div>
 <div class="sourceCode" id="cb10" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> %JAGS_HOME%  <span class="co"># Should say "C:\Program Files\JAGS\JAGS-4.x"</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> %PATH%       <span class="co"># Should say "...;C:\Program Files\JAGS\JAGS-4.x\bin;..."</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</div></li>
+</ol>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -341,7 +497,7 @@ If the namespace load failed
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Sometimes the installer might place the JAGS program in a different location. If this happens, you can set the file path in the command line application as follows and retry installing the package through R.</p>
 <ol type="1">
@@ -382,9 +538,216 @@ If the namespace load failed
 </div>
 </div>
 </div>
+<p>With JAGS installed, we can now proceed with the standard process of installing the packages.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()      <span class="co"># Initialize the project     </span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()   <span class="co"># Download packages and their version saved in the lockfile</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"readr"</span>)      <span class="co"># For reading in the data</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"tibble"</span>)     <span class="co"># For handling tidyverse tibble data classes</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"tidyr"</span>)      <span class="co"># For tidying data </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"dplyr"</span>)      <span class="co"># For data manipulation </span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"stringr"</span>)    <span class="co"># For string manipulation</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"MASS"</span>)       <span class="co"># Functions/datasets for statistical analysis</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"lubridate"</span>)  <span class="co"># For date manipulation</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"ggplot2"</span>)    <span class="co"># For creating static visualizations</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"viridis"</span>)    <span class="co"># For color scales in ggplot2</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"scales"</span>)     <span class="co"># For formatting plots axis</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"gridExtra"</span>)  <span class="co"># Creates multiple grid-based plots</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"rjags"</span>)      <span class="co"># For running JAGS (Just Another Gibbs Sampler) models</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"coda"</span>)       <span class="co"># For analysis of MCMC output from Bayesian models</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to select "Not In"</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="st">'%!in%'</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y)<span class="sc">!</span>(<span class="st">'%in%'</span>(x,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in the cleaned data directly from the instructor's GitHub.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/testDE2.csv"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize aspects and dimentions of our dataset.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 17,653
+Columns: 47
+$ ...1                             &lt;dbl&gt; 4, 7, 8, 9, 10, 11, 17, 18, 19, 20, 2…
+$ Sequencial.number                &lt;dbl&gt; 2465, 2470, 2472, 2473, 2474, 2475, 2…
+$ Study                            &lt;chr&gt; "PS", "PS", "PS", "PS", "PS", "PS", "…
+$ Number                           &lt;chr&gt; "4399", "4402", "4404", "4405", "4406…
+$ Inclusion                        &lt;chr&gt; "yes", "yes", "yes", "yes", "yes", "y…
+$ DateOfIsolation                  &lt;chr&gt; "15-01-03", "15-01-03", "15-01-03", "…
+$ DateOfBirth                      &lt;chr&gt; "1/3/1962", "16-12-39", "20-02-25", "…
+$ AgeInYears                       &lt;dbl&gt; 40, 63, 77, 74, 84, 89, 79, 53, 73, 4…
+$ AgeinMonths                      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ Postleitzahl.patient             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ Zip                              &lt;chr&gt; "0", "0", "0", "0", "0", "0", "0", "0…
+$ Federal.state.patient            &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ Residence.patient                &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ Country.patient                  &lt;chr&gt; "Deutschland", "Deutschland", "Deutsc…
+$ SeroType                         &lt;chr&gt; "1", "3", "4", "19F", "14", "7F", "7C…
+$ Strain.identification...Genus    &lt;chr&gt; "Streptococcus", "Streptococcus", "St…
+$ Strain.identification...Species  &lt;chr&gt; "pneumoniae", "pneumoniae", "pneumoni…
+$ Pneumonia                        &lt;chr&gt; "no", "no", "no", "yes", "no", "no", …
+$ MD.Amoxicillin                   &lt;dbl&gt; 0.015, 0.030, 0.015, 0.060, 0.030, 0.…
+$ AmoxicillinSNS                   &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
+$ MD.Cefotaxime                    &lt;dbl&gt; 0.015, 0.015, 0.015, 0.030, 0.015, 0.…
+$ CefotaximeSNS                    &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
+$ MD.Chloramphenicol               &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ ChloramphenicolSNS               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ MD.Clindamycin                   &lt;dbl&gt; 0.060, 0.060, 0.060, 0.060, 0.060, 0.…
+$ ClindamycinSNS                   &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
+$ MD.Erythromycin                  &lt;dbl&gt; 0.12, 0.06, 0.06, 0.06, 4.00, 0.06, 0…
+$ ErythromycinSNS                  &lt;chr&gt; "S", "S", "S", "S", "NS", "S", "S", "…
+$ MD.Levofloxacin                  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ LevofloxaxinSNS                  &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ MD.Penicillin                    &lt;dbl&gt; 0.015, 0.015, 0.015, 0.060, 0.015, 0.…
+$ PenicillinSNS                    &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
+$ MD.Tetracyclin                   &lt;dbl&gt; 0.25, 0.25, 0.12, 16.00, 0.12, 0.25, …
+$ TetracyclineSNS                  &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
+$ MD.Trimetoprim.Sulfamethoxazole  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ Sulfamethoxazole.trimethoprimSNS &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ MD.Vancomycin                    &lt;dbl&gt; 0.12, 0.25, 0.25, 0.12, 0.12, 0.25, 0…
+$ VancomycinSNS                    &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
+$ date                             &lt;date&gt; 2003-01-15, 2003-01-15, 2003-01-15, …
+$ year                             &lt;dbl&gt; 2003, 2003, 2003, 2003, 2003, 2003, 2…
+$ month                            &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ epiyr                            &lt;dbl&gt; 2002, 2002, 2002, 2002, 2002, 2002, 2…
+$ agec                             &lt;dbl&gt; 4, 5, 5, 5, 5, 5, 5, 4, 5, 4, 4, 5, 5…
+$ vt                               &lt;dbl&gt; 2, 6, 1, 1, 1, 2, 0, 5, 1, 1, 2, 0, 1…
+$ vaxperiod                        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ zip2                             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ indic                            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>SeroType:</strong> The serotype of the pathogen.</li>
+<li><strong>epiyr:</strong> The epidemiological year of the observation.</li>
+<li><strong>cases:</strong> This is a new variable created to represent the count of cases for each serotype and year combination.</li>
+</ul>
+<ol type="1">
+<li>Aggregating the data to count the number of cases for each serotype-year combination.</li>
+<li>Ensuring that all possible serotype-year combinations are represented.</li>
+<li>Creating numeric IDs for <code>SeroType</code> and <code>epiyr.</code></li>
+<li>Creating a list of data objects required for running the JAGS model, including case counts, numeric IDs, and the number of unique serotypes and years.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate the data by SeroType and epiyr to get the number of cases </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for each combination. The function complete() ensures all combinations </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># of SeroType and epiyr are represented in the dataset, even those with </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># zero cases.</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>serotype_year_counts <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(SeroType, epiyr, <span class="at">name =</span> <span class="st">"cases"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(SeroType, epiyr, <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">cases =</span> <span class="dv">0</span>))</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the categorical variables SeroType and epiyr into numeric IDs </span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># which are easier to work with in JAGS.</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>serotype_year_counts <span class="ot">&lt;-</span> serotype_year_counts <span class="sc">%&gt;%</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sero_id =</span> <span class="fu">as.integer</span>(<span class="fu">factor</span>(SeroType)),</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">year_id =</span> <span class="fu">as.integer</span>(<span class="fu">factor</span>(epiyr)))</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the data list that will be input into JAGS.</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>jdat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(serotype_year_counts),</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases =</span> serotype_year_counts<span class="sc">$</span>cases,</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">sero_id =</span> serotype_year_counts<span class="sc">$</span>sero_id,</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">year_id =</span> serotype_year_counts<span class="sc">$</span>year_id,</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_sero =</span> <span class="fu">length</span>(<span class="fu">unique</span>(serotype_year_counts<span class="sc">$</span>sero_id)),</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_year =</span> <span class="fu">length</span>(<span class="fu">unique</span>(serotype_year_counts<span class="sc">$</span>year_id))</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Model2.R"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mod &lt;- jags.model(textConnection(jcode), data = jdat, n.chains = 2)</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># update(mod, 1000)  # burn-in</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># samp &lt;- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(samp)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># par(mar = c(2, 2, 2, 2))  # smaller margins</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(samp)</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># # Density plots</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># densplot(samp, main = "Posterior Density for Parameters")</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior_summary &lt;- summary(samp)</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># round(posterior_summary$statistics, 3)  # means, SDs</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># round(posterior_summary$quantiles, 3)   # 2.5%, 50%, 97.5%</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># beta_samples &lt;- as.matrix(samp)[, grep("beta", colnames(as.matrix(samp)))]</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># beta_means &lt;- apply(beta_samples, 2, mean)</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># beta_ci &lt;- apply(beta_samples, 2, quantile, probs = c(0.025, 0.975))</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co"># df &lt;- data.frame(</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   param = colnames(beta_samples),</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   mean = beta_means,</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   lower = beta_ci[1, ],</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   upper = beta_ci[2, ]</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(df, aes(x = param, y = mean)) +</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point() +</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="co">#   coord_flip() +</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Posterior Estimates for Beta", y = "Effect Size", x = "") +</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal()</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co"># # Heatmap</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="co"># # Your original year and serotype info</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="co"># year_seq &lt;- sort(unique(jdat$year_id))  # e.g., 2000:2006</span></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="co"># sero_seq &lt;- 1:jdat$n_sero</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="co"># mean_year &lt;- (length(year_seq) + 1) / 2</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="co"># # Create a dataframe of all serotype-year combinations</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a><span class="co"># pred_grid &lt;- expand.grid(</span></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="co">#   sero = sero_seq,</span></span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   year = year_seq</span></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a><span class="co"># # Predict expected log incidence</span></span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a><span class="co"># pred_grid$log_lambda &lt;- mu_means[pred_grid$sero] +</span></span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a><span class="co">#   beta_means[pred_grid$sero] * (pred_grid$year - mean_year)</span></span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a><span class="co"># # Back-transform to incidence</span></span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="co"># pred_grid$lambda &lt;- exp(pred_grid$log_lambda)</span></span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(pred_grid, aes(x = year, y = factor(sero), fill = lambda)) +</span></span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_tile(color = "white") +</span></span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_fill_viridis_c(name = "Expected\nCases", option = "C") +</span></span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(x = "Year", y = "Serotype", title = "Expected Cases by Year and Serotype") +</span></span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.y = element_text(size = 8))</span></span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(serotype_year_counts, aes(x = epiyr, y = SeroType, fill = cases)) +</span></span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_tile(color = "white") +</span></span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_fill_viridis_c(option = "C", name = "Cases") +</span></span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "IPD Cases by Serotype and Year",</span></span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a><span class="co">#        x = "Year",</span></span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a><span class="co">#        y = "Serotype") +</span></span>
+<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
+<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 45, hjust = 1))</span></span>
+<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a><span class="co"># # Model version</span></span>
+<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a><span class="co"># mean_year &lt;- (max(serotype_year_counts$year_id) + 1) / 2</span></span>
+<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a><span class="co"># # Create a data frame with expected log lambda for each serotype-year</span></span>
+<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a><span class="co"># serotype_year_counts$expected_log_lambda &lt;- mu_means[serotype_year_counts$sero_id] + </span></span>
+<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a><span class="co">#   beta_means[serotype_year_counts$sero_id] * (serotype_year_counts$year_id - mean_year)</span></span>
+<span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a><span class="co"># # Convert to expected cases (lambda)</span></span>
+<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a><span class="co"># serotype_year_counts$expected_cases &lt;- exp(serotype_year_counts$expected_log_lambda)</span></span>
+<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a><span class="co"># # Plot</span></span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(serotype_year_counts, aes(x = epiyr)) +</span></span>
+<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point(aes(y = cases), color = "blue", alpha = 0.5) +</span></span>
+<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_line(aes(y = expected_cases, group = SeroType), color = "red") +</span></span>
+<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a><span class="co">#   facet_wrap(~ SeroType, scales = "free_y") +</span></span>
+<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(y = "Cases", x = "Year", title = "Observed (points) vs Expected (lines) Cases by Serotype") +</span></span>
+<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
+<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 45, hjust = 1))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
