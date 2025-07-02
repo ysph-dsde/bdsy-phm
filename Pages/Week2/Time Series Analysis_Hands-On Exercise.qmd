@@ -817,7 +817,3 @@ Two of the modeling methods identified a decrease of approximately 10% in pneumo
 Depending on the dataset, these three methods may or may not agree to a greater extent.
 :::
 
-## References
-
-::: {#refs}
-:::

@@ -22,7 +22,7 @@ editor: visual
 Real-world analytical problems are often complex, making it difficult to define or derive deterministic solutions. Two common approaches to support complex analytical projects are:
 
 1. Approximating with a known solvable function.
-2. Using stochastic search and optimization, often referred to as Monte Carlo methods.
+2. Using stochastic search and optimization, especially Monte Carlo methods.
 
 While the first approach has many advantages, there are circumstances where approximating a problem with a known distribution is computationally prohibitive, overly reductive, or infeasible. In such cases, we leverage abstract probabilistic and statistical concepts, using stochastic search and optimization to transform randomness into inferential statistics. When applied correctly, these concepts can surprisingly guarantee robust solutions to otherwise unsolvable problems.
 
@@ -67,7 +67,7 @@ The figure on the left shows a state transition diagram for a discrete-time Mark
 
 for all $n$ and for all $x \in \mathcal{X}$. Markov chains have many aspects, but for this application, it is essential to consider the properties of a specific transitional stage denoted by, $\pi = (\pi_i : i \in \mathcal{X})$. The vector $\pi$ consists of non-negative numbers that sum to one and is stationary (or invariant) distribution if $\pi = \pi\mathbf{P}$.
 
-By applying the Chapman-Kolmogorov equations for n-step probabilities $(p_{ij}(m+n) = \sum_k p_{ik}(m) p_{kj}(n))$, we derive that a key characteristic of a stationary distribution $\pi$ for a Markov chain is that it is limiting. This means that, after any number of steps $n$, the distribution remains $\pi$:
+By applying the Chapman-Kolmogorov equations for n-step probabilities, where it is shown that $p_{ij}(m+n) = \sum_k p_{ik}(m) p_{kj}(n)$, we derive that a key characteristic of a stationary distribution $\pi$ for a Markov chain is that it is limiting. This means that, after any number of steps $n$, a distribution that reaches $\pi$ remains $\pi$:
 
 1. Draw $X_0$ from the distribution $\pi$ gives $\mu_0 = \pi$.
 2. Draw $X_1$ from the distribution $\pi$ gives $\mu_1 = \mu_0\mathbf{P} = \pi\mathbf{P} = \pi$.
