@@ -3,29 +3,65 @@ format: html
 editor: visual
 ---
 
+Please note that this page contains numerous links and download buttons, which may take a few minutes to load completely.
+
 ## Course Papers
 
-- [Weinberger and Warren et al_2020_Hierarchical Models](Course Papers/Weinberger and Warren et al_2020_Hierarchical Models.pdf)
-- [Weinberger and Warren et al_2018_Serotype Replacement](Course Papers/Weinberger and Warren et al_2018_Serotype Replacement.pdf)
-- [Joshi and Al-Mamun et al_Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus](Course Papers/Joshi and Al-Mamun et al_Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus.pdf)
-- [Invasive pneumococcal disease_2022 Annual Epidemiological Report](Course Papers/Invasive pneumococcal disease_2022 Annual Epidemiological Report.pdf)
+- Hierarchical Models _Weinberger and Warren et al. 2020_ ([view paper](Course Papers/Weinberger and Warren et al_2020_Hierarchical Models.pdf))
+- Serotype Replacement _Weinberger and Warren et al. 2018_ ([view paper](Course Papers/Weinberger and Warren et al_2018_Serotype Replacement.pdf))
+- Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus _Joshi and Al-Mamun et al. 2020_ ([view paper](Course Papers/Joshi and Al-Mamun et al_Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus.pdf))
+- _2022 Annual Epidemiological Report for Invasive Pneumococcal Disease (IPD)_ ([view paper](Course Papers/Invasive pneumococcal disease_2022 Annual Epidemiological Report.pdf))
 
 ## Lecture Slides
 
 {{< downloadthis "In Class Presentations/Day4.pptx" label="Day 4 Slide Deck" id=download_btn >}} {{< downloadthis "In Class Presentations/Day5.pptx" label="Day 5 Slide Deck" id=download_btn >}}
 
-## Weekly Codespaces
+## Codespaces
 
-{{< downloadthis "bdsy-phm-individual.zip" label="Starter individual project with Week 2 code" id=download_btn >}}
+### Weekly Modules
+
+Please download the codespaces provided for each weekly module release. Note that you may need to adjust the filepath for some references inside the code. It is recommended that you use the starter codespace package, which includes the following:
+
+- An `Rproj` file to set your root directory.
+- An `renv` lockfile.
+- A suggested `.gitignore`.
+- A `README.md` file with directions for using the codespace and guidelines for adding the code to your own GitHub remote repository.
+
+Subsequent weekly releases should be placed inside your root project directory. For instance, if you are using the directory "~/bdsy-phm-individual", place the weekly releases within that directory.
+
+{{< downloadthis "Student Codespaces/bdsy-phm-individual.zip" label="Starter for individual project with Week 2 code" id=download_btn >}}
+
+{{< downloadthis "Student Codespaces/Week 3 Codespace.zip" label="Week 3 codespace" id=download_btn >}}
+
+
+### Project Datasets and Materials
+
+:::{style="margin-left: -1rem;"}
+- Complete Global Pneumococcal Sequencing Project (GPS) Data Viewer and Download ([link to page](https://data-viewer.monocle.sanger.ac.uk/project/gps))
+:::
+
+{{< downloadthis "Student Project Materials/GPS Database Dictionary.xlsx" label="GPS Database Dictionary" id=download_btn >}}
+
+{{< downloadthis "Student Project Materials/Malawi.zip" label="Malawi: raw incidents data, GPS data, and literature papers" id=download_btn >}}
+
+{{< downloadthis "Student Project Materials/Nepal.zip" label="Nepal: raw incidents data, GPS data, and literature papers" id=download_btn >}}
+
+{{< downloadthis "Student Project Materials/Peru.zip" label="Peru: raw incidents data, GPS data, and data dictionary" id=download_btn >}}
+
+:::{style="margin-left: -1rem;"}
+- Peru Epidemiological surveillance of Acute Respiratory Infections (ARI) Data Page ([link to page](https://www.datosabiertos.gob.pe/dataset/vigilancia-epidemiologica-de-infecciones-respiratoiras-agudas-ira))
+:::
 
 ## Templates
 
-{{< downloadthis "BDSY%20Slides%20Template%202025.potx" label="BDSY Slides Template 2025" id=download_btn >}}
+{{< downloadthis "BDSY Slides Template 2025.potx" label="BDSY Slides Template 2025" id=download_btn >}}
 
 
 ## Tips and Advice
 
-[Tips for Effective Presentations](Tips for Effective Presentations.pdf)
+:::{style="margin-left: -1rem;"}
+- Tips for Effective Presentations ([view slides](Tips for Effective Presentations.pdf))
+:::
 
 ::: callout-tip
 ## Research Like a Pro

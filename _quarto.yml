@@ -7,7 +7,7 @@ website:
   page-navigation: true
   back-to-top-navigation: true
   bread-crumbs: false
-  favicon: Images/DSDE-Visuals/DSDE-Social-Media-Profile.png
+  favicon: Images/DSDE-Social-Media-Profile.png
   search: false
   repo-url: https://github.com/ysph-dsde/bdsy-phm
   issue-url: https://github.com/ysph-dsde/bdsy-phm/issues
@@ -18,10 +18,12 @@ website:
         href: Pages/Schedule.qmd
       - text: "Project Materials"
         href: Pages/Materials/Materials.qmd
-      - text: "Time Series"
-        href: Pages/Week2/Time Series Analysis_Hands-On Exercise.qmd
-      - text: "Hierarchical Modeling"
-        href: Pages/Week3/Hierarchical Modeling.qmd
+      - text: "Weekly Modules"
+        menu:
+          - text: "Time Series"
+            href: Pages/Week2/Time Series Analysis_Hands-On Exercise.qmd
+          - text: "Hierarchical Modeling"
+            href: Pages/Week3/Hierarchical Modeling.qmd
     right:
       - text: 2025 BDSY
         href: https://ysph.yale.edu/school-of-public-health/special-programs/big-data-summer-immersion-at-yale/

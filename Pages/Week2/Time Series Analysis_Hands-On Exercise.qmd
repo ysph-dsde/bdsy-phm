@@ -469,7 +469,7 @@ df.pred.its$rr.its.a <- df.pred.its$pred/df.pred.its$pred4.cf.a
 Create the more complicated model option by adding an interaction term involving `vax_intro` and `vax_eval`, keeping both individually and including with an interaction with `index`.
 
 ```{r}
-mod_method1b <- glm.nb(J12_J18_prim~index + month + offset(log.offset) +
+mod_method1b <- glm.nb(J12_J18_prim ~ index + month + offset(log.offset) +
                          # Add the counterfactuals with an interaction term.
                          vax_intro + vax_intro*index +
                          vax_eval + vax_eval*index, data = df)

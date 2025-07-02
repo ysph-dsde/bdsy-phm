@@ -13,13 +13,94 @@ date-format: long
 editor: visual
 ---
 
-## Files
+:::{.callout-important}
+## Page still in progress!!
+:::
 
-**Code:**
-{{< downloadthis "R/MinimalDE.R" label="Hierarchical Modeling Code" id=download_btn >}} {{< downloadthis "R/Model2.R" label="Model Statements" id=download_btn >}}
+## Introduction
 
-**Date:**
-{{< downloadthis "Data/testDE2.csv" label="Data" id=download_btn >}}
+Real-world analytical problems are often complex, making it difficult to define or derive deterministic solutions. Two common approaches to support complex analytical projects are:
+
+1. Approximating with a known solvable function.
+2. Using stochastic search and optimization, often referred to as Monte Carlo methods.
+
+While the first approach has many advantages, there are circumstances where approximating a problem with a known distribution is computationally prohibitive, overly reductive, or infeasible. In such cases, we leverage abstract probabilistic and statistical concepts, using stochastic search and optimization to transform randomness into inferential statistics. When applied correctly, these concepts can surprisingly guarantee robust solutions to otherwise unsolvable problems.
+
+One of these powerful techniques is Markov chain Monte Carlo (MCMC). Random samples generated with MCMC can be used for various purposes, including computing statistical estimates, numerical integrals, and estimating the marginal or joint probabilities of multivariate distributions and densities. Notably, MCMC provides a means to generate samples from joint distributions by utilizing conditional, factorized distributions.
+
+Two common MCMC methods are:
+
+1. Metropolis-Hastings (M-H)
+2. Gibbs sampling
+
+Students are encouraged to explore M-H further on their own by reading the relevant sections of the supporting textbooks listed below. Today, we will focus on Gibbs sampling, as this technique is particularly well-suited for reducing high-dimensional problems into several one-dimensional ones.
+
+:::{.callout-tip}
+## Solid theory supports effective and accurate application!
+
+The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, to help students deepen their theoretical understanding of this week's material. This foundation will aid in generating better analysis in practice.
+
+:::
+
+
+## Distribution Estimation by Particle Sampling
+
+### Recall Markov Chains - A Stochastic Process
+
+This section is drawn from Wasserman, specifically Chapter 23 and 24.
+
+A **stochastic process** $\{X_t : t \in T\}$ is a collection of random variables taken from a **state space**, $\mathcal{X}$, and indexed by an ordered set $T$, which can be interpreted as time. The index set $T$ can be discrete, such as $T = \{0, 1, 2, \dots\}$, or continuous, such as $T = [0, \infty)$. To denote the stochastic nature of $X$, it can be written as $X_t$ or $X(t)$.
+
+
+::: img-float
+![Illustration of state transition diagram for the Markov chain.](Images/Lee and Ni 2012_Figure 1.jpg){style="float: left; position: relative; top: 0px; padding-right: 10px; margin: auto auto auto auto;" width="450"}
+:::
+
+
+A **Markov chain** is a type of stochastic process where the distribution of future states depends only on the current state and not on the sequence of events that preceded it. For example, the outcome for $X_t$ depends only on what the outcome was for $X_{t-1}$. Notice that sometimes, authors with specify that $X$ is a Markov chain stochastic process by writing $X_n$ instead of $X_t$.
+
+The figure on the left shows a state transition diagram for a discrete-time Markov chain with **transition probabilities** $p_{ij} = \mathbb{P}(X_{n+1}= j\ \lvert\ X_n = i)$. Below the diagram is the matrix representation of these interactions, known as the **transition matrix**, $\mathbf{P}$, where each row is a probability mass function. A generalized definition for a Markov chain is given by
+
+\begin{align}
+\mathbb{P}(X_n = x\ \lvert\ X_0, \dots, X_{n-1}) = \mathbb{P}(X_n = x\ \lvert\ X_{n-1})
+\end{align}
+
+for all $n$ and for all $x \in \mathcal{X}$. Markov chains have many aspects, but for this application, it is essential to consider the properties of a specific transitional stage denoted by, $\pi = (\pi_i : i \in \mathcal{X})$. The vector $\pi$ consists of non-negative numbers that sum to one and is stationary (or invariant) distribution if $\pi = \pi\mathbf{P}$.
+
+By applying the Chapman-Kolmogorov equations for n-step probabilities $(p_{ij}(m+n) = \sum_k p_{ik}(m) p_{kj}(n))$, we derive that a key characteristic of a stationary distribution $\pi$ for a Markov chain is that it is limiting. This means that, after any number of steps $n$, the distribution remains $\pi$:
+
+1. Draw $X_0$ from the distribution $\pi$ gives $\mu_0 = \pi$.
+2. Draw $X_1$ from the distribution $\pi$ gives $\mu_1 = \mu_0\mathbf{P} = \pi\mathbf{P} = \pi$.
+3. Draw $X_2$ from the distribution $\pi$ gives $\pi\mathbf{P}^2 = (\pi\mathbf{P})\mathbf{P} = \pi\mathbf{P} = \pi$.
+    
+    $\dots$ etc.
+
+Here, $\mu_n(i) = \mathbb{P}(X_n = i)$ denotes the marginal probability that the chain is in state $i$ at time $n$, while $\mu_0$ represents the **initial distribution**. Once the chain limits to the distribution $\pi$, it will remain in this distribution indefinitely. However, ensuring the process is stationary is not sufficient; it is also important to guarantee that $\pi$ is unique. This uniqueness is guaranteed if the Markov chain is **ergodic**, which must satisfy the following two characteristics:
+
+1. **Aperiodicity:** The states do not get trapped in cycles of fixed length. This means revisiting any state does not happen at regular intervals, ensuring more general behavior. For $d = \text{gcd}\{n\ :\ p_{ii}(n) > 0\}$ then $d(i) = 1$, where gcd means "greatest common divisor".
+2. **Positive Recurrence:** The expected number of steps to return to that state is finite. A Markov chain is positive recurrent if every state is positive recurrent.
+
+If the Markov chain is also **irreducible**, then all states communicate, meaning it is possible to get from any state to any other state, denoted by $i \leftrightarrow j$. Having an irreducible, ergodic Markov chain guarantees that it has a unique stationary distribution, $\pi$.
+
+:::{.callout-warning}
+A Markov chain with a stationary distrubtion does not mean that it converges.
+:::
+
+There is much more to learn about Markov chains beyond what was discussed here, but these fundamental concepts provide a foundation for understanding their use in Monte Carlo methods.
+
+
+### Gibbs Sampling
+
+$\pi$ satisfies **detailed balance** if $\pi_i p_{ij} = \pi_j p_{ji}$, guaranteeing that $\pi$ is a stationary distribution.
+
+
+### Translating Equations to Graphical Models
+
+
+
+
+## Higherarchical Modeling
+
 
 ## Set Up the Environment
 
@@ -27,9 +108,8 @@ editor: visual
 
 The `rjags` package requires [JAGS](https://mcmc-jags.sourceforge.io/) to be installed separately. `rjags` will reference the JAGS `libjags.4.dylib` library file and the `modules-4` directory, which contains seven `*.so` files, such as `bugs.so.` The next steps will walk you through installation, and an optional troubleshooting guide if R cannot find the JAGS file path.
 
-:::{.callout-note}
-This page was developed on a Mac, and so the directions for a PC were not able to be tested.
-:::
+::::: panel-tabset
+## Mac
 
 1.  From [JAGS](https://mcmc-jags.sourceforge.io/), open the download link that will take you to a SourceForge page.
 
@@ -37,37 +117,19 @@ This page was developed on a Mac, and so the directions for a PC were not able t
 
 3.  Open and run the downloaded installer.
 
-4.  **PC ONLY:** You will need to also download the latest version of [RTools](https://cran.r-project.org/bin/windows/Rtools/), which at the time of this writing is RTools 4.5. Add `Rtools` to your `PATH` if it is not done automatically.
+4.  Confirm that the installation is located where we need it to be: `/usr/local/lib/`.
 
     ``` {.bash filename="Command-Line Application"}
-    where make   # Should give the result "C:\Rtools\bin\make.exe"
-    echo %PATH%  # Should give the result "C:\Rtools\bin;C:\Rtools\mingw_64\bin"
+    # Running both should NOT give you "No such file or directory"
+    ls -l /usr/local/lib/libjags.4.dylib
+    ls -l /usr/local/lib/JAGS/modules-4/
     ```
 
-    If this does not give the expected results, you can set the path:
-
-    ``` {.bash filename="Command-Line Application"}
-    # ONLY IF the PATH for Rtools is incorrect.
-    setx PATH "%PATH%;C:\Rtools\bin;C:\Rtools\mingw_64\bin"
-    ```
-
-5.  Confirm that the installation is located where we need it to be.
-
-::::: panel-tabset
-## Mac
-
-The library file and directory need to be in `/usr/local/lib/`.
-
-``` {.bash filename="Command-Line Application"}
-# Running both should NOT give you "No such file or directory"
-ls -l /usr/local/lib/libjags.4.dylib
-ls -l /usr/local/lib/JAGS/modules-4/
-```
 
 ::: {.callout-tip collapse="true"}
 ## If the namespace load failed
 
-Sometimes the installer might place the JAGS program in a different location. For example, if you installed JAGS using Homebrew, then it might have placed the program in the Homebrew library. Depending on how the file path got set differently, you will need to modify the following code accordingly before reinstalling in R.
+Sometimes, the installer might place the JAGS program in a different location. For example, if you installed JAGS using Homebrew, the program might have been placed in the Homebrew library. If the file path differs, you will need to adjust the following code accordingly before reinstalling it in R.
 
 ``` {.bash filename="Command-Line Application"}
 # This example assumes that Homebrew was used
@@ -118,12 +180,36 @@ brew install jags
 
 ## PC
 
-The library file and directory need to be in `C:\Program Files\JAGS\JAGS-4.x\bin`
+:::{.callout-note}
+This page was developed on a Mac, and so the directions for a PC were not able to be tested.
+:::
 
-``` {.bash filename="Command-Line Application"}
-echo %JAGS_HOME%  # Should say "C:\Program Files\JAGS\JAGS-4.x"
-echo %PATH%       # Should say "...;C:\Program Files\JAGS\JAGS-4.x\bin;..."
-```
+1.  From [JAGS](https://mcmc-jags.sourceforge.io/), open the download link that will take you to a SourceForge page.
+
+2.  Download the latest version. At the time of this writing, the current version is JAGS-4.3.2.
+
+3.  Open and run the downloaded installer.
+
+4.  You will need to also download the latest version of [RTools](https://cran.r-project.org/bin/windows/Rtools/), which at the time of this writing is RTools 4.5. Add `Rtools` to your `PATH` if it is not done automatically.
+
+    ``` {.bash filename="Command-Line Application"}
+    where make   # Should give the result "C:\Rtools\bin\make.exe"
+    echo %PATH%  # Should give the result "C:\Rtools\bin;C:\Rtools\mingw_64\bin"
+    ```
+
+    If this does not give the expected results, you can set the path:
+
+    ``` {.bash filename="Command-Line Application"}
+    # ONLY IF the PATH for Rtools is incorrect.
+    setx PATH "%PATH%;C:\Rtools\bin;C:\Rtools\mingw_64\bin"
+    ```
+
+5.  Confirm that the installation is located where we need it to be: `C:\Program Files\JAGS\JAGS-4.x\bin`.
+
+    ``` {.bash filename="Command-Line Application"}
+    echo %JAGS_HOME%  # Should say "C:\Program Files\JAGS\JAGS-4.x"
+    echo %PATH%       # Should say "...;C:\Program Files\JAGS\JAGS-4.x\bin;..."
+    ```
 
 ::: {.callout-tip collapse="true"}
 ## If the namespace load failed
@@ -159,6 +245,8 @@ Sometimes the installer might place the JAGS program in a different location. If
 :::
 :::::
 
+With JAGS installed, we can now proceed with the standard process of installing the packages.
+
 
 ```{r}
 #| eval: FALSE
@@ -168,10 +256,174 @@ renv::restore()   # Download packages and their version saved in the lockfile
 ```
 
 
+```{r}
+#| message: FALSE
+#| warning: FALSE
+
+suppressPackageStartupMessages({
+  library("readr")      # For reading in the data
+  library("tibble")     # For handling tidyverse tibble data classes
+  library("tidyr")      # For tidying data 
+  library("dplyr")      # For data manipulation 
+  library("stringr")    # For string manipulation
+  library("MASS")       # Functions/datasets for statistical analysis
+  library("lubridate")  # For date manipulation
+  library("ggplot2")    # For creating static visualizations
+  library("viridis")    # For color scales in ggplot2
+  library("scales")     # For formatting plots axis
+  library("gridExtra")  # Creates multiple grid-based plots
+  library("rjags")      # For running JAGS (Just Another Gibbs Sampler) models
+  library("coda")       # For analysis of MCMC output from Bayesian models
+})
 
 
+# Function to select "Not In"
+'%!in%' <- function(x,y)!('%in%'(x,y))
+```
 
 
+```{r}
+#| message: FALSE
+#| warning: FALSE
+
+# Read in the cleaned data directly from the instructor's GitHub.
+df <- read_csv("https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/testDE2.csv")
+
+# Summarize aspects and dimentions of our dataset.
+glimpse(df)
+```
+
+- **SeroType:** The serotype of the pathogen.
+- **epiyr:** The epidemiological year of the observation.
+- **cases:** This is a new variable created to represent the count of cases for each serotype and year combination.
+
+
+1. Aggregating the data to count the number of cases for each serotype-year combination.
+2. Ensuring that all possible serotype-year combinations are represented.
+3. Creating numeric IDs for `SeroType` and `epiyr.`
+4. Creating a list of data objects required for running the JAGS model, including case counts, numeric IDs, and the number of unique serotypes and years.
+
+
+```{r}
+# Aggregate the data by SeroType and epiyr to get the number of cases 
+# for each combination. The function complete() ensures all combinations 
+# of SeroType and epiyr are represented in the dataset, even those with 
+# zero cases.
+serotype_year_counts <- df %>%
+  count(SeroType, epiyr, name = "cases") %>%
+  complete(SeroType, epiyr, fill = list(cases = 0))
+
+# Convert the categorical variables SeroType and epiyr into numeric IDs 
+# which are easier to work with in JAGS.
+serotype_year_counts <- serotype_year_counts %>%
+  mutate(sero_id = as.integer(factor(SeroType)),
+         year_id = as.integer(factor(epiyr)))
+
+# Create the data list that will be input into JAGS.
+jdat <- list(
+  N = nrow(serotype_year_counts),
+  cases = serotype_year_counts$cases,
+  sero_id = serotype_year_counts$sero_id,
+  year_id = serotype_year_counts$year_id,
+  n_sero = length(unique(serotype_year_counts$sero_id)),
+  n_year = length(unique(serotype_year_counts$year_id))
+)
+```
+
+```{r}
+source("Model2.R")
+
+# mod <- jags.model(textConnection(jcode), data = jdat, n.chains = 2)
+# update(mod, 1000)  # burn-in
+# samp <- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)
+# 
+# summary(samp)
+```
+
+
+```{r}
+
+# par(mar = c(2, 2, 2, 2))  # smaller margins
+# plot(samp)
+# # Density plots
+# densplot(samp, main = "Posterior Density for Parameters")
+# 
+# posterior_summary <- summary(samp)
+# round(posterior_summary$statistics, 3)  # means, SDs
+# round(posterior_summary$quantiles, 3)   # 2.5%, 50%, 97.5%
+# 
+# beta_samples <- as.matrix(samp)[, grep("beta", colnames(as.matrix(samp)))]
+# beta_means <- apply(beta_samples, 2, mean)
+# beta_ci <- apply(beta_samples, 2, quantile, probs = c(0.025, 0.975))
+# 
+# df <- data.frame(
+#   param = colnames(beta_samples),
+#   mean = beta_means,
+#   lower = beta_ci[1, ],
+#   upper = beta_ci[2, ]
+# )
+# 
+# ggplot(df, aes(x = param, y = mean)) +
+#   geom_point() +
+#   geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+#   coord_flip() +
+#   labs(title = "Posterior Estimates for Beta", y = "Effect Size", x = "") +
+#   theme_minimal()
+# 
+# # Heatmap
+# # Your original year and serotype info
+# year_seq <- sort(unique(jdat$year_id))  # e.g., 2000:2006
+# sero_seq <- 1:jdat$n_sero
+# mean_year <- (length(year_seq) + 1) / 2
+# 
+# # Create a dataframe of all serotype-year combinations
+# pred_grid <- expand.grid(
+#   sero = sero_seq,
+#   year = year_seq
+# )
+
+# # Predict expected log incidence
+# pred_grid$log_lambda <- mu_means[pred_grid$sero] +
+#   beta_means[pred_grid$sero] * (pred_grid$year - mean_year)
+# 
+# # Back-transform to incidence
+# pred_grid$lambda <- exp(pred_grid$log_lambda)
+# 
+# ggplot(pred_grid, aes(x = year, y = factor(sero), fill = lambda)) +
+#   geom_tile(color = "white") +
+#   scale_fill_viridis_c(name = "Expected\nCases", option = "C") +
+#   labs(x = "Year", y = "Serotype", title = "Expected Cases by Year and Serotype") +
+#   theme_minimal() +
+#   theme(axis.text.y = element_text(size = 8))
+# 
+# ggplot(serotype_year_counts, aes(x = epiyr, y = SeroType, fill = cases)) +
+#   geom_tile(color = "white") +
+#   scale_fill_viridis_c(option = "C", name = "Cases") +
+#   labs(title = "IPD Cases by Serotype and Year",
+#        x = "Year",
+#        y = "Serotype") +
+#   theme_minimal() +
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# 
+# # Model version
+# mean_year <- (max(serotype_year_counts$year_id) + 1) / 2
+# 
+# # Create a data frame with expected log lambda for each serotype-year
+# serotype_year_counts$expected_log_lambda <- mu_means[serotype_year_counts$sero_id] + 
+#   beta_means[serotype_year_counts$sero_id] * (serotype_year_counts$year_id - mean_year)
+# 
+# # Convert to expected cases (lambda)
+# serotype_year_counts$expected_cases <- exp(serotype_year_counts$expected_log_lambda)
+# 
+# # Plot
+# ggplot(serotype_year_counts, aes(x = epiyr)) +
+#   geom_point(aes(y = cases), color = "blue", alpha = 0.5) +
+#   geom_line(aes(y = expected_cases, group = SeroType), color = "red") +
+#   facet_wrap(~ SeroType, scales = "free_y") +
+#   labs(y = "Cases", x = "Year", title = "Observed (points) vs Expected (lines) Cases by Serotype") +
+#   theme_minimal() +
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
 
 
