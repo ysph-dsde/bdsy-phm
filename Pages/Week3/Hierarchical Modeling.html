@@ -266,7 +266,7 @@ Page still in progress!!
 <p>Real-world analytical problems are often complex, making it difficult to define or derive deterministic solutions. Two common approaches to support complex analytical projects are:</p>
 <ol type="1">
 <li>Approximating with a known solvable function.</li>
-<li>Using stochastic search and optimization, often referred to as Monte Carlo methods.</li>
+<li>Using stochastic search and optimization, especially Monte Carlo methods.</li>
 </ol>
 <p>While the first approach has many advantages, there are circumstances where approximating a problem with a known distribution is computationally prohibitive, overly reductive, or infeasible. In such cases, we leverage abstract probabilistic and statistical concepts, using stochastic search and optimization to transform randomness into inferential statistics. When applied correctly, these concepts can surprisingly guarantee robust solutions to otherwise unsolvable problems.</p>
 <p>One of these powerful techniques is Markov chain Monte Carlo (MCMC). Random samples generated with MCMC can be used for various purposes, including computing statistical estimates, numerical integrals, and estimating the marginal or joint probabilities of multivariate distributions and densities. Notably, MCMC provides a means to generate samples from joint distributions by utilizing conditional, factorized distributions.</p>
@@ -310,7 +310,7 @@ Solid theory supports effective and accurate application!
 \mathbb{P}(X_n = x\ \lvert\ X_0, \dots, X_{n-1}) = \mathbb{P}(X_n = x\ \lvert\ X_{n-1})
 \end{align}</span></p>
 <p>for all <span class="math inline">n</span> and for all <span class="math inline">x \in \mathcal{X}</span>. Markov chains have many aspects, but for this application, it is essential to consider the properties of a specific transitional stage denoted by, <span class="math inline">\pi = (\pi_i : i \in \mathcal{X})</span>. The vector <span class="math inline">\pi</span> consists of non-negative numbers that sum to one and is stationary (or invariant) distribution if <span class="math inline">\pi = \pi\mathbf{P}</span>.</p>
-<p>By applying the Chapman-Kolmogorov equations for n-step probabilities <span class="math inline">(p_{ij}(m+n) = \sum_k p_{ik}(m) p_{kj}(n))</span>, we derive that a key characteristic of a stationary distribution <span class="math inline">\pi</span> for a Markov chain is that it is limiting. This means that, after any number of steps <span class="math inline">n</span>, the distribution remains <span class="math inline">\pi</span>:</p>
+<p>By applying the Chapman-Kolmogorov equations for n-step probabilities, where it is shown that <span class="math inline">p_{ij}(m+n) = \sum_k p_{ik}(m) p_{kj}(n)</span>, we derive that a key characteristic of a stationary distribution <span class="math inline">\pi</span> for a Markov chain is that it is limiting. This means that, after any number of steps <span class="math inline">n</span>, a distribution that reaches <span class="math inline">\pi</span> remains <span class="math inline">\pi</span>:</p>
 <ol type="1">
 <li><p>Draw <span class="math inline">X_0</span> from the distribution <span class="math inline">\pi</span> gives <span class="math inline">\mu_0 = \pi</span>.</p></li>
 <li><p>Draw <span class="math inline">X_1</span> from the distribution <span class="math inline">\pi</span> gives <span class="math inline">\mu_1 = \mu_0\mathbf{P} = \pi\mathbf{P} = \pi</span>.</p></li>

@@ -237,7 +237,6 @@ window.Quarto = {
   <li><a href="#method-3-extrapolation-based-on-the-pre-vaccine-period" id="toc-method-3-extrapolation-based-on-the-pre-vaccine-period" class="nav-link" data-scroll-target="#method-3-extrapolation-based-on-the-pre-vaccine-period">Method #3: Extrapolation Based on the Pre-Vaccine Period</a></li>
   <li><a href="#compare-the-methods" id="toc-compare-the-methods" class="nav-link" data-scroll-target="#compare-the-methods">Compare the Methods</a></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/Pages/Week2/Time Series Analysis_Hands-On Exercise.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -778,16 +777,16 @@ Warning
 <pre><code># A tibble: 10 × 4
    index date       vax_intro vax_eval
    &lt;dbl&gt; &lt;date&gt;         &lt;dbl&gt;    &lt;dbl&gt;
- 1    12 2005-12-01         0        0
- 2    22 2006-10-01         0        0
- 3    31 2007-07-01         0        0
- 4    36 2007-12-01         0        0
- 5    37 2008-01-01         0        0
- 6    41 2008-05-01         0        0
- 7    71 2010-11-01         1        0
- 8    93 2012-09-01         1        1
- 9   108 2013-12-01         1        1
-10   127 2015-07-01         1        1</code></pre>
+ 1    44 2008-08-01         0        0
+ 2    86 2012-02-01         1        1
+ 3   100 2013-04-01         1        1
+ 4   101 2013-05-01         1        1
+ 5   112 2014-04-01         1        1
+ 6   113 2014-05-01         1        1
+ 7   122 2015-02-01         1        1
+ 8   131 2015-11-01         1        1
+ 9   134 2016-02-01         1        1
+10   142 2016-10-01         1        1</code></pre>
 </div>
 </div>
 <p>In linear modeling, it is common to include interaction terms. These terms allow the model to capture interdependencies between variables, showing how the effect of one variable on the outcome changes depending on the level of another variable. Interaction terms also enable the identification of synergistic effects, where the combined effect of two variables is greater (or less) than the sum of their individual effects&nbsp;<span class="citation" data-cites="MontgomeryC2012"><sup><a href="#ref-MontgomeryC2012" role="doc-biblioref">13</a></sup></span>.</p>
@@ -1105,16 +1104,16 @@ Code Like a Pro
 <pre><code># A tibble: 10 × 4
    date       index  spl1  spl2
    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1 2005-08-01     8     0     0
- 2 2008-08-01    44     0     0
- 3 2008-11-01    47     0     0
- 4 2009-07-01    55     0     0
- 5 2011-11-01    83    16     4
- 6 2012-09-01    93    26    14
- 7 2012-10-01    94    27    15
- 8 2014-09-01   117    50    38
- 9 2014-10-01   118    51    39
-10 2015-06-01   126    59    47</code></pre>
+ 1 2006-06-01    18     0     0
+ 2 2007-09-01    33     0     0
+ 3 2008-08-01    44     0     0
+ 4 2010-03-01    63     0     0
+ 5 2010-06-01    66     0     0
+ 6 2011-08-01    80    13     1
+ 7 2014-05-01   113    46    34
+ 8 2014-07-01   115    48    36
+ 9 2014-11-01   119    52    40
+10 2015-04-01   124    57    45</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1266,16 +1265,16 @@ Number of Fisher Scoring iterations: 1
 <pre><code># A tibble: 10 × 2
    date       J12_J18_prim_pre
    &lt;date&gt;                &lt;dbl&gt;
- 1 2006-02-01               53
- 2 2006-12-01               42
- 3 2007-06-01               35
- 4 2011-06-01               NA
- 5 2011-11-01               NA
- 6 2012-06-01               NA
- 7 2012-09-01               NA
- 8 2012-10-01               NA
- 9 2013-06-01               NA
-10 2016-04-01               NA</code></pre>
+ 1 2005-05-01               62
+ 2 2005-08-01               38
+ 3 2006-04-01               26
+ 4 2011-02-01               NA
+ 5 2011-06-01               NA
+ 6 2012-03-01               NA
+ 7 2012-04-01               NA
+ 8 2013-03-01               NA
+ 9 2013-09-01               NA
+10 2013-10-01               NA</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1390,11 +1389,13 @@ Caution
 <p>Depending on the dataset, these three methods may or may not agree to a greater extent.</p>
 </div>
 </div>
+
+
+
 </section>
 </section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list">
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-isppd_github" class="csl-entry" role="listitem">
 <div class="csl-left-margin">1. </div><div class="csl-right-inline"><a href="https://github.com/DanWeinberger/isppd_workshop2022#">Weinberger, D. M. (2022)</a>.</div>
 </div>
@@ -1434,12 +1435,7 @@ Caution
 <div id="ref-MontgomeryC2012" class="csl-entry" role="listitem">
 <div class="csl-left-margin">13. </div><div class="csl-right-inline">C, D. M., A, E. P. &amp; Vining, G. G. <em><a href="https://www.wiley.com/en-us/Introduction+to+Linear+Regression+Analysis%2C+6th+Edition-p-9781119578727">Introducing to Linear Regression Analysis (6th Ed.)</a></em>. <em>John Wiley and Sons</em> 642 (Wiley Series, 2012).</div>
 </div>
-</div>
-
-
-</section>
-
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
