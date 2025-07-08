@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Market Basket Analysis Walkthrough – Public Health Modeling Group</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../Images/DSDE-Social-Media-Profile.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-05fe91a66cf75bbbb8c9664867fe5124.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ec94259342eb9cdba32b75aa83210fd8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="../site_libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="../site_libs/vis-9.1.0/vis-network.min.js"></script>
+<script src="../site_libs/visNetwork-binding-2.1.2/visNetwork.js"></script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Public Health Modeling Group</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../Pages/Schedule.html"> 
+<span class="menu-text">Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Pages/Materials/Materials.html"> 
+<span class="menu-text">Project Materials</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weekly-modules" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Weekly Modules</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-modules">    
+        <li>
+    <a class="dropdown-item" href="../Pages/Week2/Time Series Analysis_Hands-On Exercise.html">
+ <span class="dropdown-text">Time Series Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../Pages/Week3/Hierarchical Modeling.html">
+ <span class="dropdown-text">Hierarchical Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../Pages/Week4/Market Basket Analysis.html">
+ <span class="dropdown-text">Market Basket Analysis</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://ysph.yale.edu/school-of-public-health/special-programs/big-data-summer-immersion-at-yale/" target="_blank"> 
+<span class="menu-text">2025 BDSY</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#create-some-rules" id="toc-create-some-rules" class="nav-link active" data-scroll-target="#create-some-rules">Create some rules</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/R/market basket example.Rmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Market Basket Analysis Walkthrough</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Market Basket Analysis, aka affinity analysis aka association rules mining is an unsupervised machine learning technique which applies an algorithm (apriori algorithm) to identify association rules in datasets.</p>
+<p>We’ll be applying this algorithm to identify associations in a dataset containing information about cases of perforative acute otitis media in children.</p>
+<p>We’ll start with loading in our packages</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: you might need to specify the source for the arules package:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("arules", repos='http://cran.rstudio.com/')</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"tidyverse"</span>)     <span class="co"># Collection of R packages for data science</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"knitr"</span>)         <span class="co"># For dynamic report generation</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"ggplot2"</span>)       <span class="co"># For creating static visualizations</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"lubridate"</span>)     <span class="co"># For date and time manipulation</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"arules"</span>)        <span class="co"># For mining association rules and frequent itemsets</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"arulesViz"</span>)     <span class="co"># For visualizing association rules</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"plyr"</span>)          <span class="co"># For data manipulation</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"RColorBrewer"</span>)  <span class="co"># For color palettes</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"plotly"</span>)        <span class="co"># For creating interactive web-based graphs</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"httr"</span>)          <span class="co"># For downloading files from URLs</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to select "Not In"</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">'%!in%'</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y)<span class="sc">!</span>(<span class="st">'%in%'</span>(x,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And our dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in the cleaned data directly from the instructor's GitHub.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/pAOM.csv"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pAOM <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 2137 Columns: 10
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (10): PtID, SmokeNum, PtDaycare, SibNum, Pre_Post_PCV13, PCV13_Serotype_...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>We have 2137 rows representing 2137 cases of pAOM. Each row contains information about PtID- study ID of patient SmokeNum- number of smokers in household PtDayCare- did patient attend daycare SibNum- number of siblings in household NumSibDaycare- number of siblings in daycare Pre_Post_PCV13- did the case occur before or after the child could have received PCV13? (PreVacc, PostVacc_yr1-5) PCV13_Serotype_AOM- of pneumococcal pAOM cases, were they from PCV13 serotypes? (VT,NVTs) OtoPathogen- Strep_pneumo,Strep_pyogenes,Haem_inf, Morax_cat, Staph_aur, OthBact, PresViral Carriage1- otopathogens (c_Strep_pneumo,c_Strep_pyogenes,c_Haem_inf, c_Morax_cat, c_Staph_aur, c_None)found in NP carriage Carriage2- additional otopathogens found in NP carriage Carriage3- additional otopathogens found in NP carriage</p>
+<p>Before using our rule mining algorithm, we need to transform data from the data frame format into transactions</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a temporary file</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the data from GitHub and save it to the temporary file</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">GET</span>(url, <span class="fu">write_disk</span>(temp_file, <span class="at">overwrite =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Response [https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/pAOM.csv]
+  Date: 2025-07-08 21:05
+  Status: 200
+  Content-Type: text/plain; charset=utf-8
+  Size: 144 kB
+&lt;ON DISK&gt;  /var/folders/9f/rwy2b8vj3m90x_s1fvx553cn5v3lr9/T//RtmpPS9roV/file118b44ad0be85</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the transactions from the downloaded file</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">read.transactions</span>(temp_file, <span class="at">format =</span> <span class="st">'basket'</span>, <span class="at">sep =</span> <span class="st">','</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">'Description of the transactions'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Description of the transactions"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>transactions as itemMatrix in sparse format with
+ 2138 rows (elements/itemsets/transactions) and
+ 2178 columns (items) and a density of 0.003250036 
+
+most frequent items:
+    c_None No Smokers    Daycare    OthBact  1 Sibling    (Other) 
+      2008       1732       1265       1082        997       8050 
+
+element (itemset/transaction) length distribution:
+sizes
+   5    6    7    8    9   10 
+   3   11 1947  170    6    1 
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  5.000   7.000   7.000   7.079   7.000  10.000 
+
+includes extended item information - examples:
+  labels
+1   0101
+2   0102
+3   0103</code></pre>
+</div>
+</div>
+<p>Let’s see what items occur most frequently:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">itemFrequencyPlot</span>(tr,<span class="at">topN=</span><span class="dv">25</span>,<span class="at">type=</span><span class="st">"absolute"</span>,<span class="at">col=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>,<span class="st">'Pastel2'</span>), <span class="at">main=</span><span class="st">"pAOM rules"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="market-basket-example_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>a relative frequency plot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">itemFrequencyPlot</span>(tr,<span class="at">topN=</span><span class="dv">20</span>,<span class="at">type=</span><span class="st">"relative"</span>,<span class="at">col=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>,<span class="st">'Pastel2'</span>),<span class="at">main=</span><span class="st">"Relative frequency, pAOM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="market-basket-example_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="create-some-rules" class="level2">
+<h2 class="anchored" data-anchor-id="create-some-rules">Create some rules</h2>
+<p>We use the Apriori algorithm from the arules package to look for itemsets and find support for rules</p>
+<p>We pass supp=0.0001 and conf=0.8 to return all the rules have a support of at least 0.1% and confidence of at least 80%.</p>
+<p>We sort the rules by decreasing confidence.</p>
+<p>Here are the rules matching these criteria:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(tr, <span class="at">parameter =</span> <span class="fu">list</span>(<span class="at">supp=</span><span class="fl">0.001</span>, <span class="at">conf=</span><span class="fl">0.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Apriori
+
+Parameter specification:
+ confidence minval smax arem  aval originalSupport maxtime support minlen
+        0.8    0.1    1 none FALSE            TRUE       5   0.001      1
+ maxlen target  ext
+     10  rules TRUE
+
+Algorithmic control:
+ filter tree heap memopt load sort verbose
+    0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+
+Absolute minimum support count: 2 
+
+set item appearances ...[0 item(s)] done [0.00s].
+set transactions ...[2178 item(s), 2138 transaction(s)] done [0.00s].
+sorting and recoding items ... [31 item(s)] done [0.00s].
+creating transaction tree ... done [0.00s].
+checking subsets of size 1 2 3 4 5 6 7 done [0.00s].
+writing ... [4093 rule(s)] done [0.00s].
+creating S4 object  ... done [0.00s].</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">sort</span>(rules, <span class="at">by=</span><span class="st">'confidence'</span>, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>set of 4093 rules
+
+rule length distribution (lhs + rhs):sizes
+   1    2    3    4    5    6    7 
+   2   50  433 1366 1576  621   45 
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.00    4.00    5.00    4.59    5.00    7.00 
+
+summary of quality measures:
+    support           confidence        coverage             lift         
+ Min.   :0.001403   Min.   :0.8000   Min.   :0.001403   Min.   :  0.8518  
+ 1st Qu.:0.001871   1st Qu.:0.8913   1st Qu.:0.001871   1st Qu.:  1.0287  
+ Median :0.003274   Median :1.0000   Median :0.003274   Median :  1.0647  
+ Mean   :0.013357   Mean   :0.9468   Mean   :0.014793   Mean   :  3.3443  
+ 3rd Qu.:0.008887   3rd Qu.:1.0000   3rd Qu.:0.009354   3rd Qu.:  1.4648  
+ Max.   :0.939195   Max.   :1.0000   Max.   :1.000000   Max.   :106.9000  
+     count        
+ Min.   :   3.00  
+ 1st Qu.:   4.00  
+ Median :   7.00  
+ Mean   :  28.56  
+ 3rd Qu.:  19.00  
+ Max.   :2008.00  
+
+mining info:
+ data ntransactions support confidence
+   tr          2138   0.001        0.8
+                                                           call
+ apriori(data = tr, parameter = list(supp = 0.001, conf = 0.8))</code></pre>
+</div>
+</div>
+<p>We have 4093 rules, most are 4 or 5 items long. Let’s inspect the top 10 rules according to these parameters (supp 0.001, conf =0.8).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     lhs                        rhs            support     confidence
+[1]  {3 Smoker}              =&gt; {c_None}       0.001870907 1         
+[2]  {c_Haem_inf}            =&gt; {PreVacc}      0.007015903 1         
+[3]  {c_Strep_pneumo}        =&gt; {PreVacc}      0.009354537 1         
+[4]  {c_Morax_cat}           =&gt; {PreVacc}      0.022450889 1         
+[5]  {NVT}                   =&gt; {Strep_pneumo} 0.027595884 1         
+[6]  {VT}                    =&gt; {Strep_pneumo} 0.047708138 1         
+[7]  {PostVacc_yr1}          =&gt; {c_None}       0.062675398 1         
+[8]  {3 Smoker, 3+ Sibling}  =&gt; {c_None}       0.001403181 1         
+[9]  {Morax_cat, No Sibings} =&gt; {No Smokers}   0.001403181 1         
+[10] {Morax_cat, No Sibings} =&gt; {c_None}       0.001403181 1         
+     coverage    lift      count
+[1]  0.001870907  1.064741   4  
+[2]  0.007015903  2.679198  15  
+[3]  0.009354537  2.679198  20  
+[4]  0.022450889  2.679198  48  
+[5]  0.027595884 13.279503  59  
+[6]  0.047708138 13.279503 102  
+[7]  0.062675398  1.064741 134  
+[8]  0.001403181  1.064741   3  
+[9]  0.001403181  1.234411   3  
+[10] 0.001403181  1.064741   3  </code></pre>
+</div>
+</div>
+<p>And plot these top 10 rules, or 20, or 50.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>topRules <span class="ot">&lt;-</span> rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>To reduce overplotting, jitter is added! Use jitter = 0 to prevent jitter.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="market-basket-example_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>now with more colors</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rules, <span class="at">method =</span> <span class="st">"two-key plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>To reduce overplotting, jitter is added! Use jitter = 0 to prevent jitter.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="market-basket-example_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>now how about a network graph?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method=</span><span class="st">"graph"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="market-basket-example_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now let’s see an interactive map:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method=</span><span class="st">"graph"</span>, <span class="at">engine =</span> <span class="st">'interactive'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"grouped"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="market-basket-example_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"graph"</span>,  <span class="at">engine =</span> <span class="st">"htmlwidget"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="visNetwork html-widget html-fill-item" id="htmlwidget-54976800b9bf5c18d69c" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-54976800b9bf5c18d69c">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"label":["3 Smoker","3+ Sibling","c_Haem_inf","c_Morax_cat","c_None","c_Strep_pneumo","Morax_cat","No Sibings","No Smokers","NVT","PostVacc_yr1","PreVacc","Strep_pneumo","VT","rule 1","rule 2","rule 3","rule 4","rule 5","rule 6","rule 7","rule 8","rule 9","rule 10"],"group":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1.755725190839695,10.06870229007633,13.84732824427481,35.00763358778626,43.32061068702289,75.81679389312977,100,1,1,1],"color":["#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#EEDCDC","#EEC9C9","#EEC9C9","#EEC9C9","#EE1B1B","#EE1B1B","#EEDCDC","#EEDCDC","#EED9D9","#EEDCDC"],"title":["3 Smoker","3+ Sibling","c_Haem_inf","c_Morax_cat","c_None","c_Strep_pneumo","Morax_cat","No Sibings","No Smokers","NVT","PostVacc_yr1","PreVacc","Strep_pneumo","VT","<B>[1]<\/B><BR><B>{3 Smoker}<\/B><BR>&nbsp;&nbsp; => <B>{c_None}<\/B><BR><BR>support = 0.00187<BR>confidence = 1<BR>coverage = 0.00187<BR>lift = 1.06<BR>count = 4<BR>order = 2<BR>id = 1","<B>[2]<\/B><BR><B>{c_Haem_inf}<\/B><BR>&nbsp;&nbsp; => <B>{PreVacc}<\/B><BR><BR>support = 0.00702<BR>confidence = 1<BR>coverage = 0.00702<BR>lift = 2.68<BR>count = 15<BR>order = 2<BR>id = 2","<B>[3]<\/B><BR><B>{c_Strep_pneumo}<\/B><BR>&nbsp;&nbsp; => <B>{PreVacc}<\/B><BR><BR>support = 0.00935<BR>confidence = 1<BR>coverage = 0.00935<BR>lift = 2.68<BR>count = 20<BR>order = 2<BR>id = 3","<B>[4]<\/B><BR><B>{c_Morax_cat}<\/B><BR>&nbsp;&nbsp; => <B>{PreVacc}<\/B><BR><BR>support = 0.0225<BR>confidence = 1<BR>coverage = 0.0225<BR>lift = 2.68<BR>count = 48<BR>order = 2<BR>id = 4","<B>[5]<\/B><BR><B>{NVT}<\/B><BR>&nbsp;&nbsp; => <B>{Strep_pneumo}<\/B><BR><BR>support = 0.0276<BR>confidence = 1<BR>coverage = 0.0276<BR>lift = 13.3<BR>count = 59<BR>order = 2<BR>id = 5","<B>[6]<\/B><BR><B>{VT}<\/B><BR>&nbsp;&nbsp; => <B>{Strep_pneumo}<\/B><BR><BR>support = 0.0477<BR>confidence = 1<BR>coverage = 0.0477<BR>lift = 13.3<BR>count = 102<BR>order = 2<BR>id = 6","<B>[7]<\/B><BR><B>{PostVacc_yr1}<\/B><BR>&nbsp;&nbsp; => <B>{c_None}<\/B><BR><BR>support = 0.0627<BR>confidence = 1<BR>coverage = 0.0627<BR>lift = 1.06<BR>count = 134<BR>order = 2<BR>id = 7","<B>[8]<\/B><BR><B>{3 Smoker,<BR>&nbsp;&nbsp;3+ Sibling}<\/B><BR>&nbsp;&nbsp; => <B>{c_None}<\/B><BR><BR>support = 0.0014<BR>confidence = 1<BR>coverage = 0.0014<BR>lift = 1.06<BR>count = 3<BR>order = 3<BR>id = 8","<B>[9]<\/B><BR><B>{Morax_cat,<BR>&nbsp;&nbsp;No Sibings}<\/B><BR>&nbsp;&nbsp; => <B>{No Smokers}<\/B><BR><BR>support = 0.0014<BR>confidence = 1<BR>coverage = 0.0014<BR>lift = 1.23<BR>count = 3<BR>order = 3<BR>id = 9","<B>[10]<\/B><BR><B>{Morax_cat,<BR>&nbsp;&nbsp;No Sibings}<\/B><BR>&nbsp;&nbsp; => <B>{c_None}<\/B><BR><BR>support = 0.0014<BR>confidence = 1<BR>coverage = 0.0014<BR>lift = 1.06<BR>count = 3<BR>order = 3<BR>id = 10"],"shape":["box","box","box","box","box","box","box","box","box","box","box","box","box","box","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"x":[-0.7276417001129445,-0.3540042681616641,0.3634683407888584,0.02403283711105275,-0.5934295117685054,0.9345727181020431,-0.492765361691037,-0.1693569673046311,-0.1410744835677237,0.3980905459967394,-1,0.4335949936678107,0.7520401677366999,1,-0.8089241724884134,0.3627999756928426,0.7281481006947377,0.2431958786084467,0.545857940104129,0.8915128513037891,-0.858520674990528,-0.4791297640859886,-0.2589339459632581,-0.4176348640013841],"y":[-0.5598387138978558,-0.6796872750057578,-0.06685776171650837,-1,-0.06440281045809271,-0.4437479721069038,0.6009390734447901,0.4825998439160486,1,0.8984623397592875,0.3389514736097214,-0.6257009683103525,0.5436679249917755,0.1015264279590904,-0.3065117796551432,-0.3336698134567694,-0.6109092633762435,-0.855789647495796,0.70168823052116,0.3235942943107062,0.1123938485033411,-0.4106508146262802,0.7589926248611356,0.2872092171316132]},"edges":{"from":[1,3,6,4,10,14,11,1,2,7,8,7,8,15,16,17,18,19,20,21,22,23,24],"to":[15,16,17,18,19,20,21,22,22,23,23,24,24,5,12,12,12,13,13,5,5,9,5],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":false},"physics":{"stabilization":false},"interaction":{"hover":true,"zoomSpeed":1}},"groups":["1","2"],"width":null,"height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);","highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>now a matrix plot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"matrix"</span>, <span class="at">engine =</span> <span class="st">"3d"</span>, <span class="at">measure =</span> <span class="st">"lift"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Itemsets in Antecedent (LHS)
+[1] "{NVT}"                  "{VT}"                   "{c_Haem_inf}"          
+[4] "{c_Strep_pneumo}"       "{c_Morax_cat}"          "{Morax_cat,No Sibings}"
+[7] "{3 Smoker}"             "{PostVacc_yr1}"         "{3 Smoker,3+ Sibling}" 
+Itemsets in Consequent (RHS)
+[1] "{c_None}"       "{No Smokers}"   "{PreVacc}"      "{Strep_pneumo}"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="market-basket-example_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>moving back a bit, let’s check a different set of rules:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>rules_b <span class="ot">&lt;-</span> <span class="fu">apriori</span>(tr, <span class="at">parameter =</span> <span class="fu">list</span>(<span class="at">supp=</span><span class="fl">0.01</span>, <span class="at">conf=</span><span class="fl">1.0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Apriori
+
+Parameter specification:
+ confidence minval smax arem  aval originalSupport maxtime support minlen
+          1    0.1    1 none FALSE            TRUE       5    0.01      1
+ maxlen target  ext
+     10  rules TRUE
+
+Algorithmic control:
+ filter tree heap memopt load sort verbose
+    0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+
+Absolute minimum support count: 21 
+
+set item appearances ...[0 item(s)] done [0.00s].
+set transactions ...[2178 item(s), 2138 transaction(s)] done [0.00s].
+sorting and recoding items ... [26 item(s)] done [0.00s].
+creating transaction tree ... done [0.00s].
+checking subsets of size 1 2 3 4 5 6 done [0.00s].
+writing ... [115 rule(s)] done [0.00s].
+creating S4 object  ... done [0.00s].</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>rules_b <span class="ot">&lt;-</span> <span class="fu">sort</span>(rules_b, <span class="at">by=</span><span class="st">'confidence'</span>, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rules_b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>set of 115 rules
+
+rule length distribution (lhs + rhs):sizes
+ 2  3  4  5  6 
+ 4 30 51 26  4 
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  2.000   3.000   4.000   3.965   5.000   6.000 
+
+summary of quality measures:
+    support          confidence    coverage            lift       
+ Min.   :0.01029   Min.   :1    Min.   :0.01029   Min.   : 1.065  
+ 1st Qu.:0.01169   1st Qu.:1    1st Qu.:0.01169   1st Qu.: 1.065  
+ Median :0.01403   Median :1    Median :0.01403   Median : 1.065  
+ Mean   :0.01759   Mean   :1    Mean   :0.01759   Mean   : 6.355  
+ 3rd Qu.:0.02035   3rd Qu.:1    3rd Qu.:0.02035   3rd Qu.:13.280  
+ Max.   :0.06268   Max.   :1    Max.   :0.06268   Max.   :13.280  
+     count       
+ Min.   : 22.00  
+ 1st Qu.: 25.00  
+ Median : 30.00  
+ Mean   : 37.61  
+ 3rd Qu.: 43.50  
+ Max.   :134.00  
+
+mining info:
+ data ntransactions support confidence
+   tr          2138    0.01          1
+                                                        call
+ apriori(data = tr, parameter = list(supp = 0.01, conf = 1))</code></pre>
+</div>
+</div>
+<p>these more stringent criteria mean that we’re down to 115 rules to sort through.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(rules_b[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     lhs                          rhs            support    confidence
+[1]  {c_Morax_cat}             =&gt; {PreVacc}      0.02245089 1         
+[2]  {NVT}                     =&gt; {Strep_pneumo} 0.02759588 1         
+[3]  {VT}                      =&gt; {Strep_pneumo} 0.04770814 1         
+[4]  {PostVacc_yr1}            =&gt; {c_None}       0.06267540 1         
+[5]  {c_Morax_cat, No Daycare} =&gt; {PreVacc}      0.01169317 1         
+[6]  {c_Morax_cat, OthBact}    =&gt; {PreVacc}      0.01216090 1         
+[7]  {c_Morax_cat, Daycare}    =&gt; {PreVacc}      0.01028999 1         
+[8]  {c_Morax_cat, No Smokers} =&gt; {PreVacc}      0.01917680 1         
+[9]  {NVT, PreVacc}            =&gt; {Strep_pneumo} 0.01075772 1         
+[10] {No Daycare, NVT}         =&gt; {Strep_pneumo} 0.01169317 1         
+     coverage   lift      count
+[1]  0.02245089  2.679198  48  
+[2]  0.02759588 13.279503  59  
+[3]  0.04770814 13.279503 102  
+[4]  0.06267540  1.064741 134  
+[5]  0.01169317  2.679198  25  
+[6]  0.01216090  2.679198  26  
+[7]  0.01028999  2.679198  22  
+[8]  0.01917680  2.679198  41  
+[9]  0.01075772 13.279503  23  
+[10] 0.01169317 13.279503  25  </code></pre>
+</div>
+</div>
+<p>try to look for only for rules associated with Strep_pneumo</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pneumo.rules<span class="ot">&lt;-</span><span class="fu">sort</span>(<span class="fu">subset</span>(rules_b, <span class="at">subset =</span> rhs <span class="sc">%in%</span> <span class="st">"Strep_pneumo"</span>))</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(pneumo.rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     lhs                          rhs            support    confidence
+[1]  {VT}                      =&gt; {Strep_pneumo} 0.04770814 1         
+[2]  {c_None, VT}              =&gt; {Strep_pneumo} 0.04443405 1         
+[3]  {No Smokers, VT}          =&gt; {Strep_pneumo} 0.03648269 1         
+[4]  {c_None, No Smokers, VT}  =&gt; {Strep_pneumo} 0.03367633 1         
+[5]  {Daycare, VT}             =&gt; {Strep_pneumo} 0.02946679 1         
+[6]  {NVT}                     =&gt; {Strep_pneumo} 0.02759588 1         
+[7]  {c_None, NVT}             =&gt; {Strep_pneumo} 0.02666043 1         
+[8]  {c_None, Daycare, VT}     =&gt; {Strep_pneumo} 0.02666043 1         
+[9]  {PreVacc, VT}             =&gt; {Strep_pneumo} 0.02385407 1         
+[10] {Daycare, No Smokers, VT} =&gt; {Strep_pneumo} 0.02338634 1         
+     coverage   lift    count
+[1]  0.04770814 13.2795 102  
+[2]  0.04443405 13.2795  95  
+[3]  0.03648269 13.2795  78  
+[4]  0.03367633 13.2795  72  
+[5]  0.02946679 13.2795  63  
+[6]  0.02759588 13.2795  59  
+[7]  0.02666043 13.2795  57  
+[8]  0.02666043 13.2795  57  
+[9]  0.02385407 13.2795  51  
+[10] 0.02338634 13.2795  50  </code></pre>
+</div>
+</div>
+<p>now let’s plot the pneumo rules:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pneumo.rules, <span class="at">measure =</span> <span class="fu">c</span>(<span class="st">"support"</span>, <span class="st">"confidence"</span>), <span class="at">shading =</span> <span class="st">"lift"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>To reduce overplotting, jitter is added! Use jitter = 0 to prevent jitter.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="market-basket-example_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pneumo.rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">method=</span><span class="st">"graph"</span>, <span class="at">engine =</span> <span class="st">'interactive'</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pneumo.rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">method=</span> <span class="st">"paracoord"</span>, <span class="at">control=</span><span class="fu">list</span>(<span class="at">reorder=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="market-basket-example_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>reference: <a href="http://www.rdatamining.com/examples/association-rules">R and Data Mining</a> there are other cool market basket analysis visualizations here:</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/ysph-dsde\.github\.io\/bdsy-phm\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>This site was built on a ysph-dsde.github.io page. <br> It was rendered using Quarto (v 1.6.3) and theme <a href="https://github.com/thomaspark/bootswatch">flatly</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://canvas.yale.edu/login" target="_blank">
+<p>Course Canvas</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:BDSY2025PublicHealthModeling@yale.edu">
+      <i class="bi bi-envelope" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://ysph.yale.edu/" target="_blank">
+      <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://ysph.yale.edu/public-health-research-and-practice/research-centers-and-initiatives/public-health-data-science-and-data-equity/" target="_blank">
+      <i class="bi bi-people-fill" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/R/market basket example.Rmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ Office Hours 12:30 PM - 1:30 PM 
+<br>
+60 College St., Room 206 or Zoom upon request
+<br>
+Walk-In: Tuesday or Wednesday
+<br>
+<a href="https://outlook.office.com/book/BigDataSummerImmersionatYaleBDSYOfficeHours@yale.edu/?ismsaljsauthenabled">Book Appointment</a>: Monday or Thursday
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

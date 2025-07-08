@@ -2,26 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ysph-dsde.github.io/bdsy-phm/Pages/Schedule.html</loc>
-    <lastmod>2025-06-27T13:33:28.192Z</lastmod>
+    <lastmod>2025-07-03T18:59:11.921Z</lastmod>
   </url>
   <url>
-    <loc>https://ysph-dsde.github.io/bdsy-phm/Pages/Week2/Time Series Analysis_Hands-On Exercise.html</loc>
-    <lastmod>2025-07-02T19:16:13.563Z</lastmod>
+    <loc>https://ysph-dsde.github.io/bdsy-phm/Pages/Week4/Market Basket Analysis.html</loc>
+    <lastmod>2025-07-08T20:38:44.605Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ysph-dsde.github.io/bdsy-phm/Pages/Materials/Materials.html</loc>
+    <lastmod>2025-07-08T21:03:07.318Z</lastmod>
   </url>
   <url>
     <loc>https://ysph-dsde.github.io/bdsy-phm/Pages/Materials/Student Codespaces/bdsy-phm-individual/Week2/Time Series Analysis_Hands-On Exercise.html</loc>
     <lastmod>2025-06-27T13:17:08.951Z</lastmod>
   </url>
   <url>
-    <loc>https://ysph-dsde.github.io/bdsy-phm/index.html</loc>
-    <lastmod>2025-06-27T13:26:04.892Z</lastmod>
+    <loc>https://ysph-dsde.github.io/bdsy-phm/R/market basket example.html</loc>
+    <lastmod>2025-07-08T20:35:56.457Z</lastmod>
   </url>
   <url>
-    <loc>https://ysph-dsde.github.io/bdsy-phm/Pages/Materials/Materials.html</loc>
-    <lastmod>2025-07-02T19:25:35.388Z</lastmod>
+    <loc>https://ysph-dsde.github.io/bdsy-phm/index.html</loc>
+    <lastmod>2025-07-03T18:56:23.490Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ysph-dsde.github.io/bdsy-phm/Pages/Materials/Student Codespaces/Week 4 Code.html</loc>
+    <lastmod>2025-07-08T20:35:56.457Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ysph-dsde.github.io/bdsy-phm/Pages/Week2/Time Series Analysis_Hands-On Exercise.html</loc>
+    <lastmod>2025-07-08T20:41:27.410Z</lastmod>
   </url>
   <url>
     <loc>https://ysph-dsde.github.io/bdsy-phm/Pages/Week3/Hierarchical Modeling.html</loc>
-    <lastmod>2025-07-02T18:46:16.535Z</lastmod>
+    <lastmod>2025-07-08T18:09:10.615Z</lastmod>
   </url>
 </urlset>

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Stephanie Perniciaro, PhD, MPH">
 <meta name="author" content="Shelby Golden, MS">
-<meta name="dcterms.date" content="2025-06-30">
+<meta name="dcterms.date" content="2025-07-01">
 
 <title>Hierarchical Modeling – Public Health Modeling Group</title>
 <style>
@@ -57,7 +57,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -72,7 +92,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-05fe91a66cf75bbbb8c9664867fe5124.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-2000b66f7733e4f0e9888b98da55e90a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-ec94259342eb9cdba32b75aa83210fd8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -166,11 +186,15 @@ window.Quarto = {
     <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-modules">    
         <li>
     <a class="dropdown-item" href="../../Pages/Week2/Time Series Analysis_Hands-On Exercise.html">
- <span class="dropdown-text">Time Series</span></a>
+ <span class="dropdown-text">Time Series Analysis</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../Pages/Week3/Hierarchical Modeling.html">
  <span class="dropdown-text">Hierarchical Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Pages/Week4/Market Basket Analysis.html">
+ <span class="dropdown-text">Market Basket Analysis</span></a>
   </li>  
     </ul>
   </li>
@@ -200,13 +224,15 @@ window.Quarto = {
   <li><a href="#distribution-estimation-by-particle-sampling" id="toc-distribution-estimation-by-particle-sampling" class="nav-link" data-scroll-target="#distribution-estimation-by-particle-sampling">Distribution Estimation by Particle Sampling</a>
   <ul class="collapse">
   <li><a href="#recall-markov-chains---a-stochastic-process" id="toc-recall-markov-chains---a-stochastic-process" class="nav-link" data-scroll-target="#recall-markov-chains---a-stochastic-process">Recall Markov Chains - A Stochastic Process</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#a-brief-interlude-in-probabilistic-graphical-modeling" id="toc-a-brief-interlude-in-probabilistic-graphical-modeling" class="nav-link" data-scroll-target="#a-brief-interlude-in-probabilistic-graphical-modeling">A Brief Interlude in Probabilistic Graphical Modeling</a></li>
   <li><a href="#gibbs-sampling" id="toc-gibbs-sampling" class="nav-link" data-scroll-target="#gibbs-sampling">Gibbs Sampling</a></li>
-  <li><a href="#translating-equations-to-graphical-models" id="toc-translating-equations-to-graphical-models" class="nav-link" data-scroll-target="#translating-equations-to-graphical-models">Translating Equations to Graphical Models</a></li>
   </ul></li>
-  <li><a href="#higherarchical-modeling" id="toc-higherarchical-modeling" class="nav-link" data-scroll-target="#higherarchical-modeling">Higherarchical Modeling</a></li>
+  <li><a href="#hierarchical-modeling" id="toc-hierarchical-modeling" class="nav-link" data-scroll-target="#hierarchical-modeling">Hierarchical Modeling</a></li>
   <li><a href="#set-up-the-environment" id="toc-set-up-the-environment" class="nav-link" data-scroll-target="#set-up-the-environment">Set Up the Environment</a>
   <ul class="collapse">
   <li><a href="#installing-jags" id="toc-installing-jags" class="nav-link" data-scroll-target="#installing-jags">Installing JAGS</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary">Data Dictionary</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/Pages/Week3/Hierarchical Modeling.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -236,7 +262,7 @@ BDSY 2025 - Public Health Modeling Project</div><p></p>
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 30, 2025</p>
+      <p class="date">July 1, 2025</p>
     </div>
   </div>
   
@@ -266,16 +292,11 @@ Page still in progress!!
 <p>Real-world analytical problems are often complex, making it difficult to define or derive deterministic solutions. Two common approaches to support complex analytical projects are:</p>
 <ol type="1">
 <li>Approximating with a known solvable function.</li>
-<li>Using stochastic search and optimization, especially Monte Carlo methods.</li>
+<li>Using stochastic search and optimization, such as Monte Carlo methods.</li>
 </ol>
-<p>While the first approach has many advantages, there are circumstances where approximating a problem with a known distribution is computationally prohibitive, overly reductive, or infeasible. In such cases, we leverage abstract probabilistic and statistical concepts, using stochastic search and optimization to transform randomness into inferential statistics. When applied correctly, these concepts can surprisingly guarantee robust solutions to otherwise unsolvable problems.</p>
-<p>One of these powerful techniques is Markov chain Monte Carlo (MCMC). Random samples generated with MCMC can be used for various purposes, including computing statistical estimates, numerical integrals, and estimating the marginal or joint probabilities of multivariate distributions and densities. Notably, MCMC provides a means to generate samples from joint distributions by utilizing conditional, factorized distributions.</p>
-<p>Two common MCMC methods are:</p>
-<ol type="1">
-<li>Metropolis-Hastings (M-H)</li>
-<li>Gibbs sampling</li>
-</ol>
-<p>Students are encouraged to explore M-H further on their own by reading the relevant sections of the supporting textbooks listed below. Today, we will focus on Gibbs sampling, as this technique is particularly well-suited for reducing high-dimensional problems into several one-dimensional ones.</p>
+<p>While the first approach has many advantages, there are circumstances where approximating a problem with a known distribution is computationally prohibitive, overly reductive, or infeasible. In such cases, we leverage abstract probabilistic and statistical concepts to transform randomness into inferential statistics. When applied correctly, these concepts can surprisingly guarantee robust solutions to otherwise unsolvable problems.</p>
+<p>One of these powerful techniques is Markov chain Monte Carlo (MCMC). Random samples generated with MCMC can be used for various purposes, including computing statistical estimates, numerical integrals, and estimating the marginal or joint probabilities of multivariate distributions and densities&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. Notably, MCMC provides a means to generate samples from joint distributions by utilizing conditional, factorized distributions&nbsp;<span class="citation" data-cites="Spall2005 Koller2009"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</p>
+<p>Two common MCMC implementations are Metropolis-Hastings (M-H) and Gibbs sampling, with the latter being more accurately considered a special case of the former. Students are encouraged to explore M-H further on their own by reading the relevant sections of the supporting textbooks listed below. Today, we will focus on Gibbs sampling and only discuss M-H where it supports this learning, as Gibbs sampling is particularly well-suited for reducing high-dimensional problems into several one-dimensional ones&nbsp;<span class="citation" data-cites="Spall2005 Wasserman2004"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -287,6 +308,24 @@ Solid theory supports effective and accurate application!
 </div>
 <div class="callout-body-container callout-body">
 <p>The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, to help students deepen their theoretical understanding of this week’s material. This foundation will aid in generating better analysis in practice.</p>
+<ul>
+<li><a href="https://link.springer.com/book/10.1007/978-0-387-21736-9"><em>All of Statistics: A Concise Course in Statistical Inference</em></a> by Larry Wasserman&nbsp;<span class="citation" data-cites="Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>
+<ul>
+<li>Chapter 23 <em>Probability Redux: Stochastic Processes</em> Section 23.2 <em>Markov chains</em>.</li>
+<li>Chapter 24 <em>Simulation Methods</em>. Section 24.4 <em>MCMC Part I: The Metropolis-Hastings Algorithm</em> and Section 24.5 <em>MCMC Part II: Different Flavors</em>.</li>
+</ul></li>
+<li><a href="https://www.jhuapl.edu/isso/"><em>Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control</em></a> by James C. Spall&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>
+<ul>
+<li>Chapter 16 <em>Markov chain Monte Carlo</em> Section 16.1 <em>Background</em>, Section 16.2 <em>Metropolis-Hastings Algorithm</em>, and Section 16.3 <em>Gibbs Sampling</em>.</li>
+</ul></li>
+<li><a href="https://mitpress.mit.edu/9780262013192/probabilistic-graphical-models/"><em>Probabilistic Graphical Models - Principles and Techniques</em></a> by Koller and Friedman&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>
+<ul>
+<li>Chapter 3 <em>The Bayesian Network Representation</em> Section 3.1 <em>Exploiting Independence Properties</em>, Section 3.2 <em>Bayesian Networks</em>, and Section 3.3 <em>Independencies in Graphs</em>.</li>
+<li>Chapter 4 Unirected <em>Graphical Models</em>.</li>
+<li>Chapter 12 <em>Particle-Based Approximate Inference</em> Section 12.3 <em>Markov Chain Monte Carlo Methods</em>.</li>
+<li>Chapter 17 <em>Parameter Estimation</em> Section 17.5 <em>Learning Models with Shared Parameters</em>.</li>
+</ul></li>
+</ul>
 </div>
 </div>
 </section>
@@ -294,13 +333,13 @@ Solid theory supports effective and accurate application!
 <h2 class="anchored" data-anchor-id="distribution-estimation-by-particle-sampling">Distribution Estimation by Particle Sampling</h2>
 <section id="recall-markov-chains---a-stochastic-process" class="level3">
 <h3 class="anchored" data-anchor-id="recall-markov-chains---a-stochastic-process">Recall Markov Chains - A Stochastic Process</h3>
-<p>This section is drawn from Wasserman, specifically Chapter 23 and 24.</p>
+<p>This section summarizes relevant concepts presented in Wasserman’s <em>All of Statistics</em>, specifically Chapter 23&nbsp;<span class="citation" data-cites="Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>. Unless otherwise noted, the content comes from Wasserman’s <em>All of Statistics</em>.</p>
 <p>A <strong>stochastic process</strong> <span class="math inline">\{X_t : t \in T\}</span> is a collection of random variables taken from a <strong>state space</strong>, <span class="math inline">\mathcal{X}</span>, and indexed by an ordered set <span class="math inline">T</span>, which can be interpreted as time. The index set <span class="math inline">T</span> can be discrete, such as <span class="math inline">T = \{0, 1, 2, \dots\}</span>, or continuous, such as <span class="math inline">T = [0, \infty)</span>. To denote the stochastic nature of <span class="math inline">X</span>, it can be written as <span class="math inline">X_t</span> or <span class="math inline">X(t)</span>.</p>
 <div class="img-float">
 <div class="quarto-figure quarto-figure-center" style="float: left; position: relative; top: 0px; padding-right: 10px; margin: auto auto auto auto;">
 <figure class="figure">
 <p><img src="Images/Lee and Ni 2012_Figure 1.jpg" class="img-fluid figure-img" width="450"></p>
-<figcaption>Illustration of state transition diagram for the Markov chain.</figcaption>
+<figcaption>Illustration of state transition diagram for the Markov chain&nbsp;<span class="citation" data-cites="Lee2012"><sup><a href="#ref-Lee2012" role="doc-biblioref">4</a></sup></span>.</figcaption>
 </figure>
 </div>
 </div>
@@ -333,21 +372,175 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A Markov chain with a stationary distrubtion does not mean that it converges.</p>
+<p>A Markov chain with a stationary distribution does not mean that it converges.</p>
 </div>
 </div>
 <p>There is much more to learn about Markov chains beyond what was discussed here, but these fundamental concepts provide a foundation for understanding their use in Monte Carlo methods.</p>
 </section>
+<section id="motivation" class="level3">
+<h3 class="anchored" data-anchor-id="motivation">Motivation</h3>
+<p>Traditionally, Monte Carlo methods rely on independent sampling. However, MCMC methods rely on a dependent Markov sequence with a limiting distribution that corresponds to the distribution we aim to model&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. MCMC has wide-ranging applications and is frequently used in Bayesian inference. However, it is also generalizable to other problems that are not Bayesian in nature&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
+<p>To help you understand the connection between Monte Carlo sampling methods and estimating complex analytical solutions using Markov chains, let’s first explore the motivation: initially within the commonly exemplified Bayesian framework, and then in a general sense. Consider the following scenario provided by Wasserman in the context of Bayesian inference where we have a process that generates the random vector <span class="math inline">X</span>&nbsp;<span class="citation" data-cites="Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>. We have the prior distribution <span class="math inline">f(\theta)</span> with respect to parameter <span class="math inline">\theta</span> and data <span class="math inline">\mathbf{X} = (X_1, \dots, X_n)</span> with a posterior density</p>
+<p><span class="math display">
+f(\theta\ \lvert\ \mathbf{X}) = \frac{\mathcal{L}(\theta)\ f(\theta)}{\int \mathcal{L}(\theta)\ f(\theta)\ d\theta}
+</span></p>
+<p>where the denominator is the normalizing constant, here denoted by <span class="math inline">c</span>. The mean of the posterior is <span class="math display">\begin{align*}
+\bar{\theta} &amp;= \int \theta\ f(\theta\ \lvert\ \mathbf{X})\ d\theta \\
+&amp;= \frac{1}{c} \int \theta\ \mathcal{L}(\theta)\ f(\theta)\ d\theta
+\end{align*}</span></p>
+<p>If the parameter space is multidimensional, i.e., <span class="math inline">\boldsymbol{\theta} = (\theta_1, \dots, \theta_k)</span>, but we are only interested in one component, say <span class="math inline">\theta_1</span>, then the marginal posterior density of <span class="math inline">\theta_1</span> is defined as <span class="math display">
+f(\theta_1\ \lvert\ \mathbf{X}) = \int\int\cdots\int f(\theta_1, \dots, \theta_k\ \lvert\ \mathbf{X})\ d\theta_2 \cdots\ d\theta_k
+</span></p>
+<p>As can easily be seen, it might not always be feasible to calculate this outcome directly. Generally speaking, we have a random vector <span class="math inline">\mathbf{X}</span> and we wish to compute <span class="math inline">E[f(\mathbf{X})]</span>&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. If the random vector is continuous and associated with the probability density <span class="math inline">p(\boldsymbol{x})</span>, then we want to calculate <span class="math display">
+E[f(\mathbf{X})] = \int f(\boldsymbol{x})\ p(\boldsymbol{x})\ d\boldsymbol{x}
+</span></p>
+<p>The density <span class="math inline">p(\boldsymbol{x})</span> is often referred to as the <strong>target density</strong>, representing the distribution of the random variables that are of interest in our study&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Markov chains are typically reserved for discrete outcomes. However, general applications of MCMC can be used for discrete, continuous, or hybrid outcomes. In this context, Markov chains can be applied to any type of distribution&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
+</div>
+</div>
+<p>Standard Monte Carlo methods aim to draw <span class="math inline">n</span> independent, identically distributed (i.i.d.) samples of <span class="math inline">\mathbf{X}</span> directly from <span class="math inline">p(\boldsymbol{x})</span>, but this is also not always feasible&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. Simple random generation methods require specific restrictions to ensure a solution or might be computationally inefficient in high-dimensional problems. For example, the adaptation of the accept-reject method from <em>Monte Carlo Statistical Methods</em> by Robert and Casella, called adaptive rejection sampling, is restricted to densities that are log-concave and has computational power requirements that are proportional to the fifth power of <span class="math inline">\text{dim}(\mathbf{X})</span>&nbsp;<span class="citation" data-cites="Spall2005 Robert2004"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Robert2004" role="doc-biblioref">5</a></sup></span>.</p>
+<p>Canonical Monte Carlo approaches are more restrictive than is necessary to estimate <span class="math inline">E[f(\mathbf{X})]</span>. Leveraging Markov chain-based schemes avoids the necessity of sampling directly from <span class="math inline">p(\boldsymbol{x})</span>; instead, dependent sequences with a limiting distribution of <span class="math inline">p(\boldsymbol{x})</span> are used&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
+<p>Recall that in the previous section, we showed that a Markov chain that is irreducible and ergodic is guaranteed to have a unique stationary distribution, <span class="math inline">\pi</span>&nbsp;<span class="citation" data-cites="Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>. This is a consequence of the ergodic theorem, which guarantees that the normalized sum below will approach the mean of <span class="math inline">f(\mathbf{X})</span>, with convergence in mean square (m.s.) or almost surely (a.s.) as <span class="math inline">n \rightarrow \infty</span> for any fixed <span class="math inline">M</span>&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
+<p><span class="math display">
+\frac{1}{n-M} \sum_{k = M+1}^n\ f(\mathbf{X}_k)
+</span></p>
+<p>Here, <span class="math inline">M</span> is referred to as the “burn-in” period. We know that the dependence of <span class="math inline">\mathbf{X}_k</span> on early states, say <span class="math inline">\mathbf{X}_0, \mathbf{X}_1, \dots, \mathbf{X}_M</span>, for bounded <span class="math inline">M &lt; \infty</span>, disappears as <span class="math inline">k \rightarrow \infty</span>&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. With sufficient burn-in, we achieve the ergodic average that stabilizes at <span class="math inline">\pi</span>, and when executed correctly, <span class="math inline">\pi</span> equals the target density to within a scalar value&nbsp;<span class="citation" data-cites="Wasserman2004 Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Types of Convergence
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This excerpt summarizes Spall’s <em>Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control</em> Appendix C.2 Convergence Theory&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
+<p>Finite-sampled stochastic algorithms are often intractable, justifying the focus on the behavior of stochastic processes in their limit. The type of convergence properties a process has informs us about the scenarios where it is appropriate to apply the theory in practice and provides insight into non-limiting behaviors. Convergence for stochastic algorithms is probabilistic and characterized by measure-theoretic concepts, often classified into the following four types:</p>
+<p><span class="math display">
+\gdef\norm#1{\left\lVert#1\right\rVert}
+</span></p>
+<p><strong>Convergence almost surely:</strong> The sequence of random vectors <span class="math inline">\mathbf{X}_k \rightarrow \mathbf{X}</span> a.s. (or with probability 1)</p>
+<p><span class="math display">
+P\left(\omega \in \Omega \ : \ \lim_{k \rightarrow \infty}\ \norm{\mathbf{X}_k(\omega) - \mathbf{X}(\omega)} = 0\right) = 1
+</span></p>
+<p><strong>Convergence in probability:</strong> The sequence of random vectors <span class="math inline">\mathbf{X}_k \rightarrow \mathbf{X}</span> in pr.</p>
+<p><span class="math display">
+\lim_{k \rightarrow \infty} P\left(\omega \in \Omega \ : \ \norm{\mathbf{X}_k(\omega) - \mathbf{X}(\omega)} \geq c\right) = 0\ \ \ \text{ for any } c &gt; 0
+</span></p>
+<p><strong>Convergence in mean square:</strong> The sequence of random vectors <span class="math inline">\mathbf{X}_k \rightarrow \mathbf{X}</span> in m.s.</p>
+<p><span class="math display">
+\lim_{k \rightarrow \infty} E\left(\norm{\mathbf{X}_k(\omega) - \mathbf{X}(\omega)}^2\right) = 0
+</span></p>
+<p><strong>Convergence in distribution:</strong> The sequence of random vectors <span class="math inline">\mathbf{X}_k \rightarrow \mathbf{X}</span> in m.s.</p>
+<p><span class="math display">
+\lim_{k \rightarrow \infty} F_{\mathbf{X}_k}(\boldsymbol{x}) = F_{\mathbf{X}}(\boldsymbol{x})\ \ \ \text{ at every point } \boldsymbol{x} \text{ where } F_{\mathbf{X}}(\boldsymbol{x}) \text{ is continuous.}
+</span></p>
+<p>where <span class="math inline">\norm{\cdot}</span> denotes any valid norm, i.e., the Euclidean norm <span class="math inline">\norm{\boldsymbol{x}} = \sqrt{\sum_i x_i^2}</span>, and <span class="math inline">x_i</span> is the <span class="math inline">i^{th}</span> component of the vector <span class="math inline">\boldsymbol{x}</span>.</p>
+</div>
+</div>
+</div>
+<p>In the next section, we will show how Gibbs sampling produces the correct mean, computed with respect to our target density <span class="math inline">p(\boldsymbol{x})</span>. In summary, we have thus far introduced the basic concepts around Markov chains that simplify random sampling from conditional distributions, which are guaranteed to converge if irreducible and ergodic. With the appropriate burn-in, <span class="math inline">M</span>, we can ensure the ergodic average stabilizes at <span class="math inline">\pi</span>. We now want to show that Gibbs sampling is capable of producing a stabilized limiting distribution, <span class="math inline">\pi</span>, that is proportional to our target density <span class="math inline">p(\boldsymbol{x})</span>.</p>
+</section>
+<section id="a-brief-interlude-in-probabilistic-graphical-modeling" class="level3">
+<h3 class="anchored" data-anchor-id="a-brief-interlude-in-probabilistic-graphical-modeling">A Brief Interlude in Probabilistic Graphical Modeling</h3>
+<p>The concept of Gibbs sampling was introduced by Geman and Geman in their paper <em>Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images</em>&nbsp;<span class="citation" data-cites="Geman1984 Bishop2006 Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Geman1984" role="doc-biblioref">6</a>,<a href="#ref-Bishop2006" role="doc-biblioref">7</a></sup></span>. In their work, they identified the equivalence between Markov random fields and the Gibbs distribution, also known as the Boltzmann distribution, which had been previously used in physical chemistry to relate the probability of a system’s state to its energy and temperature&nbsp;<span class="citation" data-cites="Geman1984 gibbs_dist"><sup><a href="#ref-Geman1984" role="doc-biblioref">6</a>,<a href="#ref-gibbs_dist" role="doc-biblioref">8</a></sup></span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Josiah Gibbs: Yale’s First Engineering Ph.D.&nbsp;and Chair of Mathematical Physics
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Gibbs sampling is named after the American mechanical engineer and scientist, Josiah Willard Gibbs, who received the first Ph.D.&nbsp;in engineering in the United States in 1863 from Yale University. He was also appointed the first chair of mathematical physics in the United States at Yale, and contributed to many areas in physics, chemistry, and mathematics. Gibbs is credited with laying the foundation for the field of physical chemistry&nbsp;<span class="citation" data-cites="josiah_gibbs Bishop2006"><sup><a href="#ref-Bishop2006" role="doc-biblioref">7</a>,<a href="#ref-josiah_gibbs" role="doc-biblioref">9</a></sup></span>.</p>
+</div>
+</div>
+<p>Fundamentally, this is why Gibbs sampling has a natural intuition tied to graphical modeling, a broader subject that we will only lightly touch upon in this week’s concept. Some sources attempt to explain Gibbs sampling outside of the graphical model framework, but the more comprehensive ones will acknowledge this connection. It is beyond our scope to bring students entirely up to speed with graphical theory, so additional reading has been provided earlier to help bridge this gap if readers find any of the content too advanced.</p>
+<p>In practice, especially in medical diagnosis problems, there may be hundreds of attributes that contribute to the joint probability distribution for a given disease&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>. Furthermore, some of these distributions may overlap or have similarities with those of other diseases, making them challenging to separate using standard probabilistic approaches. Probabilistic graphical models are graph-based representations of variable interactions, which can help to succinctly represent these interactions in digestible pieces despite their high dimensionality&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</p>
+<p>More impressively, graphical modeling encodes interaction attributes such as independencies, factorization, pathways, and message propagation. This not only provides an intuitive understanding of complex interactions but also allows for the exploitation of these features for inference and efficient computation&nbsp;<span class="citation" data-cites="Koller2009 Bishop2006"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a>,<a href="#ref-Bishop2006" role="doc-biblioref">7</a></sup></span>. Shown below are two fundamental ways in which variables and their relationships with one another can be represented: a Bayesian network, also referred to as a Directed Graph, and a Markov network, also known as an Undirected Graph.</p>
+<div class="quarto-figure quarto-figure-center" style="float: none; display: block; margin-left: auto; margin-right: auto; width: 90%;">
+<figure class="figure">
+<p><img src="Images/Probabilistic Graphical Models by Koller and Friedman_Modified Figure 1.1.png" class="img-fluid figure-img"></p>
+<figcaption>Modified version of Figure 1.1 from <em>Probabilistic Graphical Models</em> by Koller and Friedman&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</figcaption>
+</figure>
+</div>
+<p>The key concept exemplified by the figure above is independence properties. These can differ for the same graph depending on whether the relationships between variables are defined as directed or undirected, but ultimately allow for factorization representing these independence assertions. The notation differences for factorized joint distributions, shown at the bottom of the figure, are used to differentiate the types of dependency structures implied by the graph itself.</p>
+<p>By definition, the Markov network factorization is a Gibbs distribution parameterized by the set of factors <span class="math inline">\Phi = {\phi(A, B), \phi(B, C), \phi(C, D), \phi(A, D)}</span> with the normalizing constant called the partition function</p>
+<p><span class="math display">
+Z = \sum_{X_1, \dots, X_n}\ \tilde{P}_{\Phi}(X_1, \dots, X_n)
+</span> where <span class="math inline">\tilde{P}_{\Phi}</span> represents the joint distribution factorized into conditional probabilities based on its independencies&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Factor <span class="math inline">\neq</span> Marginal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A factor is one contribution to the overall joint distribution, while a marginal represents a distribution where at least one variable from the joint has been summed or integrated out&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</p>
+</div>
+</div>
+<p>Although we have discussed Markov chains earlier and provided the explicit definition of a Gibbs distribution in the context of probabilistic graphical modeling, this does not imply that Gibbs sampling is exclusively applicable to undirected graphs&nbsp;<span class="citation" data-cites="Bishop2006"><sup><a href="#ref-Bishop2006" role="doc-biblioref">7</a></sup></span>. How the differences affect Gibbs sampling is discussed in the next section.</p>
+</section>
 <section id="gibbs-sampling" class="level3">
 <h3 class="anchored" data-anchor-id="gibbs-sampling">Gibbs Sampling</h3>
-<p><span class="math inline">\pi</span> satisfies <strong>detailed balance</strong> if <span class="math inline">\pi_i p_{ij} = \pi_j p_{ji}</span>, guaranteeing that <span class="math inline">\pi</span> is a stationary distribution.</p>
+<p>In the M-H algorithm, we start with a <strong>proposed distribution</strong>, <span class="math inline">q(\cdot\ \lvert x)</span>, from which we can sample, but which is not directly the target distribution, <span class="math inline">p(\boldsymbol{x})</span>. In many cases, it may be chosen arbitrarily, as long as its limiting behaviors converge to the target distribution&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. For MCMC conducted using the M-H algorithm to work, we need to ensure <span class="math inline">\pi</span> satisfies detailed balance, where the probability of transitioning from state <span class="math inline">i</span> to <span class="math inline">j</span> must be equal to the probability of the reverse transition when multiplied by their respective stationary distribution probabilities&nbsp;<span class="citation" data-cites="Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>.</p>
+<p><span class="math display">
+\pi_i p_{ij} = \pi_j p_{ji}
+</span></p>
+<p>At each step in the algorithm, a candidate point is drawn from the proposal distribution, denoted using the random variable <span class="math inline">\mathbf{W}</span>. Assuming that this proposal distribution satisfies detailed balance and is a superset of the points for the target distribution (ensuring they are fully supported), then candidate draws are kept or discarded with probability <span class="math inline">\rho(\mathbf{X}_k, \mathbf{W})</span>&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span></p>
+<p><span class="math display">
+\rho(\boldsymbol{x}, \boldsymbol{w}) = \min\left\{\frac{p(\boldsymbol{w})}{p(\boldsymbol{x})} \frac{q(\boldsymbol{x}\ \lvert\ \boldsymbol{w})}{q(\boldsymbol{w}\ \lvert\ \boldsymbol{x})},\ 1\right\}
+</span></p>
+<p>If a candidate point is accepted, then <span class="math inline">\mathbf{X}_{k+1} = \mathbf{W}</span>; otherwise, <span class="math inline">\mathbf{X}_{k+1} = \mathbf{X}_k</span>&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When samples from the Markov chain start to resemble the target distribution, it is said to be “mixing well”&nbsp;<span class="citation" data-cites="Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>. Tweaking the parameters used in the proposed distribution to support good mixing is not always straightforward and may require some trial-and-error troubleshooting; refer to example 24.10 from Wasserman’s <em>All of Statistics</em> for an illustration of this.</p>
+</div>
+</div>
+<p>Gibbs sampling is much like M-H, but it is a special case where the proposal distribution comes directly from the conditional factorizations of <span class="math inline">p(\boldsymbol{x})</span> itself. In a sense, it can be thought of as <span class="math inline">m</span> M-H algorithms working together, where each proposed distribution is one conditional factorization of <span class="math inline">p(\boldsymbol{x})</span>&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. In this context, <span class="math inline">m</span> represents the number of random variables, each having its own conditional distribution for sampling. Consider the following scenario from Spall where we have a distribution <span class="math inline">p_{X,Y,Z}(\cdot)</span> that we wish to sample from:</p>
+<ol type="1">
+<li>Start with an initial guess for <span class="math inline">Y</span> and <span class="math inline">Z</span> and sample from <span class="math inline">p_{X \mid Y_0, Z_0}(x \mid Y_0, Z_0)</span> to generate <span class="math inline">X_1</span>.</li>
+<li>Accept the outcome from the previous step and sample from <span class="math inline">p_{Y \mid X_1, Z_0}(y \mid X_1, Z_0)</span> to generate <span class="math inline">Y_1</span>.</li>
+<li>Accept the outcome from the previous step and sample from <span class="math inline">p_{Z \mid X_1, Y_1}(z \mid X_1, Y_1)</span> to generate <span class="math inline">Z_1</span>.</li>
+<li>Repeat the process until you have <span class="math inline">n-1</span> values for <span class="math inline">X</span> and <span class="math inline">n</span> values for <span class="math inline">Y</span> and <span class="math inline">Z</span>.</li>
+</ol>
+<p>At the end of this process, you will have produced the <strong>Gibbs sequence</strong>. For the example above, we produce:</p>
+<p><span class="math display">
+Y_0, Z_0;\ X_1, Y_1, Z_1;\ X_2, Y_2, Z_2;\ \dots; X_n, Y_n, Z_n
+</span></p>
+<p>Because we are drawing from the conditioned factors of the target distribution, this makes Gibbs sampling less generalizable than M-H, but it comes with advantageous trade-offs. For instance, drawing directly from the target distribution itself ensures that detailed balance is already satisfied, and the algorithm is expected to be more efficient because the new point is always accepted&nbsp;<span class="citation" data-cites="Spall2005 Bishop2006"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Bishop2006" role="doc-biblioref">7</a></sup></span>.</p>
+<p>Gibbs sampling is inherently suited to address multivariate problems because it breaks a high-dimensional vector into lower-dimensional component blocks&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. At each step of the algorithm, the proposal distribution for the <span class="math inline">i^{th}</span> element of <span class="math inline">\mathbf{X}</span> is the conditional distribution of that variable given the recent value it and all other variables in the distribution were assigned in the previous step. The process iterates over all variables and conditional statements until it is possible to compute the ergodic average. In their limit, the samples come from the joint multivariate distribution, and each sampling has a distribution that approaches its respective marginal from the joint.</p>
+<p>Gibbs sequence</p>
 </section>
-<section id="translating-equations-to-graphical-models" class="level3">
-<h3 class="anchored" data-anchor-id="translating-equations-to-graphical-models">Translating Equations to Graphical Models</h3>
 </section>
-</section>
-<section id="higherarchical-modeling" class="level2">
-<h2 class="anchored" data-anchor-id="higherarchical-modeling">Higherarchical Modeling</h2>
+<section id="hierarchical-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="hierarchical-modeling">Hierarchical Modeling</h2>
 </section>
 <section id="set-up-the-environment" class="level2">
 <h2 class="anchored" data-anchor-id="set-up-the-environment">Set Up the Environment</h2>
@@ -373,7 +566,7 @@ Warning
 </div></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -382,7 +575,7 @@ If the namespace load failed
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Sometimes, the installer might place the JAGS program in a different location. For example, if you installed JAGS using Homebrew, the program might have been placed in the Homebrew library. If the file path differs, you will need to adjust the following code accordingly before reinstalling it in R.</p>
 <div class="code-with-filename">
@@ -488,7 +681,7 @@ Note
 </div></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -497,7 +690,7 @@ If the namespace load failed
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Sometimes the installer might place the JAGS program in a different location. If this happens, you can set the file path in the command line application as follows and retry installing the package through R.</p>
 <ol type="1">
@@ -538,12 +731,21 @@ If the namespace load failed
 </div>
 </div>
 </div>
-<p>With JAGS installed, we can now proceed with the standard process of installing the packages.</p>
+<p>With JAGS installed, we can now proceed with the standard process of installing the necessary packages. If you have not done so already, you will need to initialize the project’s <code>renv</code> lockfile to ensure that the same package versions are installed in the project’s local package library.</p>
 <div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>RStudio</strong></pre>
+</div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()      <span class="co"># Initialize the project     </span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()   <span class="co"># Download packages and their version saved in the lockfile</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
 <div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>RStudio</strong></pre>
+</div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"readr"</span>)      <span class="co"># For reading in the data</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"tibble"</span>)     <span class="co"># For handling tidyverse tibble data classes</span></span>
@@ -564,68 +766,77 @@ If the namespace load failed
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to select "Not In"</span></span>
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="st">'%!in%'</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y)<span class="sc">!</span>(<span class="st">'%in%'</span>(x,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+<p>To demonstrate hierarchical modeling using Gibbs sampling to estimate the distribution, we are going to examine the data and results from <em>Potential Impact of Higher-Valency Pneumococcal Conjugate Vaccines Among Adults in Different Localities in Germany</em> by Ellingson et al.&nbsp;The data comes from surveillance for IPD conducted by German National Reference Center for Streptococci (GRNCS), which collects voluntarily reported microbial diagnostic lab results and is expected to account for 50% of all IPD in Germany. Serotyping is done by GNRCS using the samples provided by these laboratories, and incidences are reported as cases per 100,000 using the age-specific population in Germany in 2018&nbsp;<span class="citation" data-cites="Ellingson2023"><sup><a href="#ref-Ellingson2023" role="doc-biblioref">10</a></sup></span>.</p>
+<div class="scrollable-output">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in the cleaned data directly from the instructor's GitHub.</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/testDE2.csv"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize aspects and dimentions of our dataset.</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the variable names included in the dataset.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "...1"                             "Sequencial.number"               
+ [3] "Study"                            "Number"                          
+ [5] "Inclusion"                        "DateOfIsolation"                 
+ [7] "DateOfBirth"                      "AgeInYears"                      
+ [9] "AgeinMonths"                      "Postleitzahl.patient"            
+[11] "Zip"                              "Federal.state.patient"           
+[13] "Residence.patient"                "Country.patient"                 
+[15] "SeroType"                         "Strain.identification...Genus"   
+[17] "Strain.identification...Species"  "Pneumonia"                       
+[19] "MD.Amoxicillin"                   "AmoxicillinSNS"                  
+[21] "MD.Cefotaxime"                    "CefotaximeSNS"                   
+[23] "MD.Chloramphenicol"               "ChloramphenicolSNS"              
+[25] "MD.Clindamycin"                   "ClindamycinSNS"                  
+[27] "MD.Erythromycin"                  "ErythromycinSNS"                 
+[29] "MD.Levofloxacin"                  "LevofloxaxinSNS"                 
+[31] "MD.Penicillin"                    "PenicillinSNS"                   
+[33] "MD.Tetracyclin"                   "TetracyclineSNS"                 
+[35] "MD.Trimetoprim.Sulfamethoxazole"  "Sulfamethoxazole.trimethoprimSNS"
+[37] "MD.Vancomycin"                    "VancomycinSNS"                   
+[39] "date"                             "year"                            
+[41] "month"                            "epiyr"                           
+[43] "agec"                             "vt"                              
+[45] "vaxperiod"                        "zip2"                            
+[47] "indic"                           </code></pre>
+</div>
+</div>
+</div>
+<p>The dataset includes a large amount of information that is not required for our analysis today. We will, therefore, focus only on the variables used in the hierarchical model itself.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize aspects and dimentions of our dataset.</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df[, <span class="fu">c</span>(<span class="dv">39</span><span class="sc">:</span><span class="dv">42</span>, <span class="dv">45</span>, <span class="dv">8</span>, <span class="dv">15</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 17,653
-Columns: 47
-$ ...1                             &lt;dbl&gt; 4, 7, 8, 9, 10, 11, 17, 18, 19, 20, 2…
-$ Sequencial.number                &lt;dbl&gt; 2465, 2470, 2472, 2473, 2474, 2475, 2…
-$ Study                            &lt;chr&gt; "PS", "PS", "PS", "PS", "PS", "PS", "…
-$ Number                           &lt;chr&gt; "4399", "4402", "4404", "4405", "4406…
-$ Inclusion                        &lt;chr&gt; "yes", "yes", "yes", "yes", "yes", "y…
-$ DateOfIsolation                  &lt;chr&gt; "15-01-03", "15-01-03", "15-01-03", "…
-$ DateOfBirth                      &lt;chr&gt; "1/3/1962", "16-12-39", "20-02-25", "…
-$ AgeInYears                       &lt;dbl&gt; 40, 63, 77, 74, 84, 89, 79, 53, 73, 4…
-$ AgeinMonths                      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ Postleitzahl.patient             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ Zip                              &lt;chr&gt; "0", "0", "0", "0", "0", "0", "0", "0…
-$ Federal.state.patient            &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ Residence.patient                &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ Country.patient                  &lt;chr&gt; "Deutschland", "Deutschland", "Deutsc…
-$ SeroType                         &lt;chr&gt; "1", "3", "4", "19F", "14", "7F", "7C…
-$ Strain.identification...Genus    &lt;chr&gt; "Streptococcus", "Streptococcus", "St…
-$ Strain.identification...Species  &lt;chr&gt; "pneumoniae", "pneumoniae", "pneumoni…
-$ Pneumonia                        &lt;chr&gt; "no", "no", "no", "yes", "no", "no", …
-$ MD.Amoxicillin                   &lt;dbl&gt; 0.015, 0.030, 0.015, 0.060, 0.030, 0.…
-$ AmoxicillinSNS                   &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
-$ MD.Cefotaxime                    &lt;dbl&gt; 0.015, 0.015, 0.015, 0.030, 0.015, 0.…
-$ CefotaximeSNS                    &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
-$ MD.Chloramphenicol               &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ ChloramphenicolSNS               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ MD.Clindamycin                   &lt;dbl&gt; 0.060, 0.060, 0.060, 0.060, 0.060, 0.…
-$ ClindamycinSNS                   &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
-$ MD.Erythromycin                  &lt;dbl&gt; 0.12, 0.06, 0.06, 0.06, 4.00, 0.06, 0…
-$ ErythromycinSNS                  &lt;chr&gt; "S", "S", "S", "S", "NS", "S", "S", "…
-$ MD.Levofloxacin                  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ LevofloxaxinSNS                  &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ MD.Penicillin                    &lt;dbl&gt; 0.015, 0.015, 0.015, 0.060, 0.015, 0.…
-$ PenicillinSNS                    &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
-$ MD.Tetracyclin                   &lt;dbl&gt; 0.25, 0.25, 0.12, 16.00, 0.12, 0.25, …
-$ TetracyclineSNS                  &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
-$ MD.Trimetoprim.Sulfamethoxazole  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ Sulfamethoxazole.trimethoprimSNS &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ MD.Vancomycin                    &lt;dbl&gt; 0.12, 0.25, 0.25, 0.12, 0.12, 0.25, 0…
-$ VancomycinSNS                    &lt;chr&gt; "S", "S", "S", "S", "S", "S", "S", "S…
-$ date                             &lt;date&gt; 2003-01-15, 2003-01-15, 2003-01-15, …
-$ year                             &lt;dbl&gt; 2003, 2003, 2003, 2003, 2003, 2003, 2…
-$ month                            &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-$ epiyr                            &lt;dbl&gt; 2002, 2002, 2002, 2002, 2002, 2002, 2…
-$ agec                             &lt;dbl&gt; 4, 5, 5, 5, 5, 5, 5, 4, 5, 4, 4, 5, 5…
-$ vt                               &lt;dbl&gt; 2, 6, 1, 1, 1, 2, 0, 5, 1, 1, 2, 0, 1…
-$ vaxperiod                        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-$ zip2                             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-$ indic                            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</code></pre>
+Columns: 7
+$ date       &lt;date&gt; 2003-01-15, 2003-01-15, 2003-01-15, 2003-01-15, 2003-01-15…
+$ year       &lt;dbl&gt; 2003, 2003, 2003, 2003, 2003, 2003, 2003, 2003, 2003, 2003,…
+$ month      &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ epiyr      &lt;dbl&gt; 2002, 2002, 2002, 2002, 2002, 2002, 2002, 2002, 2002, 2002,…
+$ vaxperiod  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ AgeInYears &lt;dbl&gt; 40, 63, 77, 74, 84, 89, 79, 53, 73, 42, 50, 69, 71, 72, 40,…
+$ SeroType   &lt;chr&gt; "1", "3", "4", "19F", "14", "7F", "7C", "12F", "4", "4", "5…</code></pre>
 </div>
 </div>
+</section>
+<section id="data-dictionary" class="level3">
+<h3 class="anchored" data-anchor-id="data-dictionary">Data Dictionary</h3>
+<p>This paper did not explicitly describe each variable in a “Data Dictionary”; therefore, the following was assembled based on the context and methods provided in the paper, other like papers by the same authors, and its supplementary materials&nbsp;<span class="citation" data-cites="Ellingson2023 Perniciaro2022"><sup><a href="#ref-Ellingson2023" role="doc-biblioref">10</a>,<a href="#ref-Perniciaro2022" role="doc-biblioref">11</a></sup></span>.</p>
 <ul>
-<li><strong>SeroType:</strong> The serotype of the pathogen.</li>
-<li><strong>epiyr:</strong> The epidemiological year of the observation.</li>
-<li><strong>cases:</strong> This is a new variable created to represent the count of cases for each serotype and year combination.</li>
+<li><p><strong>date:</strong> The date when the events were recorded. It is not clear if this is the date GNRCS received the samples or when they were collected at the participating lab.</p></li>
+<li><p><strong>year:</strong> The year from the date column.</p></li>
+<li><p><strong>month:</strong> The month from the date column.</p></li>
+<li><p><strong>epiyr:</strong> The epidemiological year of the observation (<a href="https://ndc.services.cdc.gov/wp-content/uploads/MMWR_week_overview.pdf">MMWR definition</a>)&nbsp;<span class="citation" data-cites="mmwr_cdc"><sup><a href="#ref-mmwr_cdc" role="doc-biblioref">12</a></sup></span>.</p></li>
+<li><p><strong>vaxperiod:</strong> Numerical encoding differentiating years where the PCV vaccine recommendations differed, with approximately a one-year latency time built in. It is not clear what each phase denotes, but based on other papers by the same authors, they appear to mean&nbsp;<span class="citation" data-cites="Perniciaro2022"><sup><a href="#ref-Perniciaro2022" role="doc-biblioref">11</a></sup></span>:</p>
+<ul>
+<li><code>vaxperiod = 1</code> The period before Germany instituted its recommendation for all infants to receive 4 PCV doses in July 2006. The specific formula was not enforced and could either have been the 10-valent or 13-valent PCV. Spans 2001 to 2007.</li>
+<li><code>vaxperiod = 2</code> The period following introduction of PCV in infants in 2006 and before the updated recommendation for infants to receive 2 primary doses and a booster dose. Spans 2007 to 2015.</li>
+<li><code>vaxperiod = 3</code> The period following the updated recommendation in 2015. Spans 2015 to 2018.</li>
+<li><strong>NOTE:</strong> 2019 is the last year reported in the dataset an was not assigned to any vaccine period.</li>
+</ul></li>
+<li><p><strong>AgeInYears:</strong> The year of the patient from which the same was collected.</p></li>
+<li><p><strong>SeroType:</strong> The serotype of the pathogen identified using capsular swelling with the full antiserum.</p></li>
 </ul>
 <ol type="1">
 <li>Aggregating the data to count the number of cases for each serotype-year combination.</li>
@@ -634,127 +845,528 @@ $ indic                            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 <li>Creating a list of data objects required for running the JAGS model, including case counts, numeric IDs, and the number of unique serotypes and years.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate the data by SeroType and epiyr to get the number of cases </span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for each combination. The function complete() ensures all combinations </span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># of SeroType and epiyr are represented in the dataset, even those with </span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># zero cases.</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>serotype_year_counts <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(SeroType, epiyr, <span class="at">name =</span> <span class="st">"cases"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(SeroType, epiyr, <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">cases =</span> <span class="dv">0</span>))</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the categorical variables SeroType and epiyr into numeric IDs </span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># which are easier to work with in JAGS.</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>serotype_year_counts <span class="ot">&lt;-</span> serotype_year_counts <span class="sc">%&gt;%</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sero_id =</span> <span class="fu">as.integer</span>(<span class="fu">factor</span>(SeroType)),</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">year_id =</span> <span class="fu">as.integer</span>(<span class="fu">factor</span>(epiyr)))</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the data list that will be input into JAGS.</span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>jdat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(serotype_year_counts),</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases =</span> serotype_year_counts<span class="sc">$</span>cases,</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">sero_id =</span> serotype_year_counts<span class="sc">$</span>sero_id,</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">year_id =</span> serotype_year_counts<span class="sc">$</span>year_id,</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_sero =</span> <span class="fu">length</span>(<span class="fu">unique</span>(serotype_year_counts<span class="sc">$</span>sero_id)),</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_year =</span> <span class="fu">length</span>(<span class="fu">unique</span>(serotype_year_counts<span class="sc">$</span>year_id))</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate the data by SeroType and epiyr to get the number of cases </span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for each combination. The function complete() ensures all combinations </span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># of SeroType and epiyr are represented in the dataset, even those with </span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># zero cases.</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>serotype_year_counts <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(SeroType, epiyr, <span class="at">name =</span> <span class="st">"cases"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(SeroType, epiyr, <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">cases =</span> <span class="dv">0</span>))</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the categorical variables SeroType and epiyr into numeric IDs </span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># which are easier to work with in JAGS.</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>serotype_year_counts <span class="ot">&lt;-</span> serotype_year_counts <span class="sc">%&gt;%</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sero_id =</span> <span class="fu">as.integer</span>(<span class="fu">factor</span>(SeroType)),</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">year_id =</span> <span class="fu">as.integer</span>(<span class="fu">factor</span>(epiyr)))</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the data list that will be input into JAGS.</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>jdat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">nrow</span>(serotype_year_counts),</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases =</span> serotype_year_counts<span class="sc">$</span>cases,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">sero_id =</span> serotype_year_counts<span class="sc">$</span>sero_id,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">year_id =</span> serotype_year_counts<span class="sc">$</span>year_id,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_sero =</span> <span class="fu">length</span>(<span class="fu">unique</span>(serotype_year_counts<span class="sc">$</span>sero_id)),</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_year =</span> <span class="fu">length</span>(<span class="fu">unique</span>(serotype_year_counts<span class="sc">$</span>year_id))</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Model2.R"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mod &lt;- jags.model(textConnection(jcode), data = jdat, n.chains = 2)</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># update(mod, 1000)  # burn-in</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># samp &lt;- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(samp)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Model2.R"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">jags.model</span>(<span class="fu">textConnection</span>(jcode), <span class="at">data =</span> jdat, <span class="at">n.chains =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 1577
+   Unobserved stochastic nodes: 166
+   Total graph size: 9656
+
+Initializing model</code></pre>
+</div>
+</div>
+<div class="scrollable-output">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span>(mod, <span class="dv">1000</span>)  <span class="co"># burn-in</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>samp <span class="ot">&lt;-</span> <span class="fu">coda.samples</span>(mod, <span class="at">variable.names =</span> <span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"beta"</span>), <span class="at">n.iter =</span> <span class="dv">5000</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Iterations = 2001:7000
+Thinning interval = 1 
+Number of chains = 2 
+Sample size per chain = 5000 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+               Mean        SD  Naive SE Time-series SE
+beta[1]  -8.268e-03  0.006916 6.916e-05      8.703e-05
+beta[2]   1.308e-01  0.009374 9.374e-05      1.732e-04
+beta[3]   1.367e-01  0.044222 4.422e-04      8.346e-04
+beta[4]   1.179e-02  0.097780 9.778e-04      1.269e-03
+beta[5]   1.258e-01  0.009718 9.718e-05      1.771e-04
+beta[6]   7.604e-02  0.080930 8.093e-04      1.275e-03
+beta[7]  -5.174e-02  0.116583 1.166e-03      1.659e-03
+beta[8]   1.386e-01  0.041993 4.199e-04      7.996e-04
+beta[9]  -9.520e-02  0.158295 1.583e-03      2.598e-03
+beta[10]  1.789e-01  0.008118 8.118e-05      1.829e-04
+beta[11]  1.040e-01  0.046088 4.609e-04      7.675e-04
+beta[12] -4.635e-02  0.007221 7.221e-05      9.778e-05
+beta[13]  2.023e-01  0.012400 1.240e-04      3.046e-04
+beta[14]  1.431e-01  0.014200 1.420e-04      2.666e-04
+beta[15]  1.508e-01  0.019744 1.974e-04      3.891e-04
+beta[16]  1.046e-01  0.071206 7.121e-04      1.138e-03
+beta[17]  2.030e-01  0.018771 1.877e-04      4.622e-04
+beta[18]  3.592e+00  2.040498 2.040e-02      2.931e-01
+beta[19]  1.712e-01  0.019496 1.950e-04      4.284e-04
+beta[20] -1.774e-01  0.259136 2.591e-03      5.818e-03
+beta[21]  1.151e-01  0.035427 3.543e-04      5.979e-04
+beta[22]  1.452e-01  0.169190 1.692e-03      3.752e-03
+beta[23]  1.221e-02  0.014410 1.441e-04      1.897e-04
+beta[24] -1.750e-01  0.172949 1.729e-03      4.093e-03
+beta[25]  1.009e-01  0.005833 5.833e-05      9.496e-05
+beta[26]  2.630e-01  0.301260 3.013e-03      8.979e-03
+beta[27] -3.807e-01  0.373693 3.737e-03      1.906e-02
+beta[28]  5.305e-02  0.009819 9.819e-05      1.324e-04
+beta[29]  1.563e-01  0.014858 1.486e-04      2.969e-04
+beta[30]  2.856e-01  0.078410 7.841e-04      2.828e-03
+beta[31]  3.041e-02  0.088126 8.813e-04      1.189e-03
+beta[32] -1.687e-01  0.175175 1.752e-03      4.134e-03
+beta[33]  1.452e-01  0.006460 6.460e-05      1.261e-04
+beta[34]  1.630e-01  0.010761 1.076e-04      2.340e-04
+beta[35]  3.954e-01  0.375097 3.751e-03      1.756e-02
+beta[36]  2.042e-01  0.012719 1.272e-04      3.269e-04
+beta[37] -1.887e-01  0.277182 2.772e-03      6.572e-03
+beta[38] -1.957e-02  0.011155 1.116e-04      1.422e-04
+beta[39]  1.006e-01  0.104133 1.041e-03      1.985e-03
+beta[40]  3.943e-02  0.118072 1.181e-03      1.623e-03
+beta[41]  1.514e-01  0.011235 1.124e-04      2.263e-04
+beta[42]  1.242e-02  0.117772 1.178e-03      1.597e-03
+beta[43] -9.580e-03  0.096023 9.602e-04      1.245e-03
+beta[44]  1.353e+00  1.035899 1.036e-02      1.552e-01
+beta[45]  3.889e+00  2.468644 2.469e-02      7.812e-01
+beta[46]  1.776e-01  0.033807 3.381e-04      7.785e-04
+beta[47]  1.935e-01  0.055444 5.544e-04      1.333e-03
+beta[48]  7.958e-03  0.066510 6.651e-04      8.412e-04
+beta[49]  1.410e-01  0.004082 4.082e-05      7.915e-05
+beta[50]  1.739e-01  0.016088 1.609e-04      3.530e-04
+beta[51] -1.348e-01  0.058032 5.803e-04      1.128e-03
+beta[52] -1.099e-01  0.155111 1.551e-03      2.696e-03
+beta[53]  1.336e-01  0.012843 1.284e-04      2.360e-04
+beta[54]  1.374e-01  0.023212 2.321e-04      4.289e-04
+beta[55]  7.833e-02  0.066338 6.634e-04      1.013e-03
+beta[56]  1.908e-01  0.017335 1.734e-04      4.181e-04
+beta[57]  4.613e-02  0.058886 5.889e-04      8.038e-04
+beta[58]  1.540e-01  0.012910 1.291e-04      2.678e-04
+beta[59]  1.630e-01  0.051199 5.120e-04      1.063e-03
+beta[60]  1.617e-01  0.015339 1.534e-04      3.391e-04
+beta[61]  1.380e-03  0.230988 2.310e-03      3.025e-03
+beta[62]  3.492e-03  0.008464 8.464e-05      1.066e-04
+beta[63] -5.369e-02  0.043993 4.399e-04      6.009e-04
+beta[64]  5.093e-03  0.010973 1.097e-04      1.338e-04
+beta[65] -1.065e-01  0.241013 2.410e-03      4.268e-03
+beta[66] -2.642e-02  0.014403 1.440e-04      1.885e-04
+beta[67] -1.083e-01  0.245916 2.459e-03      4.459e-03
+beta[68]  1.268e-01  0.011031 1.103e-04      2.063e-04
+beta[69]  1.964e-01  0.110287 1.103e-03      2.811e-03
+beta[70]  5.372e-02  0.231619 2.316e-03      3.397e-03
+beta[71] -1.834e-01  0.265883 2.659e-03      6.228e-03
+beta[72]  6.203e-02  0.149020 1.490e-03      2.210e-03
+beta[73]  3.495e-01  0.074774 7.477e-04      3.456e-03
+beta[74]  1.181e-01  0.042678 4.268e-04      7.450e-04
+beta[75]  2.016e-02  0.005684 5.684e-05      7.541e-05
+beta[76]  2.039e-01  0.007497 7.497e-05      1.895e-04
+beta[77] -4.878e-02  0.073017 7.302e-04      1.006e-03
+beta[78] -4.697e-02  0.073536 7.354e-04      9.620e-04
+beta[79]  1.650e-01  0.008208 8.208e-05      1.722e-04
+beta[80]  7.079e-04  0.235400 2.354e-03      3.108e-03
+beta[81] -3.269e-02  0.011012 1.101e-04      1.451e-04
+beta[82]  1.727e-01  0.047965 4.796e-04      1.096e-03
+beta[83]  2.753e-01  0.207505 2.075e-03      6.367e-03
+mu[1]     3.597e+00  0.037260 3.726e-04      4.507e-04
+mu[2]     3.047e+00  0.056131 5.613e-04      1.029e-03
+mu[3]    -1.234e-01  0.269116 2.691e-03      5.324e-03
+mu[4]    -1.818e+00  0.566442 5.664e-03      9.139e-03
+mu[5]     2.959e+00  0.057644 5.764e-04      1.051e-03
+mu[6]    -1.415e+00  0.481938 4.819e-03      7.667e-03
+mu[7]    -2.232e+00  0.687556 6.876e-03      1.092e-02
+mu[8]     5.943e-03  0.250782 2.508e-03      4.875e-03
+mu[9]    -2.938e+00  0.972572 9.726e-03      2.006e-02
+mu[10]    3.379e+00  0.050632 5.063e-04      1.165e-03
+mu[11]   -1.549e-01  0.269110 2.691e-03      4.461e-03
+mu[12]    3.494e+00  0.040635 4.064e-04      5.498e-04
+mu[13]    2.440e+00  0.079800 7.980e-04      1.955e-03
+mu[14]    2.193e+00  0.084413 8.441e-04      1.592e-03
+mu[15]    1.530e+00  0.120167 1.202e-03      2.447e-03
+mu[16]   -1.149e+00  0.427726 4.277e-03      7.477e-03
+mu[17]    1.655e+00  0.120257 1.203e-03      2.948e-03
+mu[18]   -3.301e+01 18.152234 1.815e-01      2.520e+00
+mu[19]    1.563e+00  0.121416 1.214e-03      2.736e-03
+mu[20]   -4.480e+00  1.770966 1.771e-02      4.487e-02
+mu[21]    3.298e-01  0.212065 2.121e-03      3.681e-03
+mu[22]   -3.108e+00  1.103626 1.104e-02      2.700e-02
+mu[23]    2.135e+00  0.078595 7.860e-04      1.012e-03
+mu[24]   -3.198e+00  1.150936 1.151e-02      2.908e-02
+mu[25]    3.945e+00  0.033807 3.381e-04      5.480e-04
+mu[26]   -4.931e+00  2.178129 2.178e-02      7.246e-02
+mu[27]   -5.623e+00  2.866539 2.867e-02      1.703e-01
+mu[28]    2.910e+00  0.054610 5.461e-04      7.360e-04
+mu[29]    2.124e+00  0.090312 9.031e-04      1.813e-03
+mu[30]   -1.241e+00  0.546558 5.466e-03      2.014e-02
+mu[31]   -1.570e+00  0.504273 5.043e-03      7.746e-03
+mu[32]   -3.166e+00  1.142170 1.142e-02      2.942e-02
+mu[33]    3.799e+00  0.039015 3.901e-04      7.898e-04
+mu[34]    2.780e+00  0.065702 6.570e-04      1.419e-03
+mu[35]   -5.728e+00  2.866322 2.866e-02      1.365e-01
+mu[36]    2.457e+00  0.081884 8.188e-04      2.131e-03
+mu[37]   -4.583e+00  1.936098 1.936e-02      5.396e-02
+mu[38]    2.640e+00  0.061855 6.186e-04      8.335e-04
+mu[39]   -1.962e+00  0.638466 6.385e-03      1.318e-02
+mu[40]   -2.229e+00  0.696539 6.965e-03      1.146e-02
+mu[41]    2.681e+00  0.068433 6.843e-04      1.416e-03
+mu[42]   -2.219e+00  0.698175 6.982e-03      1.133e-02
+mu[43]   -1.813e+00  0.547804 5.478e-03      8.148e-03
+mu[44]   -1.334e+01  8.999882 9.000e-02      1.302e+00
+mu[45]   -3.572e+01 22.057335 2.206e-01      7.164e+00
+mu[46]    4.946e-01  0.211266 2.113e-03      4.841e-03
+mu[47]   -5.590e-01  0.352866 3.529e-03      8.593e-03
+mu[48]   -9.904e-01  0.374746 3.747e-03      5.172e-03
+mu[49]    4.709e+00  0.024312 2.431e-04      4.610e-04
+mu[50]    1.925e+00  0.101397 1.014e-03      2.332e-03
+mu[51]   -6.396e-01  0.352656 3.527e-03      7.023e-03
+mu[52]   -2.931e+00  0.987634 9.876e-03      1.966e-02
+mu[53]    2.385e+00  0.077029 7.703e-04      1.426e-03
+mu[54]    1.205e+00  0.139904 1.399e-03      2.650e-03
+mu[55]   -9.547e-01  0.384919 3.849e-03      6.257e-03
+mu[56]    1.832e+00  0.109884 1.099e-03      2.684e-03
+mu[57]   -6.714e-01  0.323007 3.230e-03      4.570e-03
+mu[58]    2.372e+00  0.078472 7.847e-04      1.588e-03
+mu[59]   -4.254e-01  0.319946 3.199e-03      6.615e-03
+mu[60]    2.087e+00  0.094456 9.446e-04      1.994e-03
+mu[61]   -4.090e+00  1.517310 1.517e-02      3.069e-02
+mu[62]    3.200e+00  0.045693 4.569e-04      6.006e-04
+mu[63]   -9.811e-02  0.250355 2.504e-03      3.654e-03
+mu[64]    2.664e+00  0.060027 6.003e-04      7.620e-04
+mu[65]   -4.230e+00  1.578554 1.579e-02      3.546e-02
+mu[66]    2.121e+00  0.079549 7.955e-04      1.042e-03
+mu[67]   -4.246e+00  1.624029 1.624e-02      3.669e-02
+mu[68]    2.727e+00  0.064491 6.449e-04      1.169e-03
+mu[69]   -2.067e+00  0.718445 7.184e-03      1.904e-02
+mu[70]   -4.125e+00  1.532999 1.533e-02      3.371e-02
+mu[71]   -4.519e+00  1.832224 1.832e-02      4.985e-02
+mu[72]   -2.844e+00  0.905514 9.055e-03      1.590e-02
+mu[73]   -1.271e+00  0.542569 5.426e-03      2.503e-02
+mu[74]   -9.292e-03  0.253144 2.531e-03      4.461e-03
+mu[75]    3.988e+00  0.031324 3.132e-04      4.134e-04
+mu[76]    3.487e+00  0.048036 4.804e-04      1.227e-03
+mu[77]   -1.184e+00  0.415858 4.159e-03      6.053e-03
+mu[78]   -1.186e+00  0.415027 4.150e-03      5.877e-03
+mu[79]    3.321e+00  0.050701 5.070e-04      1.068e-03
+mu[80]   -4.128e+00  1.529515 1.530e-02      3.197e-02
+mu[81]    2.649e+00  0.062028 6.203e-04      7.949e-04
+mu[82]   -2.212e-01  0.298903 2.989e-03      7.056e-03
+mu[83]   -3.717e+00  1.451310 1.451e-02      4.708e-02
+
+2. Quantiles for each variable:
+
+               2.5%        25%        50%        75%     97.5%
+beta[1]   -0.021661  -0.012896 -8.354e-03 -3.701e-03  0.005643
+beta[2]    0.112561   0.124481  1.308e-01  1.373e-01  0.149054
+beta[3]    0.055492   0.106503  1.353e-01  1.656e-01  0.226815
+beta[4]   -0.175805  -0.052939  1.093e-02  7.554e-02  0.207913
+beta[5]    0.107110   0.119177  1.258e-01  1.323e-01  0.145048
+beta[6]   -0.077768   0.021624  7.212e-02  1.284e-01  0.243044
+beta[7]   -0.288644  -0.126191 -4.890e-02  2.570e-02  0.172131
+beta[8]    0.059551   0.109579  1.378e-01  1.663e-01  0.223349
+beta[9]   -0.434924  -0.190861 -8.790e-02  8.079e-03  0.200162
+beta[10]   0.163055   0.173202  1.788e-01  1.844e-01  0.194802
+beta[11]   0.017636   0.072575  1.033e-01  1.344e-01  0.197869
+beta[12]  -0.060604  -0.051294 -4.633e-02 -4.144e-02 -0.032060
+beta[13]   0.177823   0.193966  2.025e-01  2.104e-01  0.226880
+beta[14]   0.115054   0.133525  1.431e-01  1.526e-01  0.170941
+beta[15]   0.113037   0.137256  1.500e-01  1.641e-01  0.191325
+beta[16]  -0.029245   0.056684  1.021e-01  1.512e-01  0.250522
+beta[17]   0.166694   0.190036  2.029e-01  2.156e-01  0.240223
+beta[18]   0.408510   1.886789  3.432e+00  5.295e+00  7.303461
+beta[19]   0.134650   0.158023  1.706e-01  1.840e-01  0.211286
+beta[20]  -0.769332  -0.326454 -1.534e-01 -7.455e-03  0.281616
+beta[21]   0.047704   0.090839  1.147e-01  1.384e-01  0.187491
+beta[22]  -0.151354   0.029879  1.330e-01  2.448e-01  0.522879
+beta[23]  -0.015970   0.002471  1.234e-02  2.215e-02  0.039451
+beta[24]  -0.556504  -0.280270 -1.579e-01 -5.542e-02  0.121264
+beta[25]   0.089595   0.096956  1.009e-01  1.048e-01  0.112388
+beta[26]  -0.216121   0.055727  2.207e-01  4.249e-01  1.010265
+beta[27]  -1.320202  -0.556544 -3.225e-01 -1.330e-01  0.172975
+beta[28]   0.033397   0.046272  5.319e-02  5.976e-02  0.071861
+beta[29]   0.128278   0.145991  1.560e-01  1.661e-01  0.186010
+beta[30]   0.145061   0.232194  2.798e-01  3.339e-01  0.455479
+beta[31]  -0.141619  -0.027914  2.823e-02  8.711e-02  0.208735
+beta[32]  -0.557255  -0.267808 -1.533e-01 -5.096e-02  0.139113
+beta[33]   0.132465   0.140810  1.452e-01  1.496e-01  0.157628
+beta[34]   0.142331   0.155700  1.630e-01  1.703e-01  0.184134
+beta[35]  -0.154847   0.134034  3.236e-01  5.883e-01  1.317550
+beta[36]   0.180467   0.195296  2.041e-01  2.128e-01  0.229373
+beta[37]  -0.819761  -0.339777 -1.562e-01 -6.889e-03  0.280044
+beta[38]  -0.042103  -0.027078 -1.954e-02 -1.199e-02  0.002266
+beta[39]  -0.089511   0.031288  9.516e-02  1.655e-01  0.319028
+beta[40]  -0.186921  -0.037480  3.721e-02  1.139e-01  0.281582
+beta[41]   0.129513   0.143724  1.511e-01  1.589e-01  0.173793
+beta[42]  -0.227861  -0.062381  1.235e-02  8.750e-02  0.244769
+beta[43]  -0.196745  -0.073254 -1.010e-02  5.520e-02  0.179066
+beta[44]   0.083591   0.581857  1.101e+00  1.908e+00  3.988590
+beta[45]   0.421462   1.989126  3.486e+00  5.091e+00  9.955468
+beta[46]   0.114887   0.153953  1.768e-01  1.999e-01  0.247122
+beta[47]   0.091163   0.155881  1.902e-01  2.290e-01  0.310072
+beta[48]  -0.123208  -0.036572  7.800e-03  5.261e-02  0.138538
+beta[49]   0.132896   0.138209  1.410e-01  1.437e-01  0.149107
+beta[50]   0.143145   0.163121  1.735e-01  1.847e-01  0.205591
+beta[51]  -0.255873  -0.171465 -1.319e-01 -9.571e-02 -0.027092
+beta[52]  -0.444809  -0.202706 -1.022e-01 -6.455e-03  0.177120
+beta[53]   0.108638   0.124972  1.336e-01  1.422e-01  0.158828
+beta[54]   0.092993   0.121781  1.372e-01  1.529e-01  0.183485
+beta[55]  -0.047161   0.033554  7.642e-02  1.210e-01  0.215241
+beta[56]   0.156836   0.179044  1.905e-01  2.025e-01  0.225368
+beta[57]  -0.068742   0.007021  4.558e-02  8.546e-02  0.163644
+beta[58]   0.129115   0.145041  1.540e-01  1.627e-01  0.179466
+beta[59]   0.066301   0.127957  1.613e-01  1.978e-01  0.264125
+beta[60]   0.132617   0.151274  1.614e-01  1.721e-01  0.192514
+beta[61]  -0.474129  -0.140421  2.397e-04  1.443e-01  0.470649
+beta[62]  -0.013124  -0.002212  3.499e-03  9.103e-03  0.020271
+beta[63]  -0.142891  -0.082263 -5.289e-02 -2.347e-02  0.030556
+beta[64]  -0.016026  -0.002298  5.043e-03  1.250e-02  0.026854
+beta[65]  -0.620257  -0.249077 -9.325e-02  4.997e-02  0.333400
+beta[66]  -0.055043  -0.036209 -2.625e-02 -1.658e-02  0.001685
+beta[67]  -0.643803  -0.247989 -9.334e-02  4.973e-02  0.339975
+beta[68]   0.105419   0.119379  1.267e-01  1.344e-01  0.148620
+beta[69]   0.002863   0.119060  1.884e-01  2.650e-01  0.434252
+beta[70]  -0.392633  -0.089295  4.506e-02  1.926e-01  0.532839
+beta[71]  -0.792991  -0.335338 -1.535e-01 -7.485e-03  0.273642
+beta[72]  -0.222722  -0.034555  5.739e-02  1.528e-01  0.373227
+beta[73]   0.219474   0.296118  3.440e-01  3.960e-01  0.514965
+beta[74]   0.037445   0.089197  1.171e-01  1.458e-01  0.205103
+beta[75]   0.009183   0.016284  2.014e-02  2.402e-02  0.031456
+beta[76]   0.189701   0.198700  2.038e-01  2.089e-01  0.218618
+beta[77]  -0.196875  -0.096475 -4.730e-02  3.007e-04  0.092217
+beta[78]  -0.193934  -0.094447 -4.542e-02  2.335e-03  0.092884
+beta[79]   0.149319   0.159334  1.650e-01  1.704e-01  0.181010
+beta[80]  -0.470740  -0.142660 -1.881e-03  1.395e-01  0.494251
+beta[81]  -0.054158  -0.040062 -3.262e-02 -2.543e-02 -0.010880
+beta[82]   0.083417   0.139345  1.715e-01  2.046e-01  0.268616
+beta[83]  -0.070756   0.130607  2.510e-01  3.975e-01  0.749298
+mu[1]      3.525147   3.571775  3.597e+00  3.622e+00  3.671089
+mu[2]      2.935216   3.009383  3.047e+00  3.085e+00  3.156424
+mu[3]     -0.695144  -0.291641 -1.069e-01  6.295e-02  0.356580
+mu[4]     -3.082746  -2.168984 -1.768e+00 -1.422e+00 -0.857610
+mu[5]      2.843107   2.920028  2.960e+00  2.998e+00  3.069441
+mu[6]     -2.461416  -1.712129 -1.367e+00 -1.078e+00 -0.564681
+mu[7]     -3.801851  -2.631787 -2.165e+00 -1.746e+00 -1.090021
+mu[8]     -0.518462  -0.153055  1.608e-02  1.832e-01  0.460790
+mu[9]     -5.267191  -3.462551 -2.795e+00 -2.254e+00 -1.446094
+mu[10]     3.279286   3.345206  3.379e+00  3.414e+00  3.475650
+mu[11]    -0.719265  -0.328311 -1.427e-01  3.548e-02  0.338483
+mu[12]     3.416251   3.466524  3.494e+00  3.522e+00  3.573393
+mu[13]     2.278672   2.386539  2.441e+00  2.493e+00  2.593668
+mu[14]     2.021339   2.137201  2.196e+00  2.251e+00  2.354126
+mu[15]     1.287466   1.451678  1.533e+00  1.612e+00  1.756763
+mu[16]    -2.082893  -1.411472 -1.116e+00 -8.566e-01 -0.391489
+mu[17]     1.417859   1.574442  1.656e+00  1.737e+00  1.883516
+mu[18]   -66.227101 -48.257560 -3.146e+01 -1.770e+01 -5.286310
+mu[19]     1.311836   1.485494  1.566e+00  1.645e+00  1.788313
+mu[20]    -8.796441  -5.378939 -4.145e+00 -3.216e+00 -1.991358
+mu[21]    -0.108915   0.188127  3.385e-01  4.798e-01  0.727445
+mu[22]    -5.771230  -3.702584 -2.923e+00 -2.326e+00 -1.481286
+mu[23]     1.980553   2.081925  2.137e+00  2.189e+00  2.288324
+mu[24]    -5.934976  -3.858820 -3.019e+00 -2.372e+00 -1.451388
+mu[25]     3.880210   3.921887  3.946e+00  3.969e+00  4.010345
+mu[26]   -10.685988  -5.938494 -4.469e+00 -3.423e+00 -2.045117
+mu[27]   -13.264793  -6.771609 -4.973e+00 -3.686e+00 -2.199766
+mu[28]     2.801324   2.873794  2.911e+00  2.948e+00  3.015960
+mu[29]     1.943027   2.064487  2.126e+00  2.186e+00  2.295811
+mu[30]    -2.482877  -1.570748 -1.183e+00 -8.579e-01 -0.326106
+mu[31]    -2.647753  -1.894463 -1.526e+00 -1.213e+00 -0.708269
+mu[32]    -5.848436  -3.756670 -2.981e+00 -2.358e+00 -1.494933
+mu[33]     3.721826   3.772349  3.799e+00  3.825e+00  3.872679
+mu[34]     2.647988   2.736541  2.781e+00  2.825e+00  2.905818
+mu[35]   -13.261062  -7.064754 -5.016e+00 -3.669e+00 -2.182783
+mu[36]     2.292734   2.402597  2.459e+00  2.513e+00  2.611957
+mu[37]    -9.416278  -5.538501 -4.201e+00 -3.217e+00 -1.970261
+mu[38]     2.517562   2.599678  2.641e+00  2.682e+00  2.760952
+mu[39]    -3.415270  -2.330438 -1.896e+00 -1.512e+00 -0.911752
+mu[40]    -3.833837  -2.651762 -2.154e+00 -1.741e+00 -1.077523
+mu[41]     2.544533   2.635999  2.682e+00  2.728e+00  2.814357
+mu[42]    -3.806098  -2.616320 -2.151e+00 -1.725e+00 -1.072626
+mu[43]    -3.001936  -2.152121 -1.771e+00 -1.429e+00 -0.869451
+mu[44]   -36.409149 -17.985619 -1.089e+01 -6.616e+00 -3.075231
+mu[45]   -90.145206 -46.405928 -3.211e+01 -1.875e+01 -5.184549
+mu[46]     0.056892   0.353289  5.070e-01  6.428e-01  0.884350
+mu[47]    -1.313418  -0.775935 -5.340e-01 -3.156e-01  0.055334
+mu[48]    -1.782391  -1.231758 -9.684e-01 -7.304e-01 -0.316264
+mu[49]     4.661486   4.692212  4.709e+00  4.725e+00  4.756648
+mu[50]     1.720854   1.858778  1.929e+00  1.995e+00  2.119032
+mu[51]    -1.417860  -0.859004 -6.135e-01 -3.941e-01 -0.015094
+mu[52]    -5.284956  -3.478658 -2.793e+00 -2.238e+00 -1.390323
+mu[53]     2.232329   2.333484  2.385e+00  2.437e+00  2.533858
+mu[54]     0.918139   1.111511  1.208e+00  1.302e+00  1.468963
+mu[55]    -1.788894  -1.189133 -9.228e-01 -6.888e-01 -0.271769
+mu[56]     1.613062   1.758710  1.834e+00  1.907e+00  2.039026
+mu[57]    -1.342267  -0.883503 -6.550e-01 -4.446e-01 -0.090138
+mu[58]     2.211121   2.319910  2.374e+00  2.425e+00  2.519846
+mu[59]    -1.068363  -0.636284 -4.125e-01 -1.954e-01  0.148687
+mu[60]     1.898694   2.024629  2.089e+00  2.152e+00  2.269293
+mu[61]    -7.706102  -4.899165 -3.828e+00 -3.004e+00 -1.879185
+mu[62]     3.108606   3.169833  3.201e+00  3.232e+00  3.287654
+mu[63]    -0.623810  -0.258518 -8.660e-02  7.438e-02  0.357913
+mu[64]     2.542046   2.624386  2.665e+00  2.704e+00  2.779695
+mu[65]    -8.176589  -5.066240 -3.973e+00 -3.099e+00 -1.947355
+mu[66]     1.965146   2.067466  2.122e+00  2.175e+00  2.273541
+mu[67]    -8.167269  -5.091245 -3.946e+00 -3.084e+00 -1.906101
+mu[68]     2.597734   2.683613  2.728e+00  2.772e+00  2.850123
+mu[69]    -3.714518  -2.486966 -1.989e+00 -1.554e+00 -0.896986
+mu[70]    -7.798912  -4.942654 -3.855e+00 -3.029e+00 -1.905722
+mu[71]    -8.985188  -5.460002 -4.169e+00 -3.222e+00 -1.943909
+mu[72]    -4.985109  -3.352219 -2.712e+00 -2.194e+00 -1.421271
+mu[73]    -2.489048  -1.595806 -1.220e+00 -8.819e-01 -0.363596
+mu[74]    -0.533097  -0.171756  9.486e-04  1.683e-01  0.454820
+mu[75]     3.926453   3.967397  3.988e+00  4.009e+00  4.049344
+mu[76]     3.391916   3.454452  3.487e+00  3.519e+00  3.579461
+mu[77]    -2.088189  -1.445266 -1.150e+00 -8.921e-01 -0.454357
+mu[78]    -2.045168  -1.452358 -1.160e+00 -9.007e-01 -0.437182
+mu[79]     3.220580   3.287914  3.321e+00  3.355e+00  3.420895
+mu[80]    -7.779437  -4.954371 -3.865e+00 -3.026e+00 -1.904012
+mu[81]     2.521452   2.608236  2.651e+00  2.692e+00  2.767405
+mu[82]    -0.852498  -0.412082 -2.039e-01 -1.086e-02  0.315254
+mu[83]    -7.302638  -4.488178 -3.463e+00 -2.681e+00 -1.628327</code></pre>
+</div>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># par(mar = c(2, 2, 2, 2))  # smaller margins</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(samp)</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># # Density plots</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># densplot(samp, main = "Posterior Density for Parameters")</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior_summary &lt;- summary(samp)</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># round(posterior_summary$statistics, 3)  # means, SDs</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># round(posterior_summary$quantiles, 3)   # 2.5%, 50%, 97.5%</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># beta_samples &lt;- as.matrix(samp)[, grep("beta", colnames(as.matrix(samp)))]</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># beta_means &lt;- apply(beta_samples, 2, mean)</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># beta_ci &lt;- apply(beta_samples, 2, quantile, probs = c(0.025, 0.975))</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co"># df &lt;- data.frame(</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   param = colnames(beta_samples),</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   mean = beta_means,</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   lower = beta_ci[1, ],</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   upper = beta_ci[2, ]</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(df, aes(x = param, y = mean)) +</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point() +</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +</span></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="co">#   coord_flip() +</span></span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Posterior Estimates for Beta", y = "Effect Size", x = "") +</span></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal()</span></span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co"># # Heatmap</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="co"># # Your original year and serotype info</span></span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="co"># year_seq &lt;- sort(unique(jdat$year_id))  # e.g., 2000:2006</span></span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="co"># sero_seq &lt;- 1:jdat$n_sero</span></span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="co"># mean_year &lt;- (length(year_seq) + 1) / 2</span></span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="co"># # Create a dataframe of all serotype-year combinations</span></span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a><span class="co"># pred_grid &lt;- expand.grid(</span></span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="co">#   sero = sero_seq,</span></span>
-<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   year = year_seq</span></span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
-<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a><span class="co"># # Predict expected log incidence</span></span>
-<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a><span class="co"># pred_grid$log_lambda &lt;- mu_means[pred_grid$sero] +</span></span>
-<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a><span class="co">#   beta_means[pred_grid$sero] * (pred_grid$year - mean_year)</span></span>
-<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a><span class="co"># # Back-transform to incidence</span></span>
-<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="co"># pred_grid$lambda &lt;- exp(pred_grid$log_lambda)</span></span>
-<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(pred_grid, aes(x = year, y = factor(sero), fill = lambda)) +</span></span>
-<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_tile(color = "white") +</span></span>
-<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_fill_viridis_c(name = "Expected\nCases", option = "C") +</span></span>
-<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(x = "Year", y = "Serotype", title = "Expected Cases by Year and Serotype") +</span></span>
-<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
-<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.y = element_text(size = 8))</span></span>
-<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(serotype_year_counts, aes(x = epiyr, y = SeroType, fill = cases)) +</span></span>
-<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_tile(color = "white") +</span></span>
-<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_fill_viridis_c(option = "C", name = "Cases") +</span></span>
-<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "IPD Cases by Serotype and Year",</span></span>
-<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a><span class="co">#        x = "Year",</span></span>
-<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a><span class="co">#        y = "Serotype") +</span></span>
-<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
-<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 45, hjust = 1))</span></span>
-<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a><span class="co"># # Model version</span></span>
-<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a><span class="co"># mean_year &lt;- (max(serotype_year_counts$year_id) + 1) / 2</span></span>
-<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a><span class="co"># # Create a data frame with expected log lambda for each serotype-year</span></span>
-<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a><span class="co"># serotype_year_counts$expected_log_lambda &lt;- mu_means[serotype_year_counts$sero_id] + </span></span>
-<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a><span class="co">#   beta_means[serotype_year_counts$sero_id] * (serotype_year_counts$year_id - mean_year)</span></span>
-<span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a><span class="co"># # Convert to expected cases (lambda)</span></span>
-<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a><span class="co"># serotype_year_counts$expected_cases &lt;- exp(serotype_year_counts$expected_log_lambda)</span></span>
-<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a><span class="co"># # Plot</span></span>
-<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(serotype_year_counts, aes(x = epiyr)) +</span></span>
-<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point(aes(y = cases), color = "blue", alpha = 0.5) +</span></span>
-<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_line(aes(y = expected_cases, group = SeroType), color = "red") +</span></span>
-<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a><span class="co">#   facet_wrap(~ SeroType, scales = "free_y") +</span></span>
-<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(y = "Cases", x = "Year", title = "Observed (points) vs Expected (lines) Cases by Serotype") +</span></span>
-<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
-<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 45, hjust = 1))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># par(mar = c(2, 2, 2, 2))  # smaller margins</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(samp)</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># # Density plots</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># densplot(samp, main = "Posterior Density for Parameters")</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior_summary &lt;- summary(samp)</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># round(posterior_summary$statistics, 3)  # means, SDs</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># round(posterior_summary$quantiles, 3)   # 2.5%, 50%, 97.5%</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co"># beta_samples &lt;- as.matrix(samp)[, grep("beta", colnames(as.matrix(samp)))]</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># beta_means &lt;- apply(beta_samples, 2, mean)</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co"># beta_ci &lt;- apply(beta_samples, 2, quantile, probs = c(0.025, 0.975))</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co"># df &lt;- data.frame(</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   param = colnames(beta_samples),</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   mean = beta_means,</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   lower = beta_ci[1, ],</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   upper = beta_ci[2, ]</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(df, aes(x = param, y = mean)) +</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point() +</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co">#   coord_flip() +</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Posterior Estimates for Beta", y = "Effect Size", x = "") +</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal()</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="co"># # Heatmap</span></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="co"># # Your original year and serotype info</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="co"># year_seq &lt;- sort(unique(jdat$year_id))  # e.g., 2000:2006</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="co"># sero_seq &lt;- 1:jdat$n_sero</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="co"># mean_year &lt;- (length(year_seq) + 1) / 2</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="co"># # Create a dataframe of all serotype-year combinations</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="co"># pred_grid &lt;- expand.grid(</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="co">#   sero = sero_seq,</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   year = year_seq</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a><span class="co"># # Predict expected log incidence</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a><span class="co"># pred_grid$log_lambda &lt;- mu_means[pred_grid$sero] +</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="co">#   beta_means[pred_grid$sero] * (pred_grid$year - mean_year)</span></span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="co"># # Back-transform to incidence</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="co"># pred_grid$lambda &lt;- exp(pred_grid$log_lambda)</span></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(pred_grid, aes(x = year, y = factor(sero), fill = lambda)) +</span></span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_tile(color = "white") +</span></span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_fill_viridis_c(name = "Expected\nCases", option = "C") +</span></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(x = "Year", y = "Serotype", title = "Expected Cases by Year and Serotype") +</span></span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.y = element_text(size = 8))</span></span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(serotype_year_counts, aes(x = epiyr, y = SeroType, fill = cases)) +</span></span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_tile(color = "white") +</span></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_fill_viridis_c(option = "C", name = "Cases") +</span></span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "IPD Cases by Serotype and Year",</span></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a><span class="co">#        x = "Year",</span></span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a><span class="co">#        y = "Serotype") +</span></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 45, hjust = 1))</span></span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a><span class="co"># # Model version</span></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a><span class="co"># mean_year &lt;- (max(serotype_year_counts$year_id) + 1) / 2</span></span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a><span class="co"># # Create a data frame with expected log lambda for each serotype-year</span></span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a><span class="co"># serotype_year_counts$expected_log_lambda &lt;- mu_means[serotype_year_counts$sero_id] + </span></span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a><span class="co">#   beta_means[serotype_year_counts$sero_id] * (serotype_year_counts$year_id - mean_year)</span></span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a><span class="co"># # Convert to expected cases (lambda)</span></span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a><span class="co"># serotype_year_counts$expected_cases &lt;- exp(serotype_year_counts$expected_log_lambda)</span></span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a><span class="co"># # Plot</span></span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot(serotype_year_counts, aes(x = epiyr)) +</span></span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point(aes(y = cases), color = "blue", alpha = 0.5) +</span></span>
+<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_line(aes(y = expected_cases, group = SeroType), color = "red") +</span></span>
+<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a><span class="co">#   facet_wrap(~ SeroType, scales = "free_y") +</span></span>
+<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(y = "Cases", x = "Year", title = "Observed (points) vs Expected (lines) Cases by Serotype") +</span></span>
+<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_minimal() +</span></span>
+<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(axis.text.x = element_text(angle = 45, hjust = 1))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+
 
 
 </section>
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Spall2005" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Spall, J. C. <em>Introduction to Stochastic Search and Optimization : Estimation, Simulation, and Control</em>. 620 (Wiley, 2005).</div>
+</div>
+<div id="ref-Koller2009" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Koller, D. &amp; Friedman, N. <em>Structure Learning in Bayesian Networks</em>. <em>Probabilistic Graphical Models: Principles and Techniques</em> 783–848 (The MIT press, 2009).</div>
+</div>
+<div id="ref-Wasserman2004" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Wasserman, L. <em>All of Statistics</em>. (Springer New York, 2004). doi:<a href="https://doi.org/10.1007/978-0-387-21736-9">10.1007/978-0-387-21736-9</a>.</div>
+</div>
+<div id="ref-Lee2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Lee, S. &amp; Ni, J. <a href="https://doi.org/10.1155/2012/875641">Genetic algorithm for job scheduling with maintenance consideration in semiconductor manufacturing process</a>. <em>Mathematical Problems in Engineering</em> <strong>2012</strong>, 875641 (2012).</div>
+</div>
+<div id="ref-Robert2004" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Robert, C. P. &amp; Casella, G. <em>Monte Carlo Statistical Methods</em>. (Springer New York, 2004). doi:<a href="https://doi.org/10.1007/978-1-4757-4145-2">10.1007/978-1-4757-4145-2</a>.</div>
+</div>
+<div id="ref-Geman1984" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Geman, S. &amp; Geman, D. Stochastic relaxation, gibbs distributions, and the bayesian restoration of images. <em>Institute of Electrical and Electronics Engineers (IEEE)</em> 721–741 (1984) doi:<a href="https://doi.org/10.1109/TPAMI.1984.4767596">10.1109/TPAMI.1984.4767596</a>.</div>
+</div>
+<div id="ref-Bishop2006" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Bishop, C. M. <em><a href="https://link.springer.com/book/9780387310732">Pattern Recognition and Machine Learning | SpringerLink</a></em>. (Springer New York, NY, 2006).</div>
+</div>
+<div id="ref-gibbs_dist" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Wikipedia. <a href="https://en.wikipedia.org/wiki/Boltzmann_distribution">Boltzmann distribution</a>. <em>Wikipedia</em>.</div>
+</div>
+<div id="ref-josiah_gibbs" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Wikipedia. <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah willard gibbs</a>. <em>Wikipedia</em>.</div>
+</div>
+<div id="ref-Ellingson2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Ellingson, M. K., Weinberger, D. M., Linden, M. van der &amp; Perniciaro, S. <a href="https://doi.org/10.1093/INFDIS/JIAD538">Potential impact of higher-valency pneumococcal conjugate vaccines among adults in different localities in germany</a>. <em>The Journal of Infectious Diseases</em> <strong>229</strong>, 1669 (2023).</div>
+</div>
+<div id="ref-Perniciaro2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Perniciaro, S., Linden, M. V. D. &amp; Weinberger, D. M. <a href="https://doi.org/10.1093/CID/CIAC100">Reemergence of invasive pneumococcal disease in germany during the spring and summer of 2021</a>. <em>Clinical Infectious Diseases</em> <strong>75</strong>, 1149–1153 (2022).</div>
+</div>
+<div id="ref-mmwr_cdc" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Disease Control, C. for &amp; (CDC), P. MMWR weeks definition.</div>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1188,6 +1800,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <li class="nav-item compact">
     <a class="nav-link" href="mailto:BDSY2025PublicHealthModeling@yale.edu">
       <i class="bi bi-envelope" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://ysph.yale.edu/" target="_blank">
+      <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://ysph.yale.edu/public-health-research-and-practice/research-centers-and-initiatives/public-health-data-science-and-data-equity/" target="_blank">
+      <i class="bi bi-people-fill" role="img">
 </i> 
     </a>
   </li>  

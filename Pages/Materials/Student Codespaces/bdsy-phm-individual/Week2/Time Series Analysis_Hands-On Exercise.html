@@ -93,7 +93,7 @@ div.csl-indent {
 <link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-05fe91a66cf75bbbb8c9664867fe5124.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../../site_libs/bootstrap/bootstrap-15b25b2f075b6074bc8cd4340dd52a59.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../site_libs/bootstrap/bootstrap-f644f9bf085029994ee58cc16d646059.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -187,11 +187,15 @@ window.Quarto = {
     <ul class="dropdown-menu" aria-labelledby="nav-menu-weekly-modules">    
         <li>
     <a class="dropdown-item" href="../../../../../Pages/Week2/Time Series Analysis_Hands-On Exercise.html">
- <span class="dropdown-text">Time Series</span></a>
+ <span class="dropdown-text">Time Series Analysis</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../../../../Pages/Week3/Hierarchical Modeling.html">
  <span class="dropdown-text">Hierarchical Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../Pages/Week4/Market Basket Analysis.html">
+ <span class="dropdown-text">Market Basket Analysis</span></a>
   </li>  
     </ul>
   </li>
@@ -778,16 +782,16 @@ Warning
 <pre><code># A tibble: 10 × 4
    index date       vax_intro vax_eval
    &lt;dbl&gt; &lt;date&gt;         &lt;dbl&gt;    &lt;dbl&gt;
- 1     1 2005-01-01         0        0
- 2    14 2006-02-01         0        0
- 3    24 2006-12-01         0        0
- 4    46 2008-10-01         0        0
- 5    53 2009-05-01         0        0
- 6    88 2012-04-01         1        1
- 7   105 2013-09-01         1        1
- 8   115 2014-07-01         1        1
- 9   125 2015-05-01         1        1
-10   127 2015-07-01         1        1</code></pre>
+ 1     5 2005-05-01         0        0
+ 2    17 2006-05-01         0        0
+ 3    26 2007-02-01         0        0
+ 4    61 2010-01-01         0        0
+ 5    62 2010-02-01         0        0
+ 6    65 2010-05-01         0        0
+ 7    86 2012-02-01         1        1
+ 8   100 2013-04-01         1        1
+ 9   115 2014-07-01         1        1
+10   126 2015-06-01         1        1</code></pre>
 </div>
 </div>
 <p>In linear modeling, it is common to include interaction terms. These terms allow the model to capture interdependencies between variables, showing how the effect of one variable on the outcome changes depending on the level of another variable. Interaction terms also enable the identification of synergistic effects, where the combined effect of two variables is greater (or less) than the sum of their individual effects&nbsp;<span class="citation" data-cites="MontgomeryC2012"><sup><a href="#ref-MontgomeryC2012" role="doc-biblioref">13</a></sup></span>.</p>
@@ -1105,16 +1109,16 @@ Code Like a Pro
 <pre><code># A tibble: 10 × 4
    date       index  spl1  spl2
    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1 2005-02-01     2     0     0
- 2 2005-10-01    10     0     0
- 3 2006-01-01    13     0     0
- 4 2006-11-01    23     0     0
- 5 2008-04-01    40     0     0
- 6 2010-11-01    71     4     0
- 7 2011-09-01    81    14     2
- 8 2013-11-01   107    40    28
+ 1 2005-11-01    11     0     0
+ 2 2007-06-01    30     0     0
+ 3 2009-01-01    49     0     0
+ 4 2012-08-01    92    25    13
+ 5 2012-11-01    95    28    16
+ 6 2013-03-01    99    32    20
+ 7 2013-09-01   105    38    26
+ 8 2015-06-01   126    59    47
  9 2016-02-01   134    67    55
-10 2016-07-01   139    72    60</code></pre>
+10 2016-10-01   142    75    63</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1266,16 +1270,16 @@ Number of Fisher Scoring iterations: 1
 <pre><code># A tibble: 10 × 2
    date       J12_J18_prim_pre
    &lt;date&gt;                &lt;dbl&gt;
- 1 2006-01-01               46
- 2 2006-12-01               42
- 3 2007-06-01               35
- 4 2007-11-01               28
- 5 2007-12-01               23
- 6 2009-05-01               40
- 7 2012-11-01               NA
- 8 2014-04-01               NA
- 9 2014-10-01               NA
-10 2015-06-01               NA</code></pre>
+ 1 2005-08-01               38
+ 2 2007-04-01               28
+ 3 2007-09-01               29
+ 4 2007-12-01               23
+ 5 2008-06-01               45
+ 6 2010-03-01               36
+ 7 2011-01-01               NA
+ 8 2011-08-01               NA
+ 9 2012-04-01               NA
+10 2013-04-01               NA</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1873,6 +1877,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <li class="nav-item compact">
     <a class="nav-link" href="mailto:BDSY2025PublicHealthModeling@yale.edu">
       <i class="bi bi-envelope" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://ysph.yale.edu/" target="_blank">
+      <i class="bi bi-globe" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://ysph.yale.edu/public-health-research-and-practice/research-centers-and-initiatives/public-health-data-science-and-data-equity/" target="_blank">
+      <i class="bi bi-people-fill" role="img">
 </i> 
     </a>
   </li>  
