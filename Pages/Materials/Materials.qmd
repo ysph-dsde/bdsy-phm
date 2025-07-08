@@ -33,21 +33,21 @@ Please download the codespaces provided for each weekly module release. Note tha
 
 Subsequent weekly releases should be placed inside your root project directory. For instance, if you are using the directory "~/bdsy-phm-individual", place the weekly releases within that directory.
 
-{{< downloadthis "Student Codespaces/bdsy-phm-individual.zip" label="Starter for individual project with Week 2 code" id=download_btn >}}
+{{< downloadthis "Student Codespaces/bdsy-phm-individual.zip" label="Starter for individual project with Week 2 codespace" id=download_btn >}}
 
 {{< downloadthis "Student Codespaces/Week 3 Codespace.zip" label="Week 3 codespace" id=download_btn >}}
 
 
 ### Project Datasets and Materials
 
-Each group will be assigned data from one of three countries: Malawi, Nepal, or Peru. The datasets include the incidence of pneumococcal-caused respiratory disease, or in some cases, any causes of pneumonia, along with Global Pneumococcal Sequencing Project (GPS) sequencing data. Below, you will find these datasets, the source documentation or papers from which they were obtained, and any ancillary documentation such as a Data Dictionary. 
+Each group will be assigned data from one of three countries: Malawi, Nepal, or Peru. The datasets include the incidence of pneumococcal-caused respiratory disease, or in some cases, any causes of pneumonia, along with Global Pneumococcal Sequencing Project (GPS) metadata for genomic analysis using the [GPS pipeline](https://www.pneumogen.net/gps/#/resources#gps-pipeline)\ [@GPS]. Below, you will find these datasets, the source documentation or papers from which they were obtained, and any ancillary documentation, such as a Data Dictionary.
 
 :::{.callout-note}
 Not all sources provided a Data Dictionary, so students will need to explain their variables using the context provided by the source documentation.
 :::
 
 :::{style="margin-left: -1rem;"}
-- Complete GPS Data Viewer and Download\ [@GPS; @GPS_data; @GPS_dataDictionary] ([link to page](https://data-viewer.monocle.sanger.ac.uk/project/gps))
+- Complete GPS Metadata Viewer and Download\ [@GPS; @GPS_data; @GPS_dataDictionary] ([link to page](https://data-viewer.monocle.sanger.ac.uk/project/gps))
 :::
 
 {{< downloadthis "Student Project Materials/GPS Database Dictionary.xlsx" label="GPS Database Dictionary" id=download_btn >}}

@@ -13,7 +13,7 @@ date-format: long
 editor: visual
 ---
 
-:::{.callout-important}
+::: callout-important
 ## Page still in progress!!
 :::
 
@@ -21,41 +21,43 @@ editor: visual
 
 Real-world analytical problems are often complex, making it difficult to define or derive deterministic solutions. Two common approaches to support complex analytical projects are:
 
-1. Approximating with a known solvable function.
-2. Using stochastic search and optimization, especially Monte Carlo methods.
+1.  Approximating with a known solvable function.
+2.  Using stochastic search and optimization, such as Monte Carlo methods.
 
-While the first approach has many advantages, there are circumstances where approximating a problem with a known distribution is computationally prohibitive, overly reductive, or infeasible. In such cases, we leverage abstract probabilistic and statistical concepts, using stochastic search and optimization to transform randomness into inferential statistics. When applied correctly, these concepts can surprisingly guarantee robust solutions to otherwise unsolvable problems.
+While the first approach has many advantages, there are circumstances where approximating a problem with a known distribution is computationally prohibitive, overly reductive, or infeasible. In such cases, we leverage abstract probabilistic and statistical concepts to transform randomness into inferential statistics. When applied correctly, these concepts can surprisingly guarantee robust solutions to otherwise unsolvable problems.
 
-One of these powerful techniques is Markov chain Monte Carlo (MCMC). Random samples generated with MCMC can be used for various purposes, including computing statistical estimates, numerical integrals, and estimating the marginal or joint probabilities of multivariate distributions and densities. Notably, MCMC provides a means to generate samples from joint distributions by utilizing conditional, factorized distributions.
+One of these powerful techniques is Markov chain Monte Carlo (MCMC). Random samples generated with MCMC can be used for various purposes, including computing statistical estimates, numerical integrals, and estimating the marginal or joint probabilities of multivariate distributions and densities\ [@Spall2005]. Notably, MCMC provides a means to generate samples from joint distributions by utilizing conditional, factorized distributions\ [@Spall2005; @Koller2009].
 
-Two common MCMC methods are:
+Two common MCMC implementations are Metropolis-Hastings (M-H) and Gibbs sampling, with the latter being more accurately considered a special case of the former. Students are encouraged to explore M-H further on their own by reading the relevant sections of the supporting textbooks listed below. Today, we will focus on Gibbs sampling and only discuss M-H where it supports this learning, as Gibbs sampling is particularly well-suited for reducing high-dimensional problems into several one-dimensional ones\ [@Spall2005; @Wasserman2004].
 
-1. Metropolis-Hastings (M-H)
-2. Gibbs sampling
-
-Students are encouraged to explore M-H further on their own by reading the relevant sections of the supporting textbooks listed below. Today, we will focus on Gibbs sampling, as this technique is particularly well-suited for reducing high-dimensional problems into several one-dimensional ones.
-
-:::{.callout-tip}
+::: callout-tip
 ## Solid theory supports effective and accurate application!
 
 The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, to help students deepen their theoretical understanding of this week's material. This foundation will aid in generating better analysis in practice.
 
+-   [*All of Statistics: A Concise Course in Statistical Inference*](https://link.springer.com/book/10.1007/978-0-387-21736-9) by Larry Wasserman\ [@Wasserman2004]
+    -   Chapter 23 *Probability Redux: Stochastic Processes* Section 23.2 *Markov chains*.
+    -   Chapter 24 *Simulation Methods*. Section 24.4 *MCMC Part I: The Metropolis-Hastings Algorithm* and Section 24.5 *MCMC Part II: Different Flavors*.
+-   [*Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control*](https://www.jhuapl.edu/isso/) by James C. Spall\ [@Spall2005]
+    -   Chapter 16 *Markov chain Monte Carlo* Section 16.1 *Background*, Section 16.2 *Metropolis-Hastings Algorithm*, and Section 16.3 *Gibbs Sampling*.
+-   [*Probabilistic Graphical Models - Principles and Techniques*](https://mitpress.mit.edu/9780262013192/probabilistic-graphical-models/) by Koller and Friedman\ [@Koller2009]
+    -   Chapter 3 *The Bayesian Network Representation* Section 3.1 *Exploiting Independence Properties*, Section 3.2 *Bayesian Networks*, and Section 3.3 *Independencies in Graphs*.
+    -   Chapter 4 Unirected *Graphical Models*.
+    -   Chapter 12 *Particle-Based Approximate Inference* Section 12.3 *Markov Chain Monte Carlo Methods*.
+    -   Chapter 17 *Parameter Estimation* Section 17.5 *Learning Models with Shared Parameters*.
 :::
-
 
 ## Distribution Estimation by Particle Sampling
 
 ### Recall Markov Chains - A Stochastic Process
 
-This section is drawn from Wasserman, specifically Chapter 23 and 24.
+This section summarizes relevant concepts presented in Wasserman's *All of Statistics*, specifically Chapter 23\ [@Wasserman2004]. Unless otherwise noted, the content comes from Wasserman's *All of Statistics*.
 
 A **stochastic process** $\{X_t : t \in T\}$ is a collection of random variables taken from a **state space**, $\mathcal{X}$, and indexed by an ordered set $T$, which can be interpreted as time. The index set $T$ can be discrete, such as $T = \{0, 1, 2, \dots\}$, or continuous, such as $T = [0, \infty)$. To denote the stochastic nature of $X$, it can be written as $X_t$ or $X(t)$.
 
-
 ::: img-float
-![Illustration of state transition diagram for the Markov chain.](Images/Lee and Ni 2012_Figure 1.jpg){style="float: left; position: relative; top: 0px; padding-right: 10px; margin: auto auto auto auto;" width="450"}
+![Illustration of state transition diagram for the Markov chain\ [@Lee2012].](Images/Lee%20and%20Ni%202012_Figure%201.jpg){style="float: left; position: relative; top: 0px; padding-right: 10px; margin: auto auto auto auto;" width="450"}
 :::
-
 
 A **Markov chain** is a type of stochastic process where the distribution of future states depends only on the current state and not on the sequence of events that preceded it. For example, the outcome for $X_t$ depends only on what the outcome was for $X_{t-1}$. Notice that sometimes, authors with specify that $X$ is a Markov chain stochastic process by writing $X_n$ instead of $X_t$.
 
@@ -69,38 +71,190 @@ for all $n$ and for all $x \in \mathcal{X}$. Markov chains have many aspects, bu
 
 By applying the Chapman-Kolmogorov equations for n-step probabilities, where it is shown that $p_{ij}(m+n) = \sum_k p_{ik}(m) p_{kj}(n)$, we derive that a key characteristic of a stationary distribution $\pi$ for a Markov chain is that it is limiting. This means that, after any number of steps $n$, a distribution that reaches $\pi$ remains $\pi$:
 
-1. Draw $X_0$ from the distribution $\pi$ gives $\mu_0 = \pi$.
-2. Draw $X_1$ from the distribution $\pi$ gives $\mu_1 = \mu_0\mathbf{P} = \pi\mathbf{P} = \pi$.
-3. Draw $X_2$ from the distribution $\pi$ gives $\pi\mathbf{P}^2 = (\pi\mathbf{P})\mathbf{P} = \pi\mathbf{P} = \pi$.
-    
+1.  Draw $X_0$ from the distribution $\pi$ gives $\mu_0 = \pi$.
+
+2.  Draw $X_1$ from the distribution $\pi$ gives $\mu_1 = \mu_0\mathbf{P} = \pi\mathbf{P} = \pi$.
+
+3.  Draw $X_2$ from the distribution $\pi$ gives $\pi\mathbf{P}^2 = (\pi\mathbf{P})\mathbf{P} = \pi\mathbf{P} = \pi$.
+
     $\dots$ etc.
 
 Here, $\mu_n(i) = \mathbb{P}(X_n = i)$ denotes the marginal probability that the chain is in state $i$ at time $n$, while $\mu_0$ represents the **initial distribution**. Once the chain limits to the distribution $\pi$, it will remain in this distribution indefinitely. However, ensuring the process is stationary is not sufficient; it is also important to guarantee that $\pi$ is unique. This uniqueness is guaranteed if the Markov chain is **ergodic**, which must satisfy the following two characteristics:
 
-1. **Aperiodicity:** The states do not get trapped in cycles of fixed length. This means revisiting any state does not happen at regular intervals, ensuring more general behavior. For $d = \text{gcd}\{n\ :\ p_{ii}(n) > 0\}$ then $d(i) = 1$, where gcd means "greatest common divisor".
-2. **Positive Recurrence:** The expected number of steps to return to that state is finite. A Markov chain is positive recurrent if every state is positive recurrent.
+1.  **Aperiodicity:** The states do not get trapped in cycles of fixed length. This means revisiting any state does not happen at regular intervals, ensuring more general behavior. For $d = \text{gcd}\{n\ :\ p_{ii}(n) > 0\}$ then $d(i) = 1$, where gcd means "greatest common divisor".
+2.  **Positive Recurrence:** The expected number of steps to return to that state is finite. A Markov chain is positive recurrent if every state is positive recurrent.
 
 If the Markov chain is also **irreducible**, then all states communicate, meaning it is possible to get from any state to any other state, denoted by $i \leftrightarrow j$. Having an irreducible, ergodic Markov chain guarantees that it has a unique stationary distribution, $\pi$.
 
-:::{.callout-warning}
-A Markov chain with a stationary distrubtion does not mean that it converges.
+::: callout-warning
+A Markov chain with a stationary distribution does not mean that it converges.
 :::
 
 There is much more to learn about Markov chains beyond what was discussed here, but these fundamental concepts provide a foundation for understanding their use in Monte Carlo methods.
 
+### Motivation
+
+Traditionally, Monte Carlo methods rely on independent sampling. However, MCMC methods rely on a dependent Markov sequence with a limiting distribution that corresponds to the distribution we aim to model\ [@Spall2005]. MCMC has wide-ranging applications and is frequently used in Bayesian inference. However, it is also generalizable to other problems that are not Bayesian in nature\ [@Spall2005].
+
+To help you understand the connection between Monte Carlo sampling methods and estimating complex analytical solutions using Markov chains, let's first explore the motivation: initially within the commonly exemplified Bayesian framework, and then in a general sense. Consider the following scenario provided by Wasserman in the context of Bayesian inference where we have a process that generates the random vector $X$\ [@Wasserman2004]. We have the prior distribution $f(\theta)$ with respect to parameter $\theta$ and data $\mathbf{X} = (X_1, \dots, X_n)$ with a posterior density
+
+$$
+f(\theta\ \lvert\ \mathbf{X}) = \frac{\mathcal{L}(\theta)\ f(\theta)}{\int \mathcal{L}(\theta)\ f(\theta)\ d\theta}
+$$
+
+where the denominator is the normalizing constant, here denoted by $c$. The mean of the posterior is \begin{align*}
+\bar{\theta} &= \int \theta\ f(\theta\ \lvert\ \mathbf{X})\ d\theta \\
+&= \frac{1}{c} \int \theta\ \mathcal{L}(\theta)\ f(\theta)\ d\theta
+\end{align*}
+
+If the parameter space is multidimensional, i.e., $\boldsymbol{\theta} = (\theta_1, \dots, \theta_k)$, but we are only interested in one component, say $\theta_1$, then the marginal posterior density of $\theta_1$ is defined as $$
+f(\theta_1\ \lvert\ \mathbf{X}) = \int\int\cdots\int f(\theta_1, \dots, \theta_k\ \lvert\ \mathbf{X})\ d\theta_2 \cdots\ d\theta_k
+$$
+
+As can easily be seen, it might not always be feasible to calculate this outcome directly. Generally speaking, we have a random vector $\mathbf{X}$ and we wish to compute $E[f(\mathbf{X})]$\ [@Spall2005]. If the random vector is continuous and associated with the probability density $p(\boldsymbol{x})$, then we want to calculate $$
+E[f(\mathbf{X})] = \int f(\boldsymbol{x})\ p(\boldsymbol{x})\ d\boldsymbol{x}
+$$
+
+The density $p(\boldsymbol{x})$ is often referred to as the **target density**, representing the distribution of the random variables that are of interest in our study\ [@Spall2005].
+
+::: callout-note
+Markov chains are typically reserved for discrete outcomes. However, general applications of MCMC can be used for discrete, continuous, or hybrid outcomes. In this context, Markov chains can be applied to any type of distribution\ [@Spall2005].
+:::
+
+Standard Monte Carlo methods aim to draw $n$ independent, identically distributed (i.i.d.) samples of $\mathbf{X}$ directly from $p(\boldsymbol{x})$, but this is also not always feasible\ [@Spall2005]. Simple random generation methods require specific restrictions to ensure a solution or might be computationally inefficient in high-dimensional problems. For example, the adaptation of the accept-reject method from *Monte Carlo Statistical Methods* by Robert and Casella, called adaptive rejection sampling, is restricted to densities that are log-concave and has computational power requirements that are proportional to the fifth power of $\text{dim}(\mathbf{X})$\ [@Spall2005; @Robert2004].
+
+Canonical Monte Carlo approaches are more restrictive than is necessary to estimate $E[f(\mathbf{X})]$. Leveraging Markov chain-based schemes avoids the necessity of sampling directly from $p(\boldsymbol{x})$; instead, dependent sequences with a limiting distribution of $p(\boldsymbol{x})$ are used\ [@Spall2005].
+
+Recall that in the previous section, we showed that a Markov chain that is irreducible and ergodic is guaranteed to have a unique stationary distribution, $\pi$\ [@Wasserman2004]. This is a consequence of the ergodic theorem, which guarantees that the normalized sum below will approach the mean of $f(\mathbf{X})$, with convergence in mean square (m.s.) or almost surely (a.s.) as $n \rightarrow \infty$ for any fixed $M$\ [@Spall2005].
+
+$$
+\frac{1}{n-M} \sum_{k = M+1}^n\ f(\mathbf{X}_k)
+$$
+
+Here, $M$ is referred to as the "burn-in" period. We know that the dependence of $\mathbf{X}_k$ on early states, say $\mathbf{X}_0, \mathbf{X}_1, \dots, \mathbf{X}_M$, for bounded $M < \infty$, disappears as $k \rightarrow \infty$\ [@Spall2005]. With sufficient burn-in, we achieve the ergodic average that stabilizes at $\pi$, and when executed correctly, $\pi$ equals the target density to within a scalar value\ [@Wasserman2004; @Spall2005].
+
+::: {.callout-note collapse="true"}
+## Types of Convergence
+
+This excerpt summarizes Spall's *Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control* Appendix C.2 Convergence Theory\ [@Spall2005].
+
+Finite-sampled stochastic algorithms are often intractable, justifying the focus on the behavior of stochastic processes in their limit. The type of convergence properties a process has informs us about the scenarios where it is appropriate to apply the theory in practice and provides insight into non-limiting behaviors. Convergence for stochastic algorithms is probabilistic and characterized by measure-theoretic concepts, often classified into the following four types:
+
+$$
+\gdef\norm#1{\left\lVert#1\right\rVert}
+$$
+
+**Convergence almost surely:** The sequence of random vectors $\mathbf{X}_k \rightarrow \mathbf{X}$ a.s. (or with probability 1)
+
+$$
+P\left(\omega \in \Omega \ : \ \lim_{k \rightarrow \infty}\ \norm{\mathbf{X}_k(\omega) - \mathbf{X}(\omega)} = 0\right) = 1
+$$
+
+**Convergence in probability:** The sequence of random vectors $\mathbf{X}_k \rightarrow \mathbf{X}$ in pr.
+
+$$
+\lim_{k \rightarrow \infty} P\left(\omega \in \Omega \ : \ \norm{\mathbf{X}_k(\omega) - \mathbf{X}(\omega)} \geq c\right) = 0\ \ \ \text{ for any } c > 0
+$$
+
+**Convergence in mean square:** The sequence of random vectors $\mathbf{X}_k \rightarrow \mathbf{X}$ in m.s.
+
+$$
+\lim_{k \rightarrow \infty} E\left(\norm{\mathbf{X}_k(\omega) - \mathbf{X}(\omega)}^2\right) = 0
+$$
+
+**Convergence in distribution:** The sequence of random vectors $\mathbf{X}_k \rightarrow \mathbf{X}$ in m.s.
+
+$$
+\lim_{k \rightarrow \infty} F_{\mathbf{X}_k}(\boldsymbol{x}) = F_{\mathbf{X}}(\boldsymbol{x})\ \ \ \text{ at every point } \boldsymbol{x} \text{ where } F_{\mathbf{X}}(\boldsymbol{x}) \text{ is continuous.}
+$$
+
+where $\norm{\cdot}$ denotes any valid norm, i.e., the Euclidean norm $\norm{\boldsymbol{x}} = \sqrt{\sum_i x_i^2}$, and $x_i$ is the $i^{th}$ component of the vector $\boldsymbol{x}$.
+:::
+
+In the next section, we will show how Gibbs sampling produces the correct mean, computed with respect to our target density $p(\boldsymbol{x})$. In summary, we have thus far introduced the basic concepts around Markov chains that simplify random sampling from conditional distributions, which are guaranteed to converge if irreducible and ergodic. With the appropriate burn-in, $M$, we can ensure the ergodic average stabilizes at $\pi$. We now want to show that Gibbs sampling is capable of producing a stabilized limiting distribution, $\pi$, that is proportional to our target density $p(\boldsymbol{x})$.
+
+### A Brief Interlude in Probabilistic Graphical Modeling
+
+The concept of Gibbs sampling was introduced by Geman and Geman in their paper *Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images*\ [@Geman1984; @Bishop2006; @Spall2005]. In their work, they identified the equivalence between Markov random fields and the Gibbs distribution, also known as the Boltzmann distribution, which had been previously used in physical chemistry to relate the probability of a system's state to its energy and temperature\ [@Geman1984; @gibbs_dist].
+
+::: callout-tip
+## Josiah Gibbs: Yale's First Engineering Ph.D. and Chair of Mathematical Physics
+
+Gibbs sampling is named after the American mechanical engineer and scientist, Josiah Willard Gibbs, who received the first Ph.D. in engineering in the United States in 1863 from Yale University. He was also appointed the first chair of mathematical physics in the United States at Yale, and contributed to many areas in physics, chemistry, and mathematics. Gibbs is credited with laying the foundation for the field of physical chemistry\ [@josiah_gibbs; @Bishop2006].
+:::
+
+Fundamentally, this is why Gibbs sampling has a natural intuition tied to graphical modeling, a broader subject that we will only lightly touch upon in this week's concept. Some sources attempt to explain Gibbs sampling outside of the graphical model framework, but the more comprehensive ones will acknowledge this connection. It is beyond our scope to bring students entirely up to speed with graphical theory, so additional reading has been provided earlier to help bridge this gap if readers find any of the content too advanced.
+
+In practice, especially in medical diagnosis problems, there may be hundreds of attributes that contribute to the joint probability distribution for a given disease\ [@Koller2009]. Furthermore, some of these distributions may overlap or have similarities with those of other diseases, making them challenging to separate using standard probabilistic approaches. Probabilistic graphical models are graph-based representations of variable interactions, which can help to succinctly represent these interactions in digestible pieces despite their high dimensionality\ [@Koller2009].
+
+More impressively, graphical modeling encodes interaction attributes such as independencies, factorization, pathways, and message propagation. This not only provides an intuitive understanding of complex interactions but also allows for the exploitation of these features for inference and efficient computation\ [@Koller2009; @Bishop2006]. Shown below are two fundamental ways in which variables and their relationships with one another can be represented: a Bayesian network, also referred to as a Directed Graph, and a Markov network, also known as an Undirected Graph.
+
+![Modified version of Figure 1.1 from *Probabilistic Graphical Models* by Koller and Friedman\ [@Koller2009].](Images/Probabilistic%20Graphical%20Models%20by%20Koller%20and%20Friedman_Modified%20Figure%201.1.png){style="float: none; display: block; margin-left: auto; margin-right: auto; width: 90%;"}
+
+The key concept exemplified by the figure above is independence properties. These can differ for the same graph depending on whether the relationships between variables are defined as directed or undirected, but ultimately allow for factorization representing these independence assertions. The notation differences for factorized joint distributions, shown at the bottom of the figure, are used to differentiate the types of dependency structures implied by the graph itself.
+
+By definition, the Markov network factorization is a Gibbs distribution parameterized by the set of factors $\Phi = {\phi(A, B), \phi(B, C), \phi(C, D), \phi(A, D)}$ with the normalizing constant called the partition function
+
+$$
+Z = \sum_{X_1, \dots, X_n}\ \tilde{P}_{\Phi}(X_1, \dots, X_n)
+$$
+where $\tilde{P}_{\Phi}$ represents the joint distribution factorized into conditional probabilities based on its independencies\ [@Koller2009].
+
+:::{.callout-important}
+## Factor $\neq$ Marginal
+
+A factor is one contribution to the overall joint distribution, while a marginal represents a distribution where at least one variable from the joint has been summed or integrated out\ [@Koller2009].
+:::
+
+Although we have discussed Markov chains earlier and provided the explicit definition of a Gibbs distribution in the context of probabilistic graphical modeling, this does not imply that Gibbs sampling is exclusively applicable to undirected graphs\ [@Bishop2006]. How the differences affect Gibbs sampling is discussed in the next section.
 
 ### Gibbs Sampling
 
-$\pi$ satisfies **detailed balance** if $\pi_i p_{ij} = \pi_j p_{ji}$, guaranteeing that $\pi$ is a stationary distribution.
+In the M-H algorithm, we start with a **proposed distribution**, $q(\cdot\ \lvert x)$, from which we can sample, but which is not directly the target distribution, $p(\boldsymbol{x})$. In many cases, it may be chosen arbitrarily, as long as its limiting behaviors converge to the target distribution\ [@Spall2005]. For MCMC conducted using the M-H algorithm to work, we need to ensure $\pi$ satisfies detailed balance, where the probability of transitioning from state $i$ to $j$ must be equal to the probability of the reverse transition when multiplied by their respective stationary distribution probabilities\ [@Wasserman2004].
+
+$$
+\pi_i p_{ij} = \pi_j p_{ji}
+$$
+
+At each step in the algorithm, a candidate point is drawn from the proposal distribution, denoted using the random variable $\mathbf{W}$. Assuming that this proposal distribution satisfies detailed balance and is a superset of the points for the target distribution (ensuring they are fully supported), then candidate draws are kept or discarded with probability $\rho(\mathbf{X}_k, \mathbf{W})$\ [@Spall2005]
+
+$$
+\rho(\boldsymbol{x}, \boldsymbol{w}) = \min\left\{\frac{p(\boldsymbol{w})}{p(\boldsymbol{x})} \frac{q(\boldsymbol{x}\ \lvert\ \boldsymbol{w})}{q(\boldsymbol{w}\ \lvert\ \boldsymbol{x})},\ 1\right\}
+$$
+
+If a candidate point is accepted, then $\mathbf{X}_{k+1} = \mathbf{W}$; otherwise, $\mathbf{X}_{k+1} = \mathbf{X}_k$\ [@Spall2005].
+
+:::{.callout-note}
+When samples from the Markov chain start to resemble the target distribution, it is said to be "mixing well"\ [@Wasserman2004]. Tweaking the parameters used in the proposed distribution to support good mixing is not always straightforward and may require some trial-and-error troubleshooting; refer to example 24.10 from Wasserman's _All of Statistics_ for an illustration of this.
+:::
 
 
-### Translating Equations to Graphical Models
+Gibbs sampling is much like M-H, but it is a special case where the proposal distribution comes directly from the conditional factorizations of $p(\boldsymbol{x})$ itself. In a sense, it can be thought of as $m$ M-H algorithms working together, where each proposed distribution is one conditional factorization of $p(\boldsymbol{x})$\ [@Spall2005]. In this context, $m$ represents the number of random variables, each having its own conditional distribution for sampling. Consider the following scenario from Spall where we have a distribution $p_{X,Y,Z}(\cdot)$ that we wish to sample from:
+
+1. Start with an initial guess for $Y$ and $Z$ and sample from $p_{X \mid Y_0, Z_0}(x \mid Y_0, Z_0)$ to generate $X_1$.
+2. Accept the outcome from the previous step and sample from $p_{Y \mid X_1, Z_0}(y \mid X_1, Z_0)$ tp generate $Y_1$.
+3. Accept the outcome from the previous step and sample from $p_{Z \mid X_1, Y_1}(z \mid X_1, Y_1)$ to generate $Z_1$.
+4. Repeat the process until you have $n-1$ values for $X$ and $n$ values for $Y$ and $Z$.
+
+
+At the end of this process, you will have produced the **Gibbs sequence**. For the example above, we have
+
+$$
+Y_0, Z_0;\ X_1, Y_1, Z_1;\ X_2, Y_2, Z_2;\ \dots; X_n, Y_n, Z_n
+$$
+
+
+Because we are drawing from the conditioned factors of the target distribution, this makes Gibbs sampling less generalizable than M-H, but it comes with advantageous trade-offs. For instance, drawing directly from the target distribution itself ensures that detailed balance is already satisfied, and the algorithm is expected to be more efficient because the new point is always accepted\ [@Spall2005; @Bishop2006].
+
+Gibbs sampling is inherently suited to address multivariate problems because it breaks a high-dimensional vector into lower-dimensional component blocks\ [@Spall2005]. At each step of the algorithm, the proposal distribution for the $i^{th}$ element of $\mathbf{X}$ is the conditional distribution of that variable given the recent value it and all other variables in the distribution were assigned in the previous step. The process iterates over all variables and conditional statements until it is possible to compute the ergodic average. In their limit, the samples come from the joint multivariate distribution, and each sampling has a distribution that approaches its respective marginal from the joint.
+
+
+Gibbs sequence
 
 
 
 
-## Higherarchical Modeling
-
+## Hierarchical Modeling
 
 ## Set Up the Environment
 
@@ -108,7 +262,7 @@ $\pi$ satisfies **detailed balance** if $\pi_i p_{ij} = \pi_j p_{ji}$, guarantee
 
 The `rjags` package requires [JAGS](https://mcmc-jags.sourceforge.io/) to be installed separately. `rjags` will reference the JAGS `libjags.4.dylib` library file and the `modules-4` directory, which contains seven `*.so` files, such as `bugs.so.` The next steps will walk you through installation, and an optional troubleshooting guide if R cannot find the JAGS file path.
 
-::::: panel-tabset
+:::::: panel-tabset
 ## Mac
 
 1.  From [JAGS](https://mcmc-jags.sourceforge.io/), open the download link that will take you to a SourceForge page.
@@ -124,7 +278,6 @@ The `rjags` package requires [JAGS](https://mcmc-jags.sourceforge.io/) to be ins
     ls -l /usr/local/lib/libjags.4.dylib
     ls -l /usr/local/lib/JAGS/modules-4/
     ```
-
 
 ::: {.callout-tip collapse="true"}
 ## If the namespace load failed
@@ -180,7 +333,7 @@ brew install jags
 
 ## PC
 
-:::{.callout-note}
+::: callout-note
 This page was developed on a Mac, and so the directions for a PC were not able to be tested.
 :::
 
@@ -243,20 +396,18 @@ Sometimes the installer might place the JAGS program in a different location. If
     library(rjags)
     ```
 :::
-:::::
+::::::
 
-With JAGS installed, we can now proceed with the standard process of installing the packages.
+With JAGS installed, we can now proceed with the standard process of installing the necessary packages. If you have not done so already, you will need to initialize the project's `renv` lockfile to ensure that the same package versions are installed in the project's local package library.
 
-
-```{r}
+```{r filename="RStudio"}
 #| eval: FALSE
 
 renv::init()      # Initialize the project     
 renv::restore()   # Download packages and their version saved in the lockfile
 ```
 
-
-```{r}
+```{r filename="RStudio"}
 #| message: FALSE
 #| warning: FALSE
 
@@ -282,6 +433,10 @@ suppressPackageStartupMessages({
 ```
 
 
+To demonstrate hierarchical modeling using Gibbs sampling to estimate the distribution, we are going to examine the data and results from _Potential Impact of Higher-Valency Pneumococcal Conjugate Vaccines Among Adults in Different Localities in Germany_ by Ellingson et al. The data comes from surveillance for IPD conducted by German National Reference Center for Streptococci (GRNCS), which collects voluntarily reported microbial diagnostic lab results and is expected to account for 50% of all IPD in Germany. Serotyping is done by GNRCS using the samples provided by these laboratories, and incidences are reported as cases per 100,000 using the age-specific population in Germany in 2018\ [@Ellingson2023].
+
+
+<div class="scrollable-output">
 ```{r}
 #| message: FALSE
 #| warning: FALSE
@@ -289,20 +444,42 @@ suppressPackageStartupMessages({
 # Read in the cleaned data directly from the instructor's GitHub.
 df <- read_csv("https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/testDE2.csv")
 
+# Summarize the variable names included in the dataset.
+colnames(df)
+```
+</div>
+
+
+The dataset includes a large amount of information that is not required for our analysis today. We will, therefore, focus only on the variables used in the hierarchical model itself.
+
+```{r}
 # Summarize aspects and dimentions of our dataset.
-glimpse(df)
+glimpse(df[, c(39:42, 45, 8, 15)])
 ```
 
-- **SeroType:** The serotype of the pathogen.
-- **epiyr:** The epidemiological year of the observation.
-- **cases:** This is a new variable created to represent the count of cases for each serotype and year combination.
+### Data Dictionary
+
+This paper did not explicitly describe each variable in a “Data Dictionary”; therefore, the following was assembled based on the context and methods provided in the paper, other like papers by the same authors, and its supplementary materials\ [@Ellingson2023; @Perniciaro2022].
+
+-   **date:** The date when the events were recorded. It is not clear if this is the date GNRCS received the samples or when they were collected at the participating lab.
+-   **year:** The year from the date column.
+-   **month:** The month from the date column.
+-   **epiyr:** The epidemiological year of the observation ([MMWR definition](https://ndc.services.cdc.gov/wp-content/uploads/MMWR_week_overview.pdf))\ [@mmwr_cdc].
+-   **vaxperiod:**  Numerical encoding differentiating years where the PCV vaccine recommendations differed, with approximately a one-year latency time built in. It is not clear what each phase denotes, but based on other papers by the same authors, they appear to mean\ [@Perniciaro2022]:
+
+    - `vaxperiod = 1` The period before Germany instituted its recommendation for all infants to receive 4 PCV doses in July 2006. The specific formula was not enforced and could either have been the 10-valent or 13-valent PCV. Spans 2001 to 2007.
+    - `vaxperiod = 2` The period following introduction of PCV in infants in 2006 and before the updated recommendation for infants to receive 2 primary doses and a booster dose.  Spans 2007 to 2015.
+    - `vaxperiod = 3` The period following the updated recommendation in 2015. Spans 2015 to 2018.
+    - **NOTE:** 2019 is the last year reported in the dataset an was not assigned to any vaccine period.
+    
+-   **AgeInYears:** The year of the patient from which the same was collected.
+-   **SeroType:** The serotype of the pathogen identified using capsular swelling with the full antiserum.
 
 
-1. Aggregating the data to count the number of cases for each serotype-year combination.
-2. Ensuring that all possible serotype-year combinations are represented.
-3. Creating numeric IDs for `SeroType` and `epiyr.`
-4. Creating a list of data objects required for running the JAGS model, including case counts, numeric IDs, and the number of unique serotypes and years.
-
+1.  Aggregating the data to count the number of cases for each serotype-year combination.
+2.  Ensuring that all possible serotype-year combinations are represented.
+3.  Creating numeric IDs for `SeroType` and `epiyr.`
+4.  Creating a list of data objects required for running the JAGS model, including case counts, numeric IDs, and the number of unique serotypes and years.
 
 ```{r}
 # Aggregate the data by SeroType and epiyr to get the number of cases 
@@ -333,13 +510,18 @@ jdat <- list(
 ```{r}
 source("Model2.R")
 
-# mod <- jags.model(textConnection(jcode), data = jdat, n.chains = 2)
-# update(mod, 1000)  # burn-in
-# samp <- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)
-# 
-# summary(samp)
+mod <- jags.model(textConnection(jcode), data = jdat, n.chains = 2)
 ```
 
+
+<div class="scrollable-output">
+```{r}
+update(mod, 1000)  # burn-in
+samp <- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)
+
+summary(samp)
+```
+</div>
 
 ```{r}
 
@@ -424,8 +606,3 @@ source("Model2.R")
 #   theme_minimal() +
 #   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
-
-
-
-

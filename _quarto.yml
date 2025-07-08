@@ -40,6 +40,12 @@ website:
         target: _blank
       - icon: envelope 
         href: mailto:BDSY2025PublicHealthModeling@yale.edu
+      - icon: globe
+        href: https://ysph.yale.edu/
+        target: _blank
+      - icon: people-fill
+        href: https://ysph.yale.edu/public-health-research-and-practice/research-centers-and-initiatives/public-health-data-science-and-data-equity/
+        target: _blank
     right: 
       - text: |
           Office Hours 12:30 PM - 1:30 PM 

@@ -31,7 +31,7 @@ We expect the audience to provide insightful, constructive feedback to help impr
 
 It is critical that each member of your group equally shares the responsibilities of conducting the research and presenting the weekly updates. Complimenting colleagues' work demonstrates good professionalism and helps the team identify and maintain effective practices.
 
-## Thursday July 2nd
+## Thursday July 3rd
 
 **Have Completed:**
 
@@ -64,11 +64,11 @@ It is critical that each member of your group equally shares the responsibilitie
 -   3 slides explaining what Time Series and Hierarchical Modeling are addressing in layman's terms and how they support your hypothesis/study question.
 -   1 slide to discuss whether working with the data and seeing the results has shaped the research question/hypothesis.
 
-## Thursday, July 16th
+## Thursday, July 17th
 
 **Have Completed:**
 
--   Implemented GPS and Market Basket analysis, focusing on how they support your hypothesis/research questions.
+-   Implement Market Basket analysis and visualize the results from the GPS pipeline, focusing on how they support your hypothesis/research questions. The subset of your data that is relevant to your research question will be prerun for you using the GPS analysis pipeline, leaving only the visualization tasks for you to complete.
 -   Finished the methods section with GPS and Market Basket analysis and relevant visualizations.
 -   Slide deck first draft for the 25 minute symposium presentation.
 -   Poster first draft.

@@ -80,6 +80,17 @@ h2, .h2 {
 }
 
 
+/*-- Limit the view of a long codeblock output --*/
+/*-- Surround with <div class="scrollable-output"> ... </div> in Quarto --*/
+
+.scrollable-output pre {
+  max-height: 300px;
+  overflow: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+
 /*-- scss: header tiles --*/
 
 /* Container holding the image and the text */
