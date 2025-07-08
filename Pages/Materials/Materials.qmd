@@ -18,7 +18,28 @@ Please note that this page contains numerous links and download buttons, which m
 
 ## Lecture Slides
 
-{{< downloadthis "In Class Presentations/Day4.pptx" label="Day 4 Slide Deck" id=download_btn >}} {{< downloadthis "In Class Presentations/Day5.pptx" label="Day 5 Slide Deck" id=download_btn >}}
+### Week #1
+
+{{< downloadthis "In Class Presentations/Day1.pptx" label="Day 1 Slide Deck" id=download_btn >}} {{< downloadthis "In Class Presentations/Day2.pptx" label="Day 2 Slide Deck" id=download_btn >}}
+
+Day 2 - Outbreak Investigation
+
+- Part 1 ([view handout](In Class Presentations/Day2_Outbreak Investigation Part 1.pdf))
+- Part 2 ([view handout](In Class Presentations/Day2_Outbreak Investigation Part 2.pdf))
+- Part 3 ([view handout](In Class Presentations/Day2_Outbreak Investigation Part 3.pdf))
+
+### Week #2
+
+{{< downloadthis "In Class Presentations/Day3.pptx" label="Day 3 Slide Deck" id=download_btn >}} {{< downloadthis "In Class Presentations/Day4.pptx" label="Day 4 Slide Deck" id=download_btn >}} {{< downloadthis "In Class Presentations/Day5.pptx" label="Day 5 Slide Deck" id=download_btn >}}
+
+### Week #3
+
+{{< downloadthis "In Class Presentations/Day7.pptx" label="Day 7 Slide Deck" id=download_btn >}} 
+
+### Week #4
+
+{{< downloadthis "In Class Presentations/Day11.pptx" label="Day 11 Slide Deck" id=download_btn >}}
+
 
 ## Codespaces
 
@@ -33,9 +54,11 @@ Please download the codespaces provided for each weekly module release. Note tha
 
 Subsequent weekly releases should be placed inside your root project directory. For instance, if you are using the directory "~/bdsy-phm-individual", place the weekly releases within that directory.
 
-{{< downloadthis "Student Codespaces/bdsy-phm-individual.zip" label="Starter for individual project with Week 2 codespace" id=download_btn >}}
+{{< downloadthis "Student Codespaces/bdsy-phm-individual.zip" label="Starter for individual project with week 2 codespace" id=download_btn >}}
 
-{{< downloadthis "Student Codespaces/Week 3 Codespace.zip" label="Week 3 codespace" id=download_btn >}}
+{{< downloadthis "Student Codespaces/Week 3 Codespace.zip" label="Week 3 code" id=download_btn >}}
+
+{{< downloadthis "Student Codespaces/Week 4 Code.Rmd" label="Week 4 code" id=download_btn >}}
 
 
 ### Project Datasets and Materials
@@ -65,6 +88,8 @@ Not all sources provided a Data Dictionary, so students will need to explain the
 ## Templates
 
 {{< downloadthis "BDSY Slides Template 2025.potx" label="BDSY Slides Template 2025" id=download_btn >}}
+
+{{< downloadthis "Poster Templates_Six Options.pptx" label="Six Poster Template Options" id=download_btn >}}
 
 
 ## Tips and Advice

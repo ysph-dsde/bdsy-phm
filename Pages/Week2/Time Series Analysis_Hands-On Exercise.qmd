@@ -16,18 +16,18 @@ editor: visual
 
 ## Introduction
 
-This workshop was developed by [Dr. Dan Weinberger](https://ysph.yale.edu/profile/daniel-weinberger/) from the Yale School of Public Health (YSPH) for the 12$^{th}$ International Symposium on Pneumococci and Pneumococcal Diseases (ISPPD-12) hosted in Toronto, Canada in June 2022. Here, we have adapted his workshop session #1, which compares different methods for fitting a time series dataset [@isppd_github]. Students are encouraged to explore the workshop content that Dr. Weinberger put together to learn more about the subject:
+This workshop was developed by [Dr. Dan Weinberger](https://ysph.yale.edu/profile/daniel-weinberger/) from the Yale School of Public Health (YSPH) for the 12$^{th}$ International Symposium on Pneumococci and Pneumococcal Diseases (ISPPD-12) hosted in Toronto, Canada in June 2022. Here, we have adapted his workshop session #1, which compares different methods for fitting a time series dataset\ [@isppd_github]. Students are encouraged to explore the workshop content that Dr. Weinberger put together to learn more about the subject:
 
--   **GitHub:** Find the code, original data, and slides [@isppd_github].
--   **Workshop Webpage:** Find a longer description of the workshop in the format of a mini course with links to video presentations of select sections - *Workshop on the evaluation of vaccine impact* [@isppd_webpage].
+-   **GitHub:** Find the code, original data, and slides\ [@isppd_github].
+-   **Workshop Webpage:** Find a longer description of the workshop in the format of a mini course with links to video presentations of select sections - *Workshop on the evaluation of vaccine impact*\ [@isppd_webpage].
 
-The data used here is a subset of the complete set used in Oliveira, L. H. D. *et al. 2020* [@DeOliveira2021]. In their paper, national-level mortality data spanning from 2000 to 2016 for children under 5 years of age was compiled and standardized by national mortality registers in 10 Latin American and Caribbean countries. The primary cause of death was classified using the International Classification of Diseases, Tenth Revision (ICD-10) codes ([Influenza and pneumonia J09-J18](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) or Oliveira, L. H. D. *et al. 2020* Supplementary Table 2) [@DeOliveira2021_supplement; @icd10_codes]. The goal of the paper was to evaluate the efficacy of pneumococcal conjugate vaccines (PCVs) in children who received any part of the standard-of-care vaccination series.
+The data used here is a subset of the complete set used in Oliveira, L. H. D. *et al. 2020*\ [@DeOliveira2021]. In their paper, national-level mortality data spanning from 2000 to 2016 for children under 5 years of age was compiled and standardized by national mortality registers in 10 Latin American and Caribbean countries. The primary cause of death was classified using the International Classification of Diseases, Tenth Revision (ICD-10) codes ([Influenza and pneumonia J09-J18](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) or Oliveira, L. H. D. *et al. 2020* Supplementary Table 2)\ [@DeOliveira2021_supplement; @icd10_codes]. The goal of the paper was to evaluate the efficacy of pneumococcal conjugate vaccines (PCVs) in children who received any part of the standard-of-care vaccination series.
 
 Today, we are going to examine the efficacy of pneumococcal conjugate vaccines (PCVs) in children aged 2 to 59 months in Ecuador. The standard-of-care vaccination series involves a primary series of either two doses (administered at 2 and 4 months of age) or three doses (administered at 2, 4, and 6 months of age), with the option of an additional booster dose (administered at 12-18 months of age). This dataset does not differentiate between patients who received varying levels of inoculation, and instead reports the data if any PCV was delivered.
 
 ## Preamble
 
-This section is drawn from Dr. Weinberger's recorded presentation *What is ‘vaccine impact’?; and Administrative data: challenges and opportunities for evaluation studies* [@isppd_video1].
+This section is drawn from Dr. Weinberger's recorded presentation *What is ‘vaccine impact’?; and Administrative data: challenges and opportunities for evaluation studies*\ [@isppd_video1].
 
 Statistical inference can be reduced to quantitatively answering three types of questions:
 
@@ -79,7 +79,7 @@ suppressPackageStartupMessages({
 '%!in%' <- function(x,y)!('%in%'(x,y))
 ```
 
-The data has been cleaned and standardized for use here, and is imported directly using the GitHub raw URL. You can explore the additional data cleaning steps applied to all of the data in the instructor’s GitHub repository: [ysph-dsde/bdsy-phm](https://github.com/ysph-dsde/bdsy-phm). The original dataset and prior data cleaning, validation, and standardization can be found in the paper's GitHub repository and Dr. Weinberger's workshop GitHub repository [@DeOliveira2021; @isppd_github].
+The data has been cleaned and standardized for use here, and is imported directly using the GitHub raw URL. You can explore the additional data cleaning steps applied to all of the data in the instructor’s GitHub repository: [ysph-dsde/bdsy-phm](https://github.com/ysph-dsde/bdsy-phm). The original dataset and prior data cleaning, validation, and standardization can be found in the paper's GitHub repository and Dr. Weinberger's workshop GitHub repository\ [@DeOliveira2021; @isppd_github].
 
 ```{r}
 #| message: FALSE
@@ -96,7 +96,7 @@ glimpse(df)
 
 It is crucial that we understand the meaning of each variable in our dataset. Sometimes, there are surprising aspects embedded within the variables that are not immediately discernible from the table itself. Many sources provide a "Data Dictionary" for this purpose, but at times, you may need to interpret the variable meanings based on context and methods.
 
-This paper did not explicitly describe each variable in a "Data Dictionary"; therefore, the following was assembled based on the context and methods provided in the paper and its supplementary materials [@DeOliveira2021; @DeOliveira2021_supplement].
+This paper did not explicitly describe each variable in a "Data Dictionary"; therefore, the following was assembled based on the context and methods provided in the paper and its supplementary materials\ [@DeOliveira2021; @DeOliveira2021_supplement].
 
 -   **date:** The month when the events were recorded. This spans from `r str_c(min(df$date), " to ", max(df$date))`.
 
@@ -106,7 +106,7 @@ This paper did not explicitly describe each variable in a "Data Dictionary"; the
 
 -   **doses:** Specifies the doses of PCV received. As described earlier, all possible combinations of the standard-of-care vaccination series and booster are represented here.
 
--   **J12_J18_prim:** Primary cause of death is assigned to the ICD-10 codes J12-J18. We encourage you to read more about what these [ICD-10 codes](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) represent [@DeOliveira2021_supplement; @icd10_codes].
+-   **J12_J18_prim:** Primary cause of death is assigned to the ICD-10 codes J12-J18. We encourage you to read more about what these [ICD-10 codes](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) represent\ [@DeOliveira2021_supplement; @icd10_codes].
 
 -   **acm_noj_prim:** Primary cause of death was assigned any other ICD=10 code, excluding only the J chapter, diseases of the respiratory system.
 
@@ -124,7 +124,7 @@ vax.eval.date <- as.Date("2011-08-01")
 
 ```
 
-We are not going to spend time explaining how to plot using the `tidyverse` package `ggplot2()` here. Later in the week you will receive a lecture covering this topic. In the meantime, you are welcome to explore the `ggplot2` package documentation or the Data Science and Data Equity (DSDE) group's online [Book of Workshops](https://ysph-dsde.github.io/Book-of-Workshops/Data-Visualization-with-ggplot2/) [@ggplot2_doc; @book_workshops].
+We are not going to spend time explaining how to plot using the `tidyverse` package `ggplot2()` here. Later in the week you will receive a lecture covering this topic. In the meantime, you are welcome to explore the `ggplot2` package documentation or the Data Science and Data Equity (DSDE) group's online [Book of Workshops](https://ysph-dsde.github.io/Book-of-Workshops/Data-Visualization-with-ggplot2/)\ [@ggplot2_doc; @book_workshops].
 
 ```{r}
 #| fig.width: 8
@@ -237,15 +237,15 @@ This is not a terrible predictor of our trend, but it overlooks many known sourc
 
 ### Add Controls for Seasonality
 
-Seasonality often manifests as periodicity, where recurring patterns repeat at regular, fixed intervals of time. This differs from the related concept of cyclicity, which represents recurring patterns that do not occur at regular intervals or consistently appear in regular seasons [@periodicity].
+Seasonality often manifests as periodicity, where recurring patterns repeat at regular, fixed intervals of time. This differs from the related concept of cyclicity, which represents recurring patterns that do not occur at regular intervals or consistently appear in regular seasons\ [@periodicity].
 
 Each seasonal pattern can be decomposed into three components that can either remain constant (stationary) or change over time (non-stationary): mean, variance, and covariance. The figure on the left illustrates the four possible seasonal trends separately. The top-left panel shows a recurring pattern with time-invariant, stationary parameters, while the other panels demonstrate the effects of non-stationary parameters.
 
 ::: callout-note
-Most time series data in the natural sciences exhibit seasonality, periodicity, or cyclicity, though these patterns may be difficult to detect when the data is noisy [@Ramanathan2020].
+Most time series data in the natural sciences exhibit seasonality, periodicity, or cyclicity, though these patterns may be difficult to detect when the data is noisy\ [@Ramanathan2020].
 :::
 
-To control for temporal variations such as seasonality, we employ a simple form of dynamic linear regression (DLR). Essentially, we add variables to our simple linear regression model that represents different subsections of time as new regressors. Applying a DLR allows for changes in the mean value of the underlying regression relationship [@Young2011]. For the regression function to recognize each date, we need to factorize the date variable to assign the month the observation occured.
+To control for temporal variations such as seasonality, we employ a simple form of dynamic linear regression (DLR). Essentially, we add variables to our simple linear regression model that represents different subsections of time as new regressors. Applying a DLR allows for changes in the mean value of the underlying regression relationship\ [@Young2011]. For the regression function to recognize each date, we need to factorize the date variable to assign the month the observation occured.
 
 ```{r}
 df$month <- as.factor(month(df$date))
@@ -290,18 +290,18 @@ p_season
 ### Add Controls for Baseline Shifts
 
 ::: img-float
-![Figure by Dr. Dan Weinberger - Generated with Yale's AI Clarity  [@isppd_video1]](Images/Principles%20of%20Offsetting.png){style="float: right; position: relative; top: 0px; padding-left: 30px; margin: auto auto auto auto;" width="450"}
+![Figure by Dr. Dan Weinberger - Generated with Yale's AI Clarity \ [@isppd_video1]](Images/Principles%20of%20Offsetting.png){style="float: right; position: relative; top: 0px; padding-left: 30px; margin: auto auto auto auto;" width="450"}
 :::
 
 We can expect that the baseline population changes over time, introducing unaccounted-for heterogeneous variance to our model. In epidemiology, it is standard to contextualize raw data by applying a denominator, or offset, that represents the population at risk of the disease.
 
-The figure on the right illustrates how the baseline for the number of hospitalizations normalizes when we apply the population offset. Keep in mind that this ratio is often scaled to "per 100,000 persons." [@isppd_video1].
+The figure on the right illustrates how the baseline for the number of hospitalizations normalizes when we apply the population offset. Keep in mind that this ratio is often scaled to "per 100,000 persons."\ [@isppd_video1].
 
 $$
 \frac{n_{cases}}{n_{population}} \times 100,000
 $$
 
-In real-world scenarios, the total base population is not always reported, or the coverage might be unreliable for the entire span of the time series. Alternatively, we can apply denominators such as the number of people using the healthcare system, the number of people hospitalized, and similar metrics [@isppd_video1]. In this example, we could apply the total population size or all non-respiratory causes of mortality.
+In real-world scenarios, the total base population is not always reported, or the coverage might be unreliable for the entire span of the time series. Alternatively, we can apply denominators such as the number of people using the healthcare system, the number of people hospitalized, and similar metrics\ [@isppd_video1]. In this example, we could apply the total population size or all non-respiratory causes of mortality.
 
 ```{r}
 # Create the offset using all deaths not coded as J. Transform the values
@@ -358,7 +358,7 @@ Additionally, it is important to remember that the model we have built may have 
 
 The figure below illustrates the three phases of the vaccine rollout: pre-vaccination, post-vaccination, and a latency period between the start of vaccine distribution and efficacy evaluation. Recall that our base negative binomial model accounts for three effector variables: an ordered, discrete variable organizing the outcomes temporally without seasonality, the month to capture seasonal periodicity, and an offset to the baseline accounting for population changes. Our baseline model is expected to, and is therefore assumed to, detect the drop in average cases during the post-vaccination period.
 
-![Figure by Dr. Dan Weinberger - From his recorded lecture *Interrupted time series analysis* [@isppd_video2].](Images/Vaccine%20Effect%20with%20Counterfactual.png){style="float: none; display: block; margin-left: auto; margin-right: auto; width: 90%;"}
+![Figure by Dr. Dan Weinberger - From his recorded lecture *Interrupted time series analysis*\ [@isppd_video2].](Images/Vaccine%20Effect%20with%20Counterfactual.png){style="float: none; display: block; margin-left: auto; margin-right: auto; width: 90%;"}
 
 This model, however, does not explicitly assign outcomes to the three phases represented in the figure. Therefore, we need to set up variables that distinguish outcomes before and after the vaccine introduction, as well as before and after the entry to the vaccine evaluation phase, in order to convert the base model into our factual and counterfactual models.
 
@@ -386,9 +386,9 @@ df <- df %>%
 df[sort(sample(1:144, 10)), c("index", "date", "vax_intro", "vax_eval")]
 ```
 
-In linear modeling, it is common to include interaction terms. These terms allow the model to capture interdependencies between variables, showing how the effect of one variable on the outcome changes depending on the level of another variable. Interaction terms also enable the identification of synergistic effects, where the combined effect of two variables is greater (or less) than the sum of their individual effects [@MontgomeryC2012].
+In linear modeling, it is common to include interaction terms. These terms allow the model to capture interdependencies between variables, showing how the effect of one variable on the outcome changes depending on the level of another variable. Interaction terms also enable the identification of synergistic effects, where the combined effect of two variables is greater (or less) than the sum of their individual effects\ [@MontgomeryC2012].
 
-Equation 1 shows a multiple linear regression without an interaction term, and Equation 2 shows the inclusion of the interaction term. Notice that including the interaction term impacts the slope, making it dependent on the value of the other predictor. For example, the impact of $X_1$, holding $X_2$ constant, on the slope of $Y$ is a function of $(\beta_1 + \beta_3)\ X_2$ [@MontgomeryC2012].
+Equation 1 shows a multiple linear regression without an interaction term, and Equation 2 shows the inclusion of the interaction term. Notice that including the interaction term impacts the slope, making it dependent on the value of the other predictor. For example, the impact of $X_1$, holding $X_2$ constant, on the slope of $Y$ is a function of $(\beta_1 + \beta_3)\ X_2$\ [@MontgomeryC2012].
 
 \begin{align}
 Y &= \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\\

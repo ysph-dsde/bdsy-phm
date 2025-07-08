@@ -20,10 +20,12 @@ website:
         href: Pages/Materials/Materials.qmd
       - text: "Weekly Modules"
         menu:
-          - text: "Time Series"
+          - text: "Time Series Analysis"
             href: Pages/Week2/Time Series Analysis_Hands-On Exercise.qmd
           - text: "Hierarchical Modeling"
             href: Pages/Week3/Hierarchical Modeling.qmd
+          - text: "Market Basket Analysis"
+            href: Pages/Week4/Market Basket Analysis.qmd
     right:
       - text: 2025 BDSY
         href: https://ysph.yale.edu/school-of-public-health/special-programs/big-data-summer-immersion-at-yale/

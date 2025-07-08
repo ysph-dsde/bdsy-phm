@@ -10,21 +10,35 @@ We'll be applying this algorithm to identify associations in a dataset containin
 We'll start with loading in our packages
 
 ```{r}
-library(tidyverse)
-library(knitr)
-library(ggplot2)
-library(lubridate)
-library(arules)
-library(arulesViz)
-library(plyr)
-library(RColorBrewer)
-library(plotly)
+#| message: FALSE
+#| warning: FALSE
+
+# NOTE: you might need to specify the source for the arules package:
+# install.packages("arules", repos='http://cran.rstudio.com/')
+
+suppressPackageStartupMessages({
+  library("tidyverse")     # Collection of R packages for data science
+  library("knitr")         # For dynamic report generation
+  library("ggplot2")       # For creating static visualizations
+  library("lubridate")     # For date and time manipulation
+  library("arules")        # For mining association rules and frequent itemsets
+  library("arulesViz")     # For visualizing association rules
+  library("plyr")          # For data manipulation
+  library("RColorBrewer")  # For color palettes
+  library("plotly")        # For creating interactive web-based graphs
+  library("httr")          # For downloading files from URLs
+})
+
+# Function to select "Not In"
+'%!in%' <- function(x,y)!('%in%'(x,y))
 ```
 
 And our dataset
 
 ```{r}
-pAOM<-read.csv("./Data/pAOM.csv")# your filepath here
+# Read in the cleaned data directly from the instructor's GitHub.
+url <- "https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/pAOM.csv"
+pAOM <- read_csv(url)
 ```
 
 We have 2137 rows representing 2137 cases of pAOM. Each row contains information about PtID- study ID of patient
@@ -45,7 +59,14 @@ Before using our rule mining algorithm, we need to transform data from the data 
 
 
 ```{r}
- tr<-read.transactions("/Data/pAOM.csv", format= 'basket', sep= ',')#your filepath here
+# Create a temporary file
+temp_file <- tempfile()
+
+# Download the data from GitHub and save it to the temporary file
+GET(url, write_disk(temp_file, overwrite = TRUE))
+
+# Read the transactions from the downloaded file
+tr <- read.transactions(temp_file, format = 'basket', sep = ',')
 ```
 
 ```{r}

@@ -8,7 +8,7 @@ author:
   - "Shelby Golden, MS"
 bibliography: references.bib
 csl: nature.csl
-date: 6/30/2025
+date: 7/1/2025
 date-format: long
 editor: visual
 ---
@@ -232,12 +232,12 @@ When samples from the Markov chain start to resemble the target distribution, it
 Gibbs sampling is much like M-H, but it is a special case where the proposal distribution comes directly from the conditional factorizations of $p(\boldsymbol{x})$ itself. In a sense, it can be thought of as $m$ M-H algorithms working together, where each proposed distribution is one conditional factorization of $p(\boldsymbol{x})$\ [@Spall2005]. In this context, $m$ represents the number of random variables, each having its own conditional distribution for sampling. Consider the following scenario from Spall where we have a distribution $p_{X,Y,Z}(\cdot)$ that we wish to sample from:
 
 1. Start with an initial guess for $Y$ and $Z$ and sample from $p_{X \mid Y_0, Z_0}(x \mid Y_0, Z_0)$ to generate $X_1$.
-2. Accept the outcome from the previous step and sample from $p_{Y \mid X_1, Z_0}(y \mid X_1, Z_0)$ tp generate $Y_1$.
+2. Accept the outcome from the previous step and sample from $p_{Y \mid X_1, Z_0}(y \mid X_1, Z_0)$ to generate $Y_1$.
 3. Accept the outcome from the previous step and sample from $p_{Z \mid X_1, Y_1}(z \mid X_1, Y_1)$ to generate $Z_1$.
 4. Repeat the process until you have $n-1$ values for $X$ and $n$ values for $Y$ and $Z$.
 
 
-At the end of this process, you will have produced the **Gibbs sequence**. For the example above, we have
+At the end of this process, you will have produced the **Gibbs sequence**. For the example above, we produce:
 
 $$
 Y_0, Z_0;\ X_1, Y_1, Z_1;\ X_2, Y_2, Z_2;\ \dots; X_n, Y_n, Z_n
