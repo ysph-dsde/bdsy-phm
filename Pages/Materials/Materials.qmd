@@ -60,6 +60,8 @@ Subsequent weekly releases should be placed inside your root project directory. 
 
 {{< downloadthis "Student Codespaces/Week 4 Code.Rmd" label="Week 4 code" id=download_btn >}}
 
+{{< downloadthis "Student Codespaces/Week 5 Code.R" label="Week 5 code" id=download_btn >}}
+
 
 ### Project Datasets and Materials
 
