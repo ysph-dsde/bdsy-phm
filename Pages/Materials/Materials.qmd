@@ -79,9 +79,17 @@ Not all sources provided a Data Dictionary, so students will need to explain the
 
 {{< downloadthis "Student Project Materials/Malawi.zip" label="Malawi" id=download_btn >}} Find the raw incidents data, GPS data, and literature papers\ [@Bar-Zeev2021].
 
+{{< downloadthis "Student Project Materials/malawi_genomic_output.zip" label="Malawi Genomics Output" id=download_btn >}} Find the preprocessed genomics results using a subset of the full data that have been run through the GPS analysis pipeline.
+
+
 {{< downloadthis "Student Project Materials/Nepal.zip" label="Nepal" id=download_btn >}} Find the raw incidents data, GPS data, and literature papers\ [@Kandasamy2024; @Kandasamy2015].
 
+{{< downloadthis "Student Project Materials/nepal_genomic_output.zip" label="Nepal Genomics Output" id=download_btn >}} Find the preprocessed genomics results using a subset of the full data that have been run through the GPS analysis pipeline.
+
+
 {{< downloadthis "Student Project Materials/Peru.zip" label="Peru" id=download_btn >}} Find the raw incidents data, GPS data, and data dictionary\ [@SecretaradeGobiernoDigitalPresidenciadelConsejodeMinistros2024].
+
+{{< downloadthis "Student Project Materials/peru_genomic_output.zip" label="Peru Genomics Output" id=download_btn >}} Find the preprocessed genomics results using a subset of the full data that have been run through the GPS analysis pipeline.
 
 :::{style="margin-left: -1rem;"}
 - Peru Epidemiological surveillance of Acute Respiratory Infections (ARI) Data Page ([link to page](https://www.datosabiertos.gob.pe/dataset/vigilancia-epidemiologica-de-infecciones-respiratoiras-agudas-ira))
