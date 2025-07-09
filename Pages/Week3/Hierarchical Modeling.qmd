@@ -49,6 +49,15 @@ The concepts discussed here have been compiled and summarized from various resou
 
 ## Distribution Estimation by Particle Sampling
 
+::: img-float
+![Abstraction of the introduction to Chapter 12 *Particle-Based*<br>*Approximate Inference* found in _Probabilistic Graphical Models_ by<br>Koller and Friedman. Points on the graph are only illustrative<br>of the variation in techniques\ [@Koller2009].](Images/Probabilistic Graphical Models by Koller and Friedman_Abstraction of Intro to Chapter 12.png){style="float: right; position: relative; top: 0px; padding-left: 20px; margin: auto auto auto auto; text-align: right;" width="350"}
+:::
+
+
+**Particle-based methods** approximate a multivariate distribution or network with a set of instantiations, referred to as **particles**, of some or all of the random variables in that distribution [@Koller2009]. There are different flavors of this type of method illustrated on the right. Some particles are generated directly from an equation, while others are sampled from a distribution. Some particles represent all the variables in a distribution or network individually, while others assign a proxy variable that groups them\ [@Koller2009].
+
+Today we are discussing one type of particle estimation: Gibbs sampling. In most cases, random variables are represented individually. However, readers should be aware that there are variations of Gibbs sampling that facilitate grouping the full set of random variables into "blocks".
+
 ### Recall Markov Chains - A Stochastic Process
 
 This section summarizes relevant concepts presented in Wasserman's *All of Statistics*, specifically Chapter 23\ [@Wasserman2004]. Unless otherwise noted, the content comes from Wasserman's *All of Statistics*.
@@ -63,13 +72,13 @@ A **Markov chain** is a type of stochastic process where the distribution of fut
 
 The figure on the left shows a state transition diagram for a discrete-time Markov chain with **transition probabilities** $p_{ij} = \mathbb{P}(X_{n+1}= j\ \lvert\ X_n = i)$. Below the diagram is the matrix representation of these interactions, known as the **transition matrix**, $\mathbf{P}$, where each row is a probability mass function. A generalized definition for a Markov chain is given by
 
-\begin{align}
+$$
 \mathbb{P}(X_n = x\ \lvert\ X_0, \dots, X_{n-1}) = \mathbb{P}(X_n = x\ \lvert\ X_{n-1})
-\end{align}
+$$
 
-for all $n$ and for all $x \in \mathcal{X}$. Markov chains have many aspects, but for this application, it is essential to consider the properties of a specific transitional stage denoted by, $\pi = (\pi_i : i \in \mathcal{X})$. The vector $\pi$ consists of non-negative numbers that sum to one and is stationary (or invariant) distribution if $\pi = \pi\mathbf{P}$.
+for all $n$ and for all $x \in \mathcal{X}$. Markov chains have many aspects, but for this application, it is essential to consider the properties of a specific transitional stage denoted by, $\pi = (\pi_i : i \in \mathcal{X})$. The vector $\pi$ consists of non-negative numbers that sum to one and is a stationary (or invariant) distribution if $\pi = \pi\mathbf{P}$.
 
-By applying the Chapman-Kolmogorov equations for n-step probabilities, where it is shown that $p_{ij}(m+n) = \sum_k p_{ik}(m) p_{kj}(n)$, we derive that a key characteristic of a stationary distribution $\pi$ for a Markov chain is that it is limiting. This means that, after any number of steps $n$, a distribution that reaches $\pi$ remains $\pi$:
+By applying the Chapman-Kolmogorov equations for n-step probabilities, where it is shown that $p_{ij}(m+n) = \sum_k p_{ik}(m) p_{kj}(n)$, we derive that a key characteristic of a stationary distribution $\pi$ for a Markov chain is that it is limiting. This means that, after any number of steps $n$, a distribution that reaches $\pi$ remains as $\pi$:
 
 1.  Draw $X_0$ from the distribution $\pi$ gives $\mu_0 = \pi$.
 
@@ -79,7 +88,7 @@ By applying the Chapman-Kolmogorov equations for n-step probabilities, where it 
 
     $\dots$ etc.
 
-Here, $\mu_n(i) = \mathbb{P}(X_n = i)$ denotes the marginal probability that the chain is in state $i$ at time $n$, while $\mu_0$ represents the **initial distribution**. Once the chain limits to the distribution $\pi$, it will remain in this distribution indefinitely. However, ensuring the process is stationary is not sufficient; it is also important to guarantee that $\pi$ is unique. This uniqueness is guaranteed if the Markov chain is **ergodic**, which must satisfy the following two characteristics:
+Here, $\mu_n(i) = \mathbb{P}(X_n = i)$ denotes the marginal probability that the chain is in state $i$ at time $n$, while $\mu_0$ represents the **initial distribution**. Once the chain limits to the distribution $\pi$, it will remain in this distribution indefinitely. However, ensuring the process is stationary is not sufficient; it is also important to guarantee that $\pi$ is unique. This uniqueness is guaranteed if the Markov chain is **ergodic**, which must satisfy the following two characteristics\ [@Bishop2006; @Wasserman2004]:
 
 1.  **Aperiodicity:** The states do not get trapped in cycles of fixed length. This means revisiting any state does not happen at regular intervals, ensuring more general behavior. For $d = \text{gcd}\{n\ :\ p_{ii}(n) > 0\}$ then $d(i) = 1$, where gcd means "greatest common divisor".
 2.  **Positive Recurrence:** The expected number of steps to return to that state is finite. A Markov chain is positive recurrent if every state is positive recurrent.
@@ -200,7 +209,7 @@ Z = \sum_{X_1, \dots, X_n}\ \tilde{P}_{\Phi}(X_1, \dots, X_n)
 $$
 where $\tilde{P}_{\Phi}$ represents the joint distribution factorized into conditional probabilities based on its independencies\ [@Koller2009].
 
-:::{.callout-important}
+:::{.callout-caution}
 ## Factor $\neq$ Marginal
 
 A factor is one contribution to the overall joint distribution, while a marginal represents a distribution where at least one variable from the joint has been summed or integrated out\ [@Koller2009].
@@ -244,17 +253,74 @@ Y_0, Z_0;\ X_1, Y_1, Z_1;\ X_2, Y_2, Z_2;\ \dots; X_n, Y_n, Z_n
 $$
 
 
-Because we are drawing from the conditioned factors of the target distribution, this makes Gibbs sampling less generalizable than M-H, but it comes with advantageous trade-offs. For instance, drawing directly from the target distribution itself ensures that detailed balance is already satisfied, and the algorithm is expected to be more efficient because the new point is always accepted\ [@Spall2005; @Bishop2006].
+The process described above is iterated over all variables and conditional statements until it is possible to compute the ergodic average. According to the ergodic theorem, this occurs when a sufficient burn-in period has been allowed to run. Using the example above, if we set our burn-in period to $M < n$, then the appended **Gibbs sequence** ${X_{M+1}, Y_{M+1}, Z_{M+1}; \dots; X_n, Y_n, Z_n}$ represents measurements that converge in distribution as $n \rightarrow \infty$ to the unique, stationary distribution $\pi$, that is $p_{X,Y,Z}(\cdot)$\ [@Spall2005]. 
 
-Gibbs sampling is inherently suited to address multivariate problems because it breaks a high-dimensional vector into lower-dimensional component blocks\ [@Spall2005]. At each step of the algorithm, the proposal distribution for the $i^{th}$ element of $\mathbf{X}$ is the conditional distribution of that variable given the recent value it and all other variables in the distribution were assigned in the previous step. The process iterates over all variables and conditional statements until it is possible to compute the ergodic average. In their limit, the samples come from the joint multivariate distribution, and each sampling has a distribution that approaches its respective marginal from the joint.
+Finally, the Gibbs sequence results considering the burn-in are substituded into the following equation to give $E[f(X,Y,Z)]$
+
+$$
+\frac{1}{n-M} \sum_{k = M+1}^n\ f(\mathbf{X}_k)
+$$
 
 
-Gibbs sequence
+Notice that samplings for $X$, $Y$, and $Z$ will converge to their respective marginal distributions, $p_X(x)$, $p_Y(y)$, and $p_Z(z)$; see Section 7.1.3 from _Monte Carlo Statistical Methods_ by Robert and Casella\ [@Spall2005; @Robert2004].
+
+:::{.callout-tip}
+## Variations that make the Gibbs sequence resemble i.i.d.
+
+The procedure we have detailed here to estimate the distribution using the collected Gibbs sequence is one of several methods. As might be expected, successive samples drawn from the Markov chain are highly correlated with one another\ [@Bishop2006]. Different approaches are applied if it is desirable to make the values more i.i.d. You can learn more about some of these techniques in *Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control*, Section 16.3 *Gibbs Sampling* by Spall\ [@Spall2005].
+:::
+
+Because we are drawing from the conditioned factors of the target distribution, this makes Gibbs sampling less generalizable than M-H, but it comes with advantageous trade-offs. For instance, drawing directly from the target distribution itself ensures that detailed balance is already satisfied, and the algorithm is expected to be more efficient because the new point is always accepted\ [@Spall2005; @Bishop2006; @Koller2009].
+
+It is helpful to see the process illustrated for a simpler case, but for completeness, it's important to know how this extends to a generalized representation. The following is the generalized definition provided by Spall\ [@Spall2005]. Say that $\mathbf{X}$ is a collection of $m$ univariate components, then the $k^{th}$ sample from $X$ using the previous algorithm is
+
+$$
+\mathbf{X}_k = \left[ \begin{array}{c}
+X_{k1} \\
+X_{k2} \\
+\vdots \\
+X_{km}
+\end{array} \right]
+$$
+
+where $X_{ki}$ is the $i^{th}$ component for the $k^{th}$ replicate of $\mathbf{X}$ that was generated using Gibbs sampling. Denote the step-wise updating results that have been conditioned on the previous samples by $\{X_{k+1,\ i}\ \lvert\ \mathbf{X}_{k\backslash i}\}$ where
+
+$$
+\mathbf{X}_{k\backslash i}\ \equiv \{X_{k+1,\ 1},\ X_{k+1,\ 2}, \dots, X_{k+1,\ i-1},\ X_{k,\ i+1} \dots,\ X_{k,\ km}\}
+$$
+
+for $i = 1,\ 2, \dots,\ m$. Use ${X_{k+1,\ i} \mid \mathbf{X}{k\backslash i}} \sim p_i(x \mid \mathbf{X}{k\backslash i})$ to represent the sampling density for that random variable conditioned on the current elements of the Gibbs sequence, where $i-1$ elements are sample points at iteration $k+1$ and the remaining $m-i$ elements are from the $k^{th}$ iteration. The Gibbs sampling algorithm is as follows:
+
+1. (**Initialization**) Choose the length of the burn-in, $M$, and some arbitrary initial state $\mathbf{X}_0$ with $k=0$.
+2. Generate $\mathbf{X}_{k+1}$ by recursively updating the conditionals for each new sampling of a given variable.
+
+    1. Generate $X_{k+1,\ 1} \sim p_1(x\ \lvert\ \mathbf{X}_{k\backslash 1})$
+    2. Generate $X_{k+1,\ 2} \sim p_2(x\ \lvert\ \mathbf{X}_{k\backslash 2})$
+
+    \ \ \ \ \ \ \ \ \ \ \ \ \ \ $\vdots$
+    
+    m. Generate $X_{k+1,\ m} \sim p_m(x\ \lvert\ \mathbf{X}_{k\backslash m})$
+    
+3. Repeat step 2 until the burn-in is reached. Set $\mathbf{X}_k = \mathbf{X}_M$ and continue with the procedure laid out in step 2, storing or recursively averaging the results as they are sampled.
+4. When it is possible to compute the ergodic average (i.e. sufficient convergence is observed), then estimate $E[f(\mathbf{X})]$ for the target distribution $p(\cdot)$.
+
+:::{.callout-tip}
+## Extension to the multivariate case
+
+We are only focusing on the typical case where $X_{ki}$ is scalar (i.e., all components of $X$ are univariate). It is sometimes applicable to make them multivariate. Students who wish to explore this further are encouraged to review example 16.7 *Variance-components model* from Section 16.6 *Applications in Bayesian Analysis* in Spall's *Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control*\ [@Spall2005].
+:::
 
 
+When sampling from the conditional distribution is challenging or requires excessive computational power, the conditional properties associated with a distribution network graph can help\ [@Koller2009]. Depending on the type of associations defined, it might be possible to isolate variables from the rest of the network using its independence structures, assuming that these assertions are reasonably correct.
+
+For an undirected Markov network, this would involve isolating nodes contained within a Markov blanket. In directed graphs, nodes conditioned on their parents can lead to log-concave Gibbs sampling distributions. If these conditional distributions are log-concave, alternative sampling methods, such as the aforementioned adaptive rejection sampling method, can be used within the Gibbs sampling framework\ [@Bishop2006; @Robert2004].
+
+With this fundamental understanding of Gibbs sampling of Markov chains, we are now better prepared to explore hierarchical modeling of our data.
 
 
 ## Hierarchical Modeling
+
+Gibbs sampling is inherently suited to address multivariate problems because it breaks a high-dimensional vector into lower-dimensional component blocks\ [@Spall2005].
 
 ## Set Up the Environment
 
@@ -433,7 +499,9 @@ suppressPackageStartupMessages({
 ```
 
 
-To demonstrate hierarchical modeling using Gibbs sampling to estimate the distribution, we are going to examine the data and results from _Potential Impact of Higher-Valency Pneumococcal Conjugate Vaccines Among Adults in Different Localities in Germany_ by Ellingson et al. The data comes from surveillance for IPD conducted by German National Reference Center for Streptococci (GRNCS), which collects voluntarily reported microbial diagnostic lab results and is expected to account for 50% of all IPD in Germany. Serotyping is done by GNRCS using the samples provided by these laboratories, and incidences are reported as cases per 100,000 using the age-specific population in Germany in 2018\ [@Ellingson2023].
+To demonstrate hierarchical modeling using Gibbs sampling to estimate the distribution, we are going to examine the data and results from _Potential Impact of Higher-Valency Pneumococcal Conjugate Vaccines Among Adults in Different Localities in Germany_ by Ellingson et al\ [@Ellingson2023].
+
+The data comes from surveillance for invasive pneumococcal disease (IPD) conducted by the German National Reference Center for Streptococci (GRNCS), which collects voluntarily reported microbial diagnostic lab results and is expected to account for 50% of all IPD in Germany. Serotyping is done by GNRCS using the samples provided by these laboratories, and incidences are reported as cases per 100,000 using the age-specific population in Germany in 2018\ [@Ellingson2023].
 
 
 <div class="scrollable-output">
@@ -450,7 +518,7 @@ colnames(df)
 </div>
 
 
-The dataset includes a large amount of information that is not required for our analysis today. We will, therefore, focus only on the variables used in the hierarchical model itself.
+The dataset includes a lot of information that is not required for our analysis today. We will, therefore, focus only on the variables used in the hierarchical model itself.
 
 ```{r}
 # Summarize aspects and dimentions of our dataset.
@@ -459,7 +527,7 @@ glimpse(df[, c(39:42, 45, 8, 15)])
 
 ### Data Dictionary
 
-This paper did not explicitly describe each variable in a “Data Dictionary”; therefore, the following was assembled based on the context and methods provided in the paper, other like papers by the same authors, and its supplementary materials\ [@Ellingson2023; @Perniciaro2022].
+This paper did not explicitly describe each variable in a “Data Dictionary”. The following was assembled based on the context and methods provided in the paper, other like papers by the same authors, and its supplementary materials\ [@Ellingson2023; @Perniciaro2022].
 
 -   **date:** The date when the events were recorded. It is not clear if this is the date GNRCS received the samples or when they were collected at the participating lab.
 -   **year:** The year from the date column.
@@ -472,7 +540,7 @@ This paper did not explicitly describe each variable in a “Data Dictionary”;
     - `vaxperiod = 3` The period following the updated recommendation in 2015. Spans 2015 to 2018.
     - **NOTE:** 2019 is the last year reported in the dataset an was not assigned to any vaccine period.
     
--   **AgeInYears:** The year of the patient from which the same was collected.
+-   **AgeInYears:** The age of the patient from which the same was collected.
 -   **SeroType:** The serotype of the pathogen identified using capsular swelling with the full antiserum.
 
 

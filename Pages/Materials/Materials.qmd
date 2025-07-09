@@ -54,7 +54,7 @@ Please download the codespaces provided for each weekly module release. Note tha
 
 Subsequent weekly releases should be placed inside your root project directory. For instance, if you are using the directory "~/bdsy-phm-individual", place the weekly releases within that directory.
 
-{{< downloadthis "Student Codespaces/bdsy-phm-individual.zip" label="Starter for individual project with week 2 codespace" id=download_btn >}}
+{{< downloadthis "Student Codespaces/bdsy-phm-individual.zip" label="Starter for individual project with week 2 code" id=download_btn >}}
 
 {{< downloadthis "Student Codespaces/Week 3 Codespace.zip" label="Week 3 code" id=download_btn >}}
 
