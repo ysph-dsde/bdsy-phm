@@ -33,24 +33,32 @@ Two common MCMC implementations are Metropolis-Hastings (M-H) and Gibbs sampling
 ::: callout-tip
 ## Solid theory supports effective and accurate application!
 
-The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, to help students deepen their theoretical understanding of this week's material. This foundation will aid in generating better analysis in practice.
+The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, or online course materials to help students deepen their theoretical understanding of this week's material. This foundation will aid in generating better analysis in practice.
 
 -   [*All of Statistics: A Concise Course in Statistical Inference*](https://link.springer.com/book/10.1007/978-0-387-21736-9) by Larry Wasserman\ [@Wasserman2004]
     -   Chapter 23 *Probability Redux: Stochastic Processes* Section 23.2 *Markov chains*.
     -   Chapter 24 *Simulation Methods*. Section 24.4 *MCMC Part I: The Metropolis-Hastings Algorithm* and Section 24.5 *MCMC Part II: Different Flavors*.
 -   [*Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control*](https://www.jhuapl.edu/isso/) by James C. Spall\ [@Spall2005]
     -   Chapter 16 *Markov chain Monte Carlo* Section 16.1 *Background*, Section 16.2 *Metropolis-Hastings Algorithm*, and Section 16.3 *Gibbs Sampling*.
--   [*Probabilistic Graphical Models - Principles and Techniques*](https://mitpress.mit.edu/9780262013192/probabilistic-graphical-models/) by Koller and Friedman\ [@Koller2009]
+-   [*Probabilistic Graphical Models - Principles and Techniques*](https://mitpress.mit.edu/9780262013192/probabilistic-graphical-models/) by Daphne Koller and Nir Friedman\ [@Koller2009]
     -   Chapter 3 *The Bayesian Network Representation* Section 3.1 *Exploiting Independence Properties*, Section 3.2 *Bayesian Networks*, and Section 3.3 *Independencies in Graphs*.
     -   Chapter 4 Unirected *Graphical Models*.
     -   Chapter 12 *Particle-Based Approximate Inference* Section 12.3 *Markov Chain Monte Carlo Methods*.
     -   Chapter 17 *Parameter Estimation* Section 17.5 *Learning Models with Shared Parameters*.
+- [*Data Analysis Using Regression and Multilevel/Hierarchical Models*](https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983#overview) by Andrew Gelman and Jennifer Hill\ [@Gelman2006].
+    -   Chapter 1 *Why*.
+    -   Chapter 11 *Multilevel structures*.
+    -   Chapter 12 *Multilevel linear models: the basics*.
+    -   Chapter 16 *Multilevel modeling in Bugs and R: the basics*.
+    -   Chapter 21 *Understanding and summarizing the fitted models*.
+- [36-463/663: _Topics in Statistics: Hierarchical & Multilevel Models_](https://www.stat.cmu.edu/~brian/463-663/) administered at Carnegie Mellon in the Fall of 2016 by professor Brian Junker\ [@Junker2016].
+    - [Week 10 - _Introduction to Hierarchical Models for Bayesian Approaches_](https://www.stat.cmu.edu/~brian/463-663/week10/Chapter%2009.pdf)
 :::
 
 ## Distribution Estimation by Particle Sampling
 
 ::: img-float
-![Abstraction of the introduction to Chapter 12 *Particle-Based*<br>*Approximate Inference* found in _Probabilistic Graphical Models_ by<br>Koller and Friedman. Points on the graph are only illustrative<br>of the variation in techniques\ [@Koller2009].](Images/Probabilistic Graphical Models by Koller and Friedman_Abstraction of Intro to Chapter 12.png){style="float: right; position: relative; top: 0px; padding-left: 20px; margin: auto auto auto auto; text-align: right;" width="350"}
+![Abstraction of the introduction to Chapter 12 *Particle-Based*<br>*Approximate Inference* found in _Probabilistic Graphical Models_ by<br>Koller and Friedman. Points on the graph are only illustrative<br>of the variation in techniques\  [@Koller2009].](Images/Probabilistic Graphical Models by Koller and Friedman_Abstraction of Intro to Chapter 12.png){style="float: right; position: relative; top: 0px; padding-left: 20px; margin: auto auto auto auto; text-align: right;" width="350"}
 :::
 
 
@@ -68,7 +76,7 @@ A **stochastic process** $\{X_t : t \in T\}$ is a collection of random variables
 ![Illustration of state transition diagram for the Markov chain\ [@Lee2012].](Images/Lee%20and%20Ni%202012_Figure%201.jpg){style="float: left; position: relative; top: 0px; padding-right: 10px; margin: auto auto auto auto;" width="450"}
 :::
 
-A **Markov chain** is a type of stochastic process where the distribution of future states depends only on the current state and not on the sequence of events that preceded it. For example, the outcome for $X_t$ depends only on what the outcome was for $X_{t-1}$. Notice that sometimes, authors with specify that $X$ is a Markov chain stochastic process by writing $X_n$ instead of $X_t$.
+A **Markov chain** is a type of stochastic process where the distribution of future states depends only on the current state and not on the sequence of events that preceded it. For example, the outcome for $X_t$ depends only on what the outcome was for $X_{t-1}$. Notice that sometimes, authors will specify that $X$ is a Markov chain stochastic process by writing $X_n$ instead of $X_t$.
 
 The figure on the left shows a state transition diagram for a discrete-time Markov chain with **transition probabilities** $p_{ij} = \mathbb{P}(X_{n+1}= j\ \lvert\ X_n = i)$. Below the diagram is the matrix representation of these interactions, known as the **transition matrix**, $\mathbf{P}$, where each row is a probability mass function. A generalized definition for a Markov chain is given by
 
@@ -289,7 +297,7 @@ $$
 \mathbf{X}_{k\backslash i}\ \equiv \{X_{k+1,\ 1},\ X_{k+1,\ 2}, \dots, X_{k+1,\ i-1},\ X_{k,\ i+1} \dots,\ X_{k,\ km}\}
 $$
 
-for $i = 1,\ 2, \dots,\ m$. Use ${X_{k+1,\ i} \mid \mathbf{X}{k\backslash i}} \sim p_i(x \mid \mathbf{X}{k\backslash i})$ to represent the sampling density for that random variable conditioned on the current elements of the Gibbs sequence, where $i-1$ elements are sample points at iteration $k+1$ and the remaining $m-i$ elements are from the $k^{th}$ iteration. The Gibbs sampling algorithm is as follows:
+for $i = 1,\ 2, \dots,\ m$. Use $\{X_{k+1,\ i} \mid \mathbf{X}_{k\backslash i}\} \sim p_i(x \mid \mathbf{X}_{k\backslash i})$ to represent the sampling density for that random variable conditioned on the current elements of the Gibbs sequence, where $i-1$ elements are sample points at iteration $k+1$ and the remaining $m-i$ elements are from the $k^{th}$ iteration. The Gibbs sampling algorithm is as follows:
 
 1. (**Initialization**) Choose the length of the burn-in, $M$, and some arbitrary initial state $\mathbf{X}_0$ with $k=0$.
 2. Generate $\mathbf{X}_{k+1}$ by recursively updating the conditionals for each new sampling of a given variable.
@@ -320,7 +328,89 @@ With this fundamental understanding of Gibbs sampling of Markov chains, we are n
 
 ## Hierarchical Modeling
 
+:::{.callout-important}
+The goal of this exercise is not to comprehensively teach you hierarchical modeling concepts in a way that enables you to derive your own models. Instead, it is intended to introduce you to the concept of breaking down complex systems of interactions into interrelated hierarchies or multilevel distributions.
+
+This section aims to introduce enough related concepts to help you follow the example below, interpret the results, and effectively apply the knowledge to your own study. For additional reading on the subject, please refer to the textbooks listed earlier.
+:::
+
+
+Hierarchical models, also known as multilevel models, equip us with the ability to separate features of our set of random variables into layers, contextualizing information that would otherwise not be accounted for in a single distribution. This can occur either methodologically, where units of analysis come from strongly dependent clusters, or substantively, where a predictors influence on a model may vary depending on the context\ [@Junker2016].
+
+It is a versatile tool designed to address various inferential goals, including causal inference, prediction, and descriptive modeling. Such models are especially effective for capturing the intricacies of social science or biological processes, which are characterized by complex, interdependent, and situationally interconnected components\ [@Gelman2006]. 
+
+
+### Example
+
+Consider the following Binomial-Poisson hierarchy example from _Statistical Inference_ by Casella and Berger (example 4.4.1)\ [@Casella2002].
+
+We aim to model the survival probability of eggs laid by an insect and estimate the average number expected to survive. For a single insect, the number of eggs laid can be represented using two models:
+
+- A model describing the frequency of egg laying, following a Poisson$(\lambda)$ distribution.
+- A model for the survival likelihood of the eggs, where each egg's probability of survival can be represented as a Bernoulli trial with probability $p$.
+
+This setup leads to the following hierarchical model:
+
+\begin{align*}
+X \lvert Y &\sim \text{binomial}(Y, p)\\
+Y &\sim \text{Poisson}(\lambda)
+\end{align*}
+
+In this example, it is possible to estimate the expectation of $X =$ number of survivors deterministically\ [@Casella2002; @Anand2012].
+
+\begin{align*}
+P(X = x) &= \sum_{y=0}^{\infty} P(X=x,\ Y=y)\\
+&= \sum_{y=0}^{\infty} P(X=x\ \lvert Y=y) P(Y=y)\hspace{45mm} \tag{by definition of $P(X \lvert Y)$}\\
+&= \sum_{y=x}^{\infty}\ \left[\binom{y}{x}\ p^x(1-p)^{y-x}\right]\ \left[\frac{e^{-\lambda}\lambda^y}{y!}\right] \tag{$P(X \lvert Y)=0$ when $y<x$}\\
+&= \frac{(\lambda p)^x e^{-\lambda}}{x!}\ \sum_{y=x}^{\infty}\ \frac{((1-p)\lambda)^{y-x}}{(y-x)!} \tag{multiply by $\lambda^x/\lambda^x$}\\
+&= \frac{(\lambda p)^x e^{-\lambda}}{x!}\ \sum_{t=0}^{\infty}\ \frac{((1-p)\lambda)^{t}}{(y-x)!} \tag{set $t=y-x$}\\
+&= \frac{(\lambda p)^x e^{-\lambda}}{x!}\ e^{(1-p)\lambda} \tag{sum a power series is exponential}\\
+&= \frac{(\lambda p)^x e^{-\lambda p}}{x!}
+\end{align*}
+
+giving us $X \sim \text{Poisson}(\lambda p)$. Using the definition of the first moment of a Poisson distribution we get $E(X) = \lambda p$. This gives rise to the following theorem from _Statistical Inference_ by Casella and Berger\ [@Casella2002]:
+
+> **Theorem 4.4.3** Provided the expectations exist, if $X$ and $Y$ are any two random variables, then 
+$$
+E(X) = E(E(X\ \lvert\ Y))
+$$
+
+
+A hierarchy is not confined to two stages; however, it is theoretically possible to simplify some multilevel hierarchies into a two-stage structure\ [@Casella2002]. Consider the following generalization of the previous example from _Statistical Inference_ by Casella and Berger (example 4.4.5)\ [@Casella2002].
+
+Let's say we want to account for variation between insect mothers, where one is chosen at random for modeling expected survival outcomes of the eggs. We now represent our hierarchical model with the following three equations:
+
+\begin{align*}
+X \lvert Y &\sim \text{binomial}(Y, p)\\
+Y \lvert \Lambda &\sim \text{Poisson}(\Lambda)\\
+\Lambda &\sim \text{exponential}(\beta)
+\end{align*}
+
+Using theorem 4.4.3 we get the mean of $X$ to be:
+
+\begin{align*}
+E(X) &= E(E(X \lvert Y))\\
+&= E(pY)\\
+&= E(E(pY \lvert \Lambda))\\
+&= E(p\Lambda)\\
+&= p\beta \tag{exponential expectation}
+\end{align*}
+
+### Other Thoughts
+
+**mixture distribution:** is typically used to refer to a random variable with a distribution that depends on quantities or parameters that themselves have a distribution. The example presented above is a mixture distribution. Not all higherarchical models need to be mixture distributions.
+
+:::{.callout-caution}
+As you might expect, there is a natural connection between the representation of hierarchical distributions and the graphical representation of these relationships. However, this is not always the case. We must be cautious about how variable interactions are represented graphically, as they imply specific variable interaction behaviors that might not be valid\ [@Wasserman2004].
+
+From Chapter 19.3 _Hierarchical Log-Linear Models_ in Wasserman's _All of Statistics_:
+
+> **19.9 Lemma.** A graphical model is hierarchical, but the reverse need not be true.
+:::
+
 Gibbs sampling is inherently suited to address multivariate problems because it breaks a high-dimensional vector into lower-dimensional component blocks\ [@Spall2005].
+
+418
 
 ## Set Up the Environment
 
@@ -576,18 +666,18 @@ jdat <- list(
 ```
 
 ```{r}
-source("Model2.R")
-
-mod <- jags.model(textConnection(jcode), data = jdat, n.chains = 2)
+# source("Model2.R")
+# 
+# mod <- jags.model(textConnection(jcode), data = jdat, n.chains = 2)
 ```
 
 
 <div class="scrollable-output">
 ```{r}
-update(mod, 1000)  # burn-in
-samp <- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)
-
-summary(samp)
+# update(mod, 1000)  # burn-in
+# samp <- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)
+# 
+# summary(samp)
 ```
 </div>
 
