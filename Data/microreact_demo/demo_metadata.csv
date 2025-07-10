@@ -1,0 +1,5 @@
+ID,Date,Latitude,Longitude,Country,Serotype
+Sample1,2021-01-01,51.5,-0.1,UK,1
+Sample2,2021-02-15,48.9,2.4,France,3
+Sample3,2021-03-10,52.5,13.4,Germany,1
+Sample4,2021-04-05,50.1,8.7,Germany,6B
