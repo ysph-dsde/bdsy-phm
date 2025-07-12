@@ -1,0 +1,295 @@
+## Compartmental Models, in brief:
+
+Compartmental models, or dynamic transmission models, show progression through steps of a process (in our case, typically an infectious disease) across a model population. Before we structure our model, we have to state our assumptions about the model population. For our first model, these will be:
+
+- Fixed population size (no births, deaths, or migration)
+
+- Everyone mixes homogeneously (equal chance of contact)
+
+- Disease progression follows average rates
+
+We will start with a four-compartment model:
+
+ S- Susceptible to a disease. Everyone in our population starts here.
+
+ E- Exposed to a disease. Not everyone in our population will be exposed.
+
+ I- Infected with a disease. Not everyone who is exposed will be infected.
+
+ R- Recovered from a disease. Not everyone who is infected will recover :(
+
+Each compartment will have a corresponding ordinary differential equation (ODE) which will help us identify how many individuals in our fixed population (N) are occupying any compartment at a given time, t.
+
+S(t): number of susceptible people at time t
+
+E(t): number of exposed people at time t
+
+I(t): number of infected people at time t
+
+R(t): number of recovered people at time t
+
+so at any time t, the total population N is equal to S+E+I+R
+
+# So how do people move between compartments? 
+
+We show this using model parameters, in this case just three: beta, sigma, and gamma 
+
+ beta: transmission rate
+
+ sigma: force of infection (1/incubation period) 
+
+ gamma:  recovery rate (1/duration of infection)
+ 
+You can assign values to these parameters by literature search or if no data exist, by assumption, but obviously this will affect the reliability of your model results.
+
+# So with these four compartments and these three parameters, our ODE system will be:
+
+dS/dt: -beta((SI)/N)
+
+dE/dt: -beta((SI)/N) - (sigmaE)
+
+dI/dt: (sigmaE) - (gammaI)
+
+dR/dt: gammaI
+
+let's give it a whirl:
+```{r}
+
+# install.packages("deSolve")
+
+library(deSolve)
+
+# set up model function
+seir_model <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    dS <- -beta * S * I / N
+    dE <-  beta * S * I / N - sigma * E
+    dI <-  sigma * E - gamma * I
+    dR <-  gamma * I
+
+    return(list(c(dS, dE, dI, dR)))
+  })
+}
+
+# State initial conditions
+N <- 1e3         # starting population size
+init <- c(
+  S = N - 1,     # Here we're starting with one infection
+  E = 0,
+  I = 1,
+  R = 0
+)
+
+# State parameter values
+params <- c(
+  beta = 0.4,    # transmission rate from infected to susceptible people
+  sigma = 1/5,   # force of infection, time moving from exposed to infected, here 5 days
+  gamma = 1/10,  # recovery rate, time needed to move from infected to recovered, here 10 days
+  N = N
+)
+
+# Time steps, we'll run for 100 days
+times <- seq(0, 100, by = 1)
+
+# Run the model
+out <- ode(y = init, times = times, func = seir_model, parms = params)
+out <- as.data.frame(out)
+
+# Plot some output
+library(ggplot2)
+out_long <- reshape2::melt(out, id = "time")
+
+ggplot(out_long, aes(x = time, y = value, color = variable)) +
+  geom_line()+
+  labs(title = "SEIR Model",
+       x = "Time (days)", y = "Number of individuals",
+       color = "Compartment") +
+  theme_minimal()
+
+```
+
+In the plot we see that over the course of 100 days, up to 250 people (1/4 of the population!) were infected at one time (looks like around 2 months in), and by day 100, almost everyone has recovered from infection. Try messing around with the parameters, time of the simulation, and population starting size to see how it changes your plot.
+
+# Next model, now with deaths
+
+As mentioned above, not everyone infected will recover :( 
+So how do we account for people who die? We need a new compartment, and a new parameter.
+S-E-I-R model will now become the S-E-I-R-D model. D for death.
+
+Our new parameter, mu, will be the rate of death among the infected. Setting this new parameter will change how we define our gamma parameter since not everyone is recovering. Let's update our ODE system:
+
+dS/dt: -beta((SI)/N)
+
+dE/dt: -beta((SI)/N) - (sigmaE)
+
+dI/dt: (sigmaE) - (gammaI)
+
+dR/dt: (1-mu) * (gammaI)
+
+dD/dt: mu * gammaI
+
+Let's see how this changes things:
+
+```{r}
+library(deSolve)
+library(ggplot2)
+library(reshape2)
+
+seird_model <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    dS <- -beta * S * I / N
+    dE <-  beta * S * I / N - sigma * E
+    dI <-  sigma * E - gamma * I
+    dR <- (1 - mu) * gamma * I
+    dD <- mu * gamma * I
+
+    return(list(c(dS, dE, dI, dR, dD)))
+  })
+}
+
+# Parameters
+N <- 1e3
+params <- c(
+  beta = 0.4,            # still moving from S to E
+  sigma = 1/5,           # still moving from E to I
+  gamma = 1/10,          # now exiting compartment I to either R or D
+  mu = 0.1,              # entering compartment D, showing a 10% rate of death among infected
+  N = N
+)
+
+# Initial state
+init <- c(
+  S = N - 1,
+  E = 0,
+  I = 1,
+  R = 0,
+  D = 0
+)
+
+times <- seq(0, 100, by = 1)
+
+# Run model
+out <- ode(y = init, times = times, func = seird_model, parms = params)
+out <- as.data.frame(out)
+
+# Plot
+out_long <- melt(out, id = "time")
+
+ggplot(out_long, aes(x = time, y = value, color = variable)) +
+  geom_line() +
+  labs(title = "SEIRD Model",
+       x = "Time (days)", y = "Number of people",
+       color = "Compartment") +
+  theme_minimal()
+
+```
+so now at the end of our 100 days, around 100 people have died. Since we didn't change the other parameters, the peak number of infections has stayed the same, and at the same time point. Go ahead and mess with the parameters above to see how this affects things. 
+
+
+# Next model, now with hospitalizations and deaths
+
+
+
+```{r}
+seihrd <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    dS <-  -beta * S * I / N
+    dE <-   beta * S * I / N - sigma * E
+    dI <-   sigma * E - gamma * I
+    dH <-   kappa * gamma * I - gamma * H
+    dR <-   (1 - kappa) * gamma * I + (1 - mu) * gamma * H
+    dD <-   mu * gamma * H
+    
+    return(list(c(dS, dE, dI, dH, dR, dD)))
+  })
+}
+
+# Parameters
+N <- 1e3
+params <- c(
+  beta = 0.4,
+  sigma = 0.2,
+  gamma = 0.1,
+  kappa = 0.2,  # 20% of I go to hospital
+  mu = 0.11,    # 11% of H die
+  N = N
+)
+
+# Initial state
+init <- c(
+  S = N - 6,
+  E = 0,
+  I = 6,
+  H = 0,
+  R = 0,
+  D = 0
+)
+
+times <- seq(0, 100, by = 1)
+
+out <- as.data.frame(ode(y = init, times = times, func = seihrd, parms = params))
+out_long <- melt(out, id = "time")
+
+# Plot
+ggplot(out_long, aes(x = time, y = value, color = variable)) +
+  geom_line(size = 1.2) +
+  labs(title = "SEIHRD Model",
+       x = "Time (days)", y = "Individuals",
+       color = "Compartment") +
+  theme_minimal()
+```
+
+Now I hope you're getting the idea about how adding compartments and parameters works. 
+
+For a closer-to-real-life example (or as Dr. Pitzer would say, more unicorn and less poop), you could use some measles values for your parameters as an example: the transmission rate of measles (moving from S to E) is about 90%. The force of infection for measles (moving from E to I) has been estimated to be around 20%, duration of infection (I to R) is around 2 weeks, hospitalization rate is about 12% (I to H) and there's a 0.3% overall fatality rate (I to D).
+
+```{r}
+#try it out! your measles model goes here :) #
+```
+
+#Extending these concepts, food for thought
+
+What are other steps in the disease/recovery process that might need a compartment? What things might affect the parameters? 
+What about our population structure? 
+Baseline health of the population? 
+What about reinfections?
+Access to treatment?
+Effectiveness of treatment?
+Preventative measures?
+
+ETC ETC ETC ETC
+
+Here are some cool papers that come with R code for their cool models:
+
+#Queueing theory dissertation- COVID-19 hospital resource allocation planning
+https://elischolar.library.yale.edu/cgi/viewcontent.cgi?article=1589&context=gsas_dissertations
+ see chapter 4 for model description and structure
+Model code
+https://github.com/fcrawford/covid19_icu/blob/master/R/queuemodel.R
+
+#Vaccine schedule optimization for older adults
+https://www.nature.com/articles/s41467-023-36624-8
+Model code, Dr. Thindwa gives superb documentation! 
+https://github.com/deusthindwa/optimal.age.targeting.pneumo.vaccines
+
+
+#Even More References
+   GENERAL MODELING STUFF
+https://www.cdc.gov/cfa-modeling-and-forecasting/about/explainer-transmission-models.html
+https://www.mcgill.ca/tb/files/tb/lect_1_introduction_modeling.pdf
+https://idpjournal.biomedcentral.com/articles/10.1186/s40249-024-01195-3
+    PAPERS WITH NICE DEFINITIONS
+https://pmc.ncbi.nlm.nih.gov/articles/PMC7093843/
+https://pmc.ncbi.nlm.nih.gov/articles/PMC7110742/
+    CLASSIC OF THE FIELD, DO NOT SLEEP ON POLYMOD
+https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0050074
+    MEASLES PARAMETER VALUES
+https://pubmed.ncbi.nlm.nih.gov/15542196/
+https://pubmed.ncbi.nlm.nih.gov/28757186/
+https://www.cdc.gov/measles/hcp/communication-resources/clinical-diagnosis-fact-sheet.html
+https://www.cdc.gov/mmwr/volumes/74/wr/mm7414a1.htm
+
+
+
+
+
