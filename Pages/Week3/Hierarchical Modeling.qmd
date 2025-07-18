@@ -30,6 +30,17 @@ One of these powerful techniques is Markov chain Monte Carlo (MCMC). Random samp
 
 Two common MCMC implementations are Metropolis-Hastings (M-H) and Gibbs sampling, with the latter being more accurately considered a special case of the former. Students are encouraged to explore M-H further on their own by reading the relevant sections of the supporting textbooks listed below. Today, we will focus on Gibbs sampling and only discuss M-H where it supports this learning, as Gibbs sampling is particularly well-suited for reducing high-dimensional problems into several one-dimensional ones\ [@Spall2005; @Wasserman2004].
 
+## Distribution Estimation by Particle Sampling
+
+::: img-float
+![Abstraction of the introduction to Chapter 12 *Particle-Based*<br>*Approximate Inference* found in _Probabilistic Graphical Models_ by<br>Koller and Friedman. Points on the graph are only illustrative<br>of the variation in techniques\  [@Koller2009].](Images/Probabilistic Graphical Models by Koller and Friedman_Abstraction of Intro to Chapter 12.png){style="float: right; position: relative; top: 0px; padding-left: 20px; margin: auto auto auto auto; text-align: right;" width="350"}
+:::
+
+
+**Particle-based methods** approximate a multivariate distribution or network with a set of instantiations, referred to as **particles**, of some or all of the random variables in that distribution [@Koller2009]. There are different flavors of this type of method illustrated on the right. Some particles are generated directly from an equation, while others are sampled from a distribution. Some particles represent all the variables in a distribution or network individually, while others assign a proxy variable that groups them\ [@Koller2009].
+
+Today we are discussing one type of particle estimation: Gibbs sampling. In most cases, random variables are represented individually. However, readers should be aware that there are variations of Gibbs sampling that facilitate grouping the full set of random variables into "blocks".
+
 ::: callout-tip
 ## Solid theory supports effective and accurate application!
 
@@ -45,26 +56,7 @@ The concepts discussed here have been compiled and summarized from various resou
     -   Chapter 4 Unirected *Graphical Models*.
     -   Chapter 12 *Particle-Based Approximate Inference* Section 12.3 *Markov Chain Monte Carlo Methods*.
     -   Chapter 17 *Parameter Estimation* Section 17.5 *Learning Models with Shared Parameters*.
-- [*Data Analysis Using Regression and Multilevel/Hierarchical Models*](https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983#overview) by Andrew Gelman and Jennifer Hill\ [@Gelman2006].
-    -   Chapter 1 *Why*.
-    -   Chapter 11 *Multilevel structures*.
-    -   Chapter 12 *Multilevel linear models: the basics*.
-    -   Chapter 16 *Multilevel modeling in Bugs and R: the basics*.
-    -   Chapter 21 *Understanding and summarizing the fitted models*.
-- [36-463/663: _Topics in Statistics: Hierarchical & Multilevel Models_](https://www.stat.cmu.edu/~brian/463-663/) administered at Carnegie Mellon in the Fall of 2016 by professor Brian Junker\ [@Junker2016].
-    - [Week 10 - _Introduction to Hierarchical Models for Bayesian Approaches_](https://www.stat.cmu.edu/~brian/463-663/week10/Chapter%2009.pdf)
 :::
-
-## Distribution Estimation by Particle Sampling
-
-::: img-float
-![Abstraction of the introduction to Chapter 12 *Particle-Based*<br>*Approximate Inference* found in _Probabilistic Graphical Models_ by<br>Koller and Friedman. Points on the graph are only illustrative<br>of the variation in techniques\  [@Koller2009].](Images/Probabilistic Graphical Models by Koller and Friedman_Abstraction of Intro to Chapter 12.png){style="float: right; position: relative; top: 0px; padding-left: 20px; margin: auto auto auto auto; text-align: right;" width="350"}
-:::
-
-
-**Particle-based methods** approximate a multivariate distribution or network with a set of instantiations, referred to as **particles**, of some or all of the random variables in that distribution [@Koller2009]. There are different flavors of this type of method illustrated on the right. Some particles are generated directly from an equation, while others are sampled from a distribution. Some particles represent all the variables in a distribution or network individually, while others assign a proxy variable that groups them\ [@Koller2009].
-
-Today we are discussing one type of particle estimation: Gibbs sampling. In most cases, random variables are represented individually. However, readers should be aware that there are variations of Gibbs sampling that facilitate grouping the full set of random variables into "blocks".
 
 ### Recall Markov Chains - A Stochastic Process
 
@@ -331,13 +323,28 @@ With this fundamental understanding of Gibbs sampling of Markov chains, we are n
 :::{.callout-important}
 The goal of this exercise is not to comprehensively teach you hierarchical modeling concepts in a way that enables you to derive your own models. Instead, it is intended to introduce you to the concept of breaking down complex systems of interactions into interrelated hierarchies or multilevel distributions.
 
-This section aims to introduce enough related concepts to help you follow the example below, interpret the results, and effectively apply the knowledge to your own study. For additional reading on the subject, please refer to the textbooks listed earlier.
+This section aims to introduce enough related concepts to help you follow the example below, interpret the results, and effectively apply the knowledge to your own study. For additional reading on the subject, please refer to the textbooks listed below.
 :::
 
 
 Hierarchical models, also known as multilevel models, equip us with the ability to separate features of our set of random variables into layers, contextualizing information that would otherwise not be accounted for in a single distribution. This can occur either methodologically, where units of analysis come from strongly dependent clusters, or substantively, where a predictors influence on a model may vary depending on the context\ [@Junker2016].
 
 It is a versatile tool designed to address various inferential goals, including causal inference, prediction, and descriptive modeling. Such models are especially effective for capturing the intricacies of social science or biological processes, which are characterized by complex, interdependent, and situationally interconnected components\ [@Gelman2006]. 
+
+::: callout-tip
+## Solid theory supports effective and accurate application!
+
+The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, or online course materials to help students deepen their theoretical understanding of this week's material. This foundation will aid in generating better analysis in practice.
+
+- [*Data Analysis Using Regression and Multilevel/Hierarchical Models*](https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983#overview) by Andrew Gelman and Jennifer Hill\ [@Gelman2006].
+    -   Chapter 1 *Why*.
+    -   Chapter 11 *Multilevel structures*.
+    -   Chapter 12 *Multilevel linear models: the basics*.
+    -   Chapter 16 *Multilevel modeling in Bugs and R: the basics*.
+    -   Chapter 21 *Understanding and summarizing the fitted models*.
+- [36-463/663: _Topics in Statistics: Hierarchical & Multilevel Models_](https://www.stat.cmu.edu/~brian/463-663/) administered at Carnegie Mellon in the Fall of 2016 by professor Brian Junker\ [@Junker2016].
+    - [Week 10 - _Introduction to Hierarchical Models for Bayesian Approaches_](https://www.stat.cmu.edu/~brian/463-663/week10/Chapter%2009.pdf)
+:::
 
 
 ### In-Depth Solved Example
@@ -396,7 +403,7 @@ E(X) &= E(E(X \lvert Y))\\
 &= p\beta \tag{exponential expectation}
 \end{align*}
 
-As previously mentioned, it is sometimes possible to reduce models with more than two stages to a two-stage setup. In our current example, we can deterministically derive a combined distribution for $Y$ using the related stages $Y \mid \Lambda \sim \text{Poisson}(\Lambda)$ and $\Lambda \sim \text{exponential}(\beta)$\ [@Casella2002; @Kreyszig2011].
+As previously mentioned, it is sometimes possible to reduce models with more than two stages to a two-stage setup. In our current example, we can deterministically derive a combined distribution for $Y$ using the related stages $Y \lvert \Lambda \sim \text{Poisson}(\Lambda)$ and $\Lambda \sim \text{exponential}(\beta)$\ [@Casella2002; @Kreyszig2011].
 
 \begin{align*}
 P(Y = y) &= P(Y = y, 0 < \Lambda < \infty)\\
@@ -644,11 +651,11 @@ The data comes from surveillance for invasive pneumococcal disease (IPD) conduct
 #| message: FALSE
 #| warning: FALSE
 
-# # Read in the cleaned data directly from the instructor's GitHub.
-# df <- read_csv("https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/testDE2.csv")
-# 
-# # Summarize the variable names included in the dataset.
-# colnames(df)
+# Read in the cleaned data directly from the instructor's GitHub.
+df <- read_csv("https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/testDE2.csv")
+
+# Summarize the variable names included in the dataset.
+colnames(df)
 ```
 </div>
 
@@ -657,7 +664,7 @@ The dataset includes a lot of information that is not required for our analysis 
 
 ```{r}
 # Summarize aspects and dimentions of our dataset.
-# glimpse(df[, c(39:42, 45, 8, 15)])
+glimpse(df[, c(39:42, 45, 8, 15)])
 ```
 
 ### Data Dictionary
@@ -679,35 +686,38 @@ This paper did not explicitly describe each variable in a “Data Dictionary”.
 -   **SeroType:** The serotype of the pathogen identified using capsular swelling with the full antiserum.
 
 
+## Running the JAGS
+
+
 1.  Aggregating the data to count the number of cases for each serotype-year combination.
 2.  Ensuring that all possible serotype-year combinations are represented.
 3.  Creating numeric IDs for `SeroType` and `epiyr.`
 4.  Creating a list of data objects required for running the JAGS model, including case counts, numeric IDs, and the number of unique serotypes and years.
 
 ```{r}
-# # Aggregate the data by SeroType and epiyr to get the number of cases 
-# # for each combination. The function complete() ensures all combinations 
-# # of SeroType and epiyr are represented in the dataset, even those with 
-# # zero cases.
-# serotype_year_counts <- df %>%
-#   count(SeroType, epiyr, name = "cases") %>%
-#   complete(SeroType, epiyr, fill = list(cases = 0))
-# 
-# # Convert the categorical variables SeroType and epiyr into numeric IDs 
-# # which are easier to work with in JAGS.
-# serotype_year_counts <- serotype_year_counts %>%
-#   mutate(sero_id = as.integer(factor(SeroType)),
-#          year_id = as.integer(factor(epiyr)))
-# 
-# # Create the data list that will be input into JAGS.
-# jdat <- list(
-#   N = nrow(serotype_year_counts),
-#   cases = serotype_year_counts$cases,
-#   sero_id = serotype_year_counts$sero_id,
-#   year_id = serotype_year_counts$year_id,
-#   n_sero = length(unique(serotype_year_counts$sero_id)),
-#   n_year = length(unique(serotype_year_counts$year_id))
-# )
+# Aggregate the data by SeroType and epiyr to get the number of cases
+# for each combination. The function complete() ensures all combinations
+# of SeroType and epiyr are represented in the dataset, even those with
+# zero cases.
+serotype_year_counts <- df %>%
+  count(SeroType, epiyr, name = "cases") %>%
+  complete(SeroType, epiyr, fill = list(cases = 0))
+
+# Convert the categorical variables SeroType and epiyr into numeric IDs
+# which are easier to work with in JAGS.
+serotype_year_counts <- serotype_year_counts %>%
+  mutate(sero_id = as.integer(factor(SeroType)),
+         year_id = as.integer(factor(epiyr)))
+
+# Create the data list that will be input into JAGS.
+jdat <- list(
+  N = nrow(serotype_year_counts),
+  cases = serotype_year_counts$cases,
+  sero_id = serotype_year_counts$sero_id,
+  year_id = serotype_year_counts$year_id,
+  n_sero = length(unique(serotype_year_counts$sero_id)),
+  n_year = length(unique(serotype_year_counts$year_id))
+)
 ```
 
 
@@ -734,18 +744,18 @@ model {
 
 
 ```{r}
-# source("Model2.R")
-# 
-# mod <- jags.model(textConnection(jcode), data = jdat, n.chains = 2)
+source("Model2.R")
+
+mod <- jags.model(textConnection(jcode), data = jdat, n.chains = 2)
 ```
 
 
 <div class="scrollable-output">
 ```{r}
-# update(mod, 1000)  # burn-in
-# samp <- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)
-# 
-# summary(samp)
+update(mod, 1000)  # burn-in
+samp <- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)
+
+summary(samp)
 ```
 </div>
 
