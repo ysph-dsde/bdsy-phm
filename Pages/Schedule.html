@@ -52,6 +52,49 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -122,10 +165,13 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#expectations-overview" id="toc-expectations-overview" class="nav-link active" data-scroll-target="#expectations-overview">Expectations Overview</a></li>
   <li><a href="#format" id="toc-format" class="nav-link" data-scroll-target="#format">Format</a></li>
-  <li><a href="#thursday-july-3rd" id="toc-thursday-july-3rd" class="nav-link" data-scroll-target="#thursday-july-3rd">Thursday July 3rd</a></li>
-  <li><a href="#thursday-july-10th" id="toc-thursday-july-10th" class="nav-link" data-scroll-target="#thursday-july-10th">Thursday, July 10th</a></li>
-  <li><a href="#thursday-july-17th" id="toc-thursday-july-17th" class="nav-link" data-scroll-target="#thursday-july-17th">Thursday, July 17th</a></li>
-  <li><a href="#monday-july-21st" id="toc-monday-july-21st" class="nav-link" data-scroll-target="#monday-july-21st">Monday July 21st</a></li>
+  <li><a href="#thursday-july-3rd" id="toc-thursday-july-3rd" class="nav-link" data-scroll-target="#thursday-july-3rd">Thursday, July 3<span class="math inline">^{rd}</span></a></li>
+  <li><a href="#thursday-july-10th" id="toc-thursday-july-10th" class="nav-link" data-scroll-target="#thursday-july-10th">Thursday, July 10<span class="math inline">^{th}</span></a></li>
+  <li><a href="#thursday-july-17th" id="toc-thursday-july-17th" class="nav-link" data-scroll-target="#thursday-july-17th">Thursday, July 17<span class="math inline">^{th}</span></a></li>
+  <li><a href="#monday-july-21st" id="toc-monday-july-21st" class="nav-link" data-scroll-target="#monday-july-21st">Monday, July 21<span class="math inline">^{st}</span></a></li>
+  <li><a href="#tuesday-july-22nd" id="toc-tuesday-july-22nd" class="nav-link" data-scroll-target="#tuesday-july-22nd">Tuesday, July 22<span class="math inline">^{nd}</span></a></li>
+  <li><a href="#wednesday-july-23rd" id="toc-wednesday-july-23rd" class="nav-link" data-scroll-target="#wednesday-july-23rd">Wednesday, July 23<span class="math inline">^{rd}</span></a></li>
+  <li><a href="#thursday-july-24th---symposium-day" id="toc-thursday-july-24th---symposium-day" class="nav-link" data-scroll-target="#thursday-july-24th---symposium-day">Thursday, July 24<span class="math inline">^{th}</span> - Symposium Day!</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/Pages/Schedule.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -137,7 +183,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="expectations-overview" class="level2">
 <h2 class="anchored" data-anchor-id="expectations-overview">Expectations Overview</h2>
-<p>At the end of the program, you will present your work at a symposium, which will include both a presentation with slides and a poster session. Each group will have 25 minutes to present their slide deck, followed by 5 minutes for questions. The poster session will last 45 minutes.</p>
+<p>At the end of the program, you will present your work at a symposium, which will include both a presentation with slides and a poster session. Each afternoon group will have 25 minutes to present their slide deck, followed by 5 minutes for questions. This gives you approximately 4 slides to introduce the overall topic of pneumococcal disease modeling, and 7 slides for each subgroup to summarize their version of this subject. The poster session will last 45 minutes.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -176,7 +222,7 @@ Important
 <p>It is critical that each member of your group equally shares the responsibilities of conducting the research and presenting the weekly updates. Complimenting colleagues’ work demonstrates good professionalism and helps the team identify and maintain effective practices.</p>
 </section>
 <section id="thursday-july-3rd" class="level2">
-<h2 class="anchored" data-anchor-id="thursday-july-3rd">Thursday July 3rd</h2>
+<h2 class="anchored" data-anchor-id="thursday-july-3rd">Thursday, July 3<span class="math inline">^{rd}</span></h2>
 <p><strong>Have Completed:</strong></p>
 <ul>
 <li>Conducted a literature search for peer-reviewed references (at least 5 relevant papers), focusing on publications from the last 5-10 years.</li>
@@ -201,7 +247,7 @@ Important
 </ul>
 </section>
 <section id="thursday-july-10th" class="level2">
-<h2 class="anchored" data-anchor-id="thursday-july-10th">Thursday, July 10th</h2>
+<h2 class="anchored" data-anchor-id="thursday-july-10th">Thursday, July 10<span class="math inline">^{th}</span></h2>
 <p><strong>Have Completed:</strong></p>
 <ul>
 <li>Implemented Time Series and Hierarchical Modeling, focusing on how they support your hypothesis/research questions.</li>
@@ -215,7 +261,7 @@ Important
 </ul>
 </section>
 <section id="thursday-july-17th" class="level2">
-<h2 class="anchored" data-anchor-id="thursday-july-17th">Thursday, July 17th</h2>
+<h2 class="anchored" data-anchor-id="thursday-july-17th">Thursday, July 17<span class="math inline">^{th}</span></h2>
 <p><strong>Have Completed:</strong></p>
 <ul>
 <li>Implement Market Basket analysis and visualize the results from the GPS pipeline, focusing on how they support your hypothesis/research questions. The subset of your data that is relevant to your research question will be prerun for you using the GPS analysis pipeline, leaving only the visualization tasks for you to complete.</li>
@@ -231,7 +277,7 @@ Important
 </ul>
 <p><strong>Mock Symposium:</strong></p>
 <p>After a brief catch-up on the group’s progress, we aim to spend most of the day practicing the presentations and poster sessions. This time is intended to help you practice with peers who understand the type of study you conducted and give you an opportunity to implement any last-minute changes to improve your content.</p>
-<p>Each group will be given 25 minutes to present their slides followed by 5-10 minutes of peer-feedback. For the audience, provide feedback about:</p>
+<p>On the symposium day, each afternoon group will be given 25 minutes to present their slides followed by 5-10 minutes of peer-feedback. For the audience, provide feedback about:</p>
 <ul>
 <li>Whether the presentation was cohesive from start to finish and told a “story” about the study.</li>
 <li>Highlighted interesting findings unique to their data and hypothesis/research question.</li>
@@ -250,12 +296,45 @@ Important
 </ul>
 </section>
 <section id="monday-july-21st" class="level2">
-<h2 class="anchored" data-anchor-id="monday-july-21st">Monday July 21st</h2>
-<p>Use this time to finalize any remaining details and practice the slide presentation or poster with your group.</p>
+<h2 class="anchored" data-anchor-id="monday-july-21st">Monday, July 21<span class="math inline">^{st}</span></h2>
 <p><strong>Have Completed:</strong></p>
 <ul>
-<li>Finalized poster by end of day (EOD) for printing. The instructors will send these to Jackson/Aquielle for printing.</li>
+<li>Submit the final draft of your poster by 12:00 PM for printing. Upload the <code>*.potx</code> into <a href="https://yaleedu.sharepoint.com/sites/BDSY2025Cohort/Shared%20Documents/Forms/AllItems.aspx?csf=1&amp;web=1&amp;e=PydphV&amp;CID=cbbb39a0%2Dffde%2D4748%2Db3be%2Db5d3f5867e22&amp;FolderCTID=0x012000674E21BAC282AA44B4D290C0E45388A0&amp;id=%2Fsites%2FBDSY2025Cohort%2FShared%20Documents%2FGeneral%2FBDSY%202025%20Posters">BDSY 2025 Poster</a> SharePoint folder.</li>
 </ul>
+</section>
+<section id="tuesday-july-22nd" class="level2">
+<h2 class="anchored" data-anchor-id="tuesday-july-22nd">Tuesday, July 22<span class="math inline">^{nd}</span></h2>
+<p>A presentation rehearsal before Professor Mukherjee, all BDSY participants, and project mentors will be held in Winslow Auditorium in Yale School of Public Health’s (YSPH) Laboratory of Epidemiology and Public Health (LEPH) building from 2:00 PM to 5:00 PM.</p>
+<p><strong>Have Completed:</strong></p>
+<ul>
+<li>Submit the current draft of your slide deck that you wish to present at the rehearsal by 1:30 PM. Upload the <code>*.pptx</code> into <a href="https://yaleedu.sharepoint.com/sites/BDSY2025Cohort/Shared%20Documents/Forms/AllItems.aspx?csf=1&amp;web=1&amp;e=7DASbl&amp;CID=b1fd5b91%2D6258%2D4798%2Da665%2Dce52ef8ef87c&amp;FolderCTID=0x012000674E21BAC282AA44B4D290C0E45388A0&amp;id=%2Fsites%2FBDSY2025Cohort%2FShared%20Documents%2FGeneral%2FBDSY%202025%20Presentations">BDSY 2025 Presentations</a> SharePoint folder.</li>
+</ul>
+</section>
+<section id="wednesday-july-23rd" class="level2">
+<h2 class="anchored" data-anchor-id="wednesday-july-23rd">Wednesday, July 23<span class="math inline">^{rd}</span></h2>
+<p>From 6:00 PM to 7:00 PM <strong>every member of your group</strong> will need to drop by the Foundations of Data Science (13th floor, Kline Tower) to pick up your poster. You will also be given the opportunity to get familiar with the symposium space.</p>
+<p><strong>Have Completed:</strong></p>
+<ul>
+<li>Submit the final draft of your slide deck by end of day (EOD), 5:00 PM. Upload the <code>*.pptx</code> into BDSY 2025 Final Presentations SharePoint folder.</li>
+</ul>
+</section>
+<section id="thursday-july-24th---symposium-day" class="level2">
+<h2 class="anchored" data-anchor-id="thursday-july-24th---symposium-day">Thursday, July 24<span class="math inline">^{th}</span> - Symposium Day!</h2>
+<p>Arrive at the Foundations of Data Science (13th floor, Kline Tower) at 8:45 AM to prepare for the day. The symposium starts at 9:00 AM.</p>
+<p>The poster session will be held in Room 1307 from 1:00 PM to 1:45 PM following lunch (which will be provided). The three afternoon groups will then each have 25 minutes for their presentations from 1:45 PM to 3:00 PM in Room 1327, followed by 5 minutes for questions.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dress professionally or in business casual attire. Guests you are inviting—they must RSVP by Monday, July 14<span class="math inline">^{th}</span>.</p>
+</div>
+</div>
 
 
 </section>
