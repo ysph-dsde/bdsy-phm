@@ -5,7 +5,7 @@ editor: visual
 
 ## Expectations Overview
 
-At the end of the program, you will present your work at a symposium, which will include both a presentation with slides and a poster session. Each group will have 25 minutes to present their slide deck, followed by 5 minutes for questions. The poster session will last 45 minutes.
+At the end of the program, you will present your work at a symposium, which will include both a presentation with slides and a poster session. Each afternoon group will have 25 minutes to present their slide deck, followed by 5 minutes for questions. This gives you approximately 4 slides to introduce the overall topic of pneumococcal disease modeling, and 7 slides for each subgroup to summarize their version of this subject. The poster session will last 45 minutes.
 
 ::: callout-important
 During the poster session, at least one member of your group should be stationed at the poster at all times, while the other two can explore the room. We expect that you will switch every 15 minutes so that everyone spends at least 15 minutes at the poster and the remaining 30 minutes exploring other projects.
@@ -31,7 +31,7 @@ We expect the audience to provide insightful, constructive feedback to help impr
 
 It is critical that each member of your group equally shares the responsibilities of conducting the research and presenting the weekly updates. Complimenting colleagues' work demonstrates good professionalism and helps the team identify and maintain effective practices.
 
-## Thursday July 3rd
+## Thursday, July 3$^{rd}$
 
 **Have Completed:**
 
@@ -51,7 +51,7 @@ It is critical that each member of your group equally shares the responsibilitie
     -   Briefly discuss the variables, especially if the variables imply features that are not readily obvious.
     -   Discuss any potential gaps or pitfalls found with the data, such as data collection limitations, missing data, or combined outcomes that could confound the observations.
 
-## Thursday, July 10th
+## Thursday, July 10$^{th}$
 
 **Have Completed:**
 
@@ -64,7 +64,7 @@ It is critical that each member of your group equally shares the responsibilitie
 -   3 slides explaining what Time Series and Hierarchical Modeling are addressing in layman's terms and how they support your hypothesis/study question.
 -   1 slide to discuss whether working with the data and seeing the results has shaped the research question/hypothesis.
 
-## Thursday, July 17th
+## Thursday, July 17$^{th}$
 
 **Have Completed:**
 
@@ -83,7 +83,7 @@ It is critical that each member of your group equally shares the responsibilitie
 
 After a brief catch-up on the group's progress, we aim to spend most of the day practicing the presentations and poster sessions. This time is intended to help you practice with peers who understand the type of study you conducted and give you an opportunity to implement any last-minute changes to improve your content.
 
-Each group will be given 25 minutes to present their slides followed by 5-10 minutes of peer-feedback. For the audience, provide feedback about:
+On the symposium day, each afternoon group will be given 25 minutes to present their slides followed by 5-10 minutes of peer-feedback. For the audience, provide feedback about:
 
 -   Whether the presentation was cohesive from start to finish and told a "story" about the study.
 -   Highlighted interesting findings unique to their data and hypothesis/research question.
@@ -101,10 +101,34 @@ For poster visiters, practice asking questions from the perspective of someone f
 -   The effectiveness of the visualizations.
 -   Whether the poster is easy for casual browsers to understand, or if it requires a lot of focus to comprehend.
 
-## Monday July 21st
-
-Use this time to finalize any remaining details and practice the slide presentation or poster with your group.
+## Monday, July 21$^{st}$
 
 **Have Completed:**
 
--   Finalized poster by end of day (EOD) for printing. The instructors will send these to Jackson/Aquielle for printing.
+-   Submit the final draft of your poster by 12:00 PM for printing. Upload the `*.potx` into [BDSY 2025 Poster](https://yaleedu.sharepoint.com/sites/BDSY2025Cohort/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&e=PydphV&CID=cbbb39a0%2Dffde%2D4748%2Db3be%2Db5d3f5867e22&FolderCTID=0x012000674E21BAC282AA44B4D290C0E45388A0&id=%2Fsites%2FBDSY2025Cohort%2FShared%20Documents%2FGeneral%2FBDSY%202025%20Posters) SharePoint folder.
+
+## Tuesday, July 22$^{nd}$
+
+A presentation rehearsal before Professor Mukherjee, all BDSY participants, and project mentors will be held in Winslow Auditorium in Yale School of Public Health's (YSPH) Laboratory of Epidemiology and Public Health (LEPH) building from 2:00 PM to 5:00 PM.
+
+**Have Completed:**
+
+-   Submit the current draft of your slide deck that you wish to present at the rehearsal by 1:30 PM. Upload the `*.pptx` into [BDSY 2025 Presentations](https://yaleedu.sharepoint.com/sites/BDSY2025Cohort/Shared%20Documents/Forms/AllItems.aspx?csf=1&web=1&e=7DASbl&CID=b1fd5b91%2D6258%2D4798%2Da665%2Dce52ef8ef87c&FolderCTID=0x012000674E21BAC282AA44B4D290C0E45388A0&id=%2Fsites%2FBDSY2025Cohort%2FShared%20Documents%2FGeneral%2FBDSY%202025%20Presentations) SharePoint folder.
+
+## Wednesday, July 23$^{rd}$
+
+From 6:00 PM to 7:00 PM **every member of your group** will need to drop by the Foundations of Data Science (13th floor, Kline Tower) to pick up your poster. You will also be given the opportunity to get familiar with the symposium space.
+
+**Have Completed:**
+
+-   Submit the final draft of your slide deck by end of day (EOD), 5:00 PM. Upload the `*.pptx` into BDSY 2025 Final Presentations SharePoint folder.
+
+## Thursday, July 24$^{th}$ - Symposium Day!
+
+Arrive at the Foundations of Data Science (13th floor, Kline Tower) at 8:45 AM to prepare for the day. The symposium starts at 9:00 AM.
+
+The poster session will be held in Room 1307 from 1:00 PM to 1:45 PM following lunch (which will be provided). The three afternoon groups will then each have 25 minutes for their presentations from 1:45 PM to 3:00 PM in Room 1327, followed by 5 minutes for questions.
+
+::: callout-important
+Dress professionally or in business casual attire. Guests you are inviting—they must RSVP by Monday, July 14$^{th}$.
+:::

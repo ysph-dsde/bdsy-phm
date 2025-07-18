@@ -7,8 +7,10 @@
 .Ruserdata
 **/.DS_Store
 **/.html
+**/.pptx
 **/_files/
 /.quarto/
+/_site/
 /docs/
 
 

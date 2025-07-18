@@ -2,26 +2,24 @@
 format: html
 bibliography: references.bib
 csl: nature.csl
-editor: visual
+editor: source
 ---
 
-:::{.callout-important}
+::: callout-important
 Please note that this page contains numerous links and download buttons, which may take a few minutes to load completely.
 :::
 
 ## Course Papers
 
-- Hierarchical Models _Weinberger and Warren et al. 2020_\ [@Warren2020] ([view paper](Course Papers/Weinberger and Warren et al_2020_Hierarchical Models.pdf))
-- Serotype Replacement _Weinberger and Warren et al. 2018_\ [@Weinberger2018] ([view paper](Course Papers/Weinberger and Warren et al_2018_Serotype Replacement.pdf))
-- Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus _Joshi and Al-Mamun et al. 2020_\ [@Joshi2020] ([view paper](Course Papers/Joshi and Al-Mamun et al_Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus.pdf))
-- _2022 Annual Epidemiological Report for Invasive Pneumococcal Disease (IPD)_\ [@ECDPC_2025] ([view paper](Course Papers/Invasive pneumococcal disease_2022 Annual Epidemiological Report.pdf))
-
-
+-   Hierarchical Models *Weinberger and Warren et al. 2020* [@Warren2020] ([view paper](Course%20Papers/Weinberger%20and%20Warren%20et%20al_2020_Hierarchical%20Models.pdf))
+-   Serotype Replacement *Weinberger and Warren et al. 2018* [@Weinberger2018] ([view paper](Course%20Papers/Weinberger%20and%20Warren%20et%20al_2018_Serotype%20Replacement.pdf))
+-   Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus *Joshi and Al-Mamun et al. 2020* [@Joshi2020] ([view paper](Course%20Papers/Joshi%20and%20Al-Mamun%20et%20al_Correlates%20of%20Nonrandom%20Patterns%20of%20Serotype%20Switching%20in%20Pneumococcus.pdf))
+-   *2022 Annual Epidemiological Report for Invasive Pneumococcal Disease (IPD)* [@ECDPC_2025] ([view paper](Course%20Papers/Invasive%20pneumococcal%20disease_2022%20Annual%20Epidemiological%20Report.pdf))
 
 ## Tips and Advice
 
-:::{style="margin-left: -1rem;"}
-- Tips for Effective Presentations ([view slides](Tips for Effective Presentations.pdf))
+::: {style="margin-left: -1rem;"}
+-   Tips for Effective Presentations ([view slides](Tips%20for%20Effective%20Presentations.pdf))
 :::
 
 ::: callout-tip
@@ -32,34 +30,30 @@ It is vital that you keep track of and disclose all the references you use to su
 In my research, I use [Mendeley](https://www.mendeley.com/search/), which comes with a Web Importer plug-in that makes it easy to compile different types of references. It conveniently formats these entries to various styles, including LaTeX and BibTeX.
 :::
 
-
 ## Templates
 
-{{< downloadthis "BDSY Slides Template 2025.potx" label="BDSY Slides Template 2025" id=download_btn >}}\ \ \ {{< downloadthis "Poster Templates_Six Options.pptx" label="Six Poster Template Options" id=download_btn >}}
-
-
+{{< downloadthis "BDSY Slides Template 2025.potx" label="BDSY Slides Template 2025" id=download_btn >}}   {{< downloadthis "Poster Templates_Six Options.pptx" label="Six Poster Template Options" id=download_btn >}}
 
 ## Lecture Slides
 
 **Week #1**
 
-- Day 1 Slide Deck ([view slides](In Class Presentations/Day1.pdf))
-- Day 2 Slide Deck ([view slides](In Class Presentations/Day2.pdf)) and Outbreak Investigation: [part 1](In Class Presentations/Day2_Outbreak Investigation Part 1.pdf), [part 2](In Class Presentations/Day2_Outbreak Investigation Part 2.pdf), [part 3](In Class Presentations/Day2_Outbreak Investigation Part 3.pdf).
+-   Day 1 Slide Deck ([view slides](In%20Class%20Presentations/Day1.pdf))
+-   Day 2 Slide Deck ([view slides](In%20Class%20Presentations/Day2.pdf)) and Outbreak Investigation: [part 1](In%20Class%20Presentations/Day2_Outbreak%20Investigation%20Part%201.pdf), [part 2](In%20Class%20Presentations/Day2_Outbreak%20Investigation%20Part%202.pdf), [part 3](In%20Class%20Presentations/Day2_Outbreak%20Investigation%20Part%203.pdf).
 
 **Week #2**
 
-- Day 3 Slide Deck ([view slides](In Class Presentations/Day3.pdf))
-- Day 4 Slide Deck ([view slides](In Class Presentations/Day4.pdf))
-- Day 5 Slide Deck ([view slides](In Class Presentations/Day5.pdf))
+-   Day 3 Slide Deck ([view slides](In%20Class%20Presentations/Day3.pdf))
+-   Day 4 Slide Deck ([view slides](In%20Class%20Presentations/Day4.pdf))
+-   Day 5 Slide Deck ([view slides](In%20Class%20Presentations/Day5.pdf))
 
 **Week #3**
 
-- Day 7 Slide Deck ([view slides](In Class Presentations/Day7.pdf))
+-   Day 7 Slide Deck ([view slides](In%20Class%20Presentations/Day7.pdf))
 
 **Week #4**
 
-- Day 11 Slide Deck ([view slides](In Class Presentations/Day11.pdf))
-
+-   Day 11 Slide Deck ([view slides](In%20Class%20Presentations/Day11.pdf))
 
 ## Codespaces
 
@@ -67,46 +61,43 @@ In my research, I use [Mendeley](https://www.mendeley.com/search/), which comes 
 
 Please download the codespaces provided for each weekly module release. Note that you may need to adjust the filepath for some references inside the code. It is recommended that you use the starter codespace package, which includes the following:
 
-- An `Rproj` file to set your root directory.
-- An `renv` lockfile.
-- A suggested `.gitignore`.
-- A `README.md` file with directions for using the codespace and guidelines for adding the code to your own GitHub remote repository.
+-   An `Rproj` file to set your root directory.
+-   An `renv` lockfile.
+-   A suggested `.gitignore`.
+-   A `README.md` file with directions for using the codespace and guidelines for adding the code to your own GitHub remote repository.
 
-Subsequent weekly releases should be placed inside your root project directory. For instance, if you are using the directory "~/bdsy-phm-individual", place the weekly releases within that directory.
+Subsequent weekly releases should be placed inside your root project directory. For instance, if you are using the directory "\~/bdsy-phm-individual", place the weekly releases within that directory.
 
 {{< downloadthis "Student Codespaces/bdsy-phm-individual.zip" label="Starter for individual project with week 2 code" id=download_btn >}}
 
-{{< downloadthis "Student Codespaces/Week 3 Code.zip" label="Week 3 code" id=download_btn >}}\ \ \ {{< downloadthis "Student Codespaces/Week 4 Code.R" label="Week 4 code" id=download_btn >}}\ \ \ {{< downloadthis "Student Codespaces/Week 5 Code.R" label="Week 5 code" id=download_btn >}}
-
+{{< downloadthis "Student Codespaces/Week 3 Code.zip" label="Week 3 code" id=download_btn >}}   {{< downloadthis "Student Codespaces/Week 4 Code.R" label="Week 4 code" id=download_btn >}}   {{< downloadthis "Student Codespaces/Week 5 Code.R" label="Week 5 code" id=download_btn >}}
 
 ### Project Datasets and Materials
 
-Each group will be assigned data from one of three countries: Malawi, Nepal, or Peru. The datasets include the incidence of pneumococcal-caused respiratory disease, or in some cases, any causes of pneumonia, along with Global Pneumococcal Sequencing Project (GPS) metadata for genomic analysis using the [GPS pipeline](https://www.pneumogen.net/gps/#/resources#gps-pipeline)\ [@GPS]. Below, you will find these datasets, the source documentation or papers from which they were obtained, and any ancillary documentation, such as a Data Dictionary.
+Each group will be assigned data from one of three countries: Malawi, Nepal, or Peru. The datasets include the incidence of pneumococcal-caused respiratory disease, or in some cases, any causes of pneumonia, along with Global Pneumococcal Sequencing Project (GPS) metadata for genomic analysis using the [GPS pipeline](https://www.pneumogen.net/gps/#/resources#gps-pipeline) [@GPS]. Below, you will find these datasets, the source documentation or papers from which they were obtained, and any ancillary documentation, such as a Data Dictionary.
 
-:::{.callout-note}
+::: callout-note
 Not all sources provided a Data Dictionary, so students will need to explain their variables using the context provided by the source documentation.
 :::
 
 {{< downloadthis "Student Project Materials/GPS Database Dictionary.xlsx" label="GPS Database Dictionary" id=download_btn >}}
 
-:::{style="margin-left: -1rem;"}
-- Complete GPS Metadata Viewer and Download\ [@GPS; @GPS_data; @GPS_dataDictionary] ([link to page](https://data-viewer.monocle.sanger.ac.uk/project/gps))
+::: {style="margin-left: -1rem;"}
+-   Complete GPS Metadata Viewer and Download [@GPS; @GPS_data; @GPS_dataDictionary] ([link to page](https://data-viewer.monocle.sanger.ac.uk/project/gps))
 :::
 
-{{< downloadthis "Student Project Materials/Malawi.zip" label="Malawi" id=download_btn >}} Find the raw incidents data, GPS data, and literature papers\ [@Bar-Zeev2021].
+{{< downloadthis "Student Project Materials/Malawi.zip" label="Malawi" id=download_btn >}} Find the raw incidents data, GPS data, and literature papers [@Bar-Zeev2021].
 
-{{< downloadthis "Student Project Materials/Nepal.zip" label="Nepal" id=download_btn >}} Find the raw incidents data, GPS data, and literature papers\ [@Kandasamy2024; @Kandasamy2015].
+{{< downloadthis "Student Project Materials/Nepal.zip" label="Nepal" id=download_btn >}} Find the raw incidents data, GPS data, and literature papers [@Kandasamy2024; @Kandasamy2015].
 
-{{< downloadthis "Student Project Materials/Peru.zip" label="Peru" id=download_btn >}} Find the raw incidents data, GPS data, and data dictionary\ [@SecretaradeGobiernoDigitalPresidenciadelConsejodeMinistros2024].
+{{< downloadthis "Student Project Materials/Peru.zip" label="Peru" id=download_btn >}} Find the raw incidents data, GPS data, and data dictionary [@SecretaradeGobiernoDigitalPresidenciadelConsejodeMinistros2024].
 
-:::{style="margin-left: -1rem;"}
-- Peru Epidemiological surveillance of Acute Respiratory Infections (ARI) Data Page ([link to page](https://www.datosabiertos.gob.pe/dataset/vigilancia-epidemiologica-de-infecciones-respiratoiras-agudas-ira))
+::: {style="margin-left: -1rem;"}
+-   Peru Epidemiological surveillance of Acute Respiratory Infections (ARI) Data Page ([link to page](https://www.datosabiertos.gob.pe/dataset/vigilancia-epidemiologica-de-infecciones-respiratoiras-agudas-ira))
 :::
-
 
 The GPS analysis pipeline requires the use of bash command prompts and domain knowledge to run and troubleshoot effectively. The focus of this course is on evaluating data within the context of an overarching pneumococcal disease micro-study, rather than on running the GPS analysis pipeline itself. Therefore, students were asked to select a subset of their data, which was run through the pipeline by Dr. Perniciaro.
 
 Below, you will find the preprocessed genomics results from the subset of data your group chose. These have been run through the GPS analysis pipeline, leaving only the result visualization and interpretation for the students to complete.
 
-{{< downloadthis "Student Project Materials/malawi_genomic_output.zip" label="Malawi Genomics Output" id=download_btn >}}\ \ \ {{< downloadthis "Student Project Materials/nepal_genomic_output.zip" label="Nepal Genomics Output" id=download_btn >}}\ \ \ {{< downloadthis "Student Project Materials/peru_genomic_output.zip" label="Peru Genomics Output" id=download_btn >}}
-
+{{< downloadthis "Student Project Materials/malawi_genomic_output.zip" label="Malawi Genomics Output" id=download_btn >}}   {{< downloadthis "Student Project Materials/nepal_genomic_output.zip" label="Nepal Genomics Output" id=download_btn >}}   {{< downloadthis "Student Project Materials/peru_genomic_output.zip" label="Peru Genomics Output" id=download_btn >}}
