@@ -220,7 +220,10 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#solid-theory-supports-effective-and-accurate-application" id="toc-solid-theory-supports-effective-and-accurate-application" class="nav-link" data-scroll-target="#solid-theory-supports-effective-and-accurate-application">Solid Theory Supports Effective and Accurate Application!</a></li>
+  </ul></li>
   <li><a href="#distribution-estimation-by-particle-sampling" id="toc-distribution-estimation-by-particle-sampling" class="nav-link" data-scroll-target="#distribution-estimation-by-particle-sampling">Distribution Estimation by Particle Sampling</a>
   <ul class="collapse">
   <li><a href="#recall-markov-chains---a-stochastic-process" id="toc-recall-markov-chains---a-stochastic-process" class="nav-link" data-scroll-target="#recall-markov-chains---a-stochastic-process">Recall Markov Chains - A Stochastic Process</a></li>
@@ -302,29 +305,8 @@ Page still in progress!!
 <p>While the first approach has many advantages, there are circumstances where approximating a problem with a known distribution is computationally prohibitive, overly reductive, or infeasible. In such cases, we leverage abstract probabilistic and statistical concepts to transform randomness into inferential statistics. When applied correctly, these concepts can surprisingly guarantee robust solutions to otherwise unsolvable problems.</p>
 <p>One of these powerful techniques is Markov chain Monte Carlo (MCMC). Random samples generated with MCMC can be used for various purposes, including computing statistical estimates, numerical integrals, and estimating the marginal or joint probabilities of multivariate distributions and densities&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. Notably, MCMC provides a means to generate samples from joint distributions by utilizing conditional, factorized distributions&nbsp;<span class="citation" data-cites="Spall2005 Koller2009"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</p>
 <p>Two common MCMC implementations are Metropolis-Hastings (M-H) and Gibbs sampling, with the latter being more accurately considered a special case of the former. Students are encouraged to explore M-H further on their own by reading the relevant sections of the supporting textbooks listed below. Today, we will focus on Gibbs sampling and only discuss M-H where it supports this learning, as Gibbs sampling is particularly well-suited for reducing high-dimensional problems into several one-dimensional ones&nbsp;<span class="citation" data-cites="Spall2005 Wasserman2004"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>.</p>
-</section>
-<section id="distribution-estimation-by-particle-sampling" class="level2">
-<h2 class="anchored" data-anchor-id="distribution-estimation-by-particle-sampling">Distribution Estimation by Particle Sampling</h2>
-<div class="img-float">
-<div class="quarto-figure quarto-figure-center" style="float: right; position: relative; top: 0px; padding-left: 20px; margin: auto auto auto auto; text-align: right;">
-<figure class="figure">
-<p><img src="Images/Probabilistic Graphical Models by Koller and Friedman_Abstraction of Intro to Chapter 12.png" class="img-fluid figure-img" width="350"></p>
-<figcaption>Abstraction of the introduction to Chapter 12 <em>Particle-Based</em><br><em>Approximate Inference</em> found in <em>Probabilistic Graphical Models</em> by<br>Koller and Friedman. Points on the graph are only illustrative<br>of the variation in techniques&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</figcaption>
-</figure>
-</div>
-</div>
-<p><strong>Particle-based methods</strong> approximate a multivariate distribution or network with a set of instantiations, referred to as <strong>particles</strong>, of some or all of the random variables in that distribution<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>. There are different flavors of this type of method illustrated on the right. Some particles are generated directly from an equation, while others are sampled from a distribution. Some particles represent all the variables in a distribution or network individually, while others assign a proxy variable that groups them&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</p>
-<p>Today we are discussing one type of particle estimation: Gibbs sampling. In most cases, random variables are represented individually. However, readers should be aware that there are variations of Gibbs sampling that facilitate grouping the full set of random variables into “blocks”.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solid theory supports effective and accurate application!
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<section id="solid-theory-supports-effective-and-accurate-application" class="level3">
+<h3 class="anchored" data-anchor-id="solid-theory-supports-effective-and-accurate-application">Solid Theory Supports Effective and Accurate Application!</h3>
 <p>The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, or online course materials to help students deepen their theoretical understanding of this week’s material. This foundation will aid in generating better analysis in practice.</p>
 <ul>
 <li><a href="https://link.springer.com/book/10.1007/978-0-387-21736-9"><em>All of Statistics: A Concise Course in Statistical Inference</em></a> by Larry Wasserman&nbsp;<span class="citation" data-cites="Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>
@@ -343,9 +325,33 @@ Solid theory supports effective and accurate application!
 <li>Chapter 12 <em>Particle-Based Approximate Inference</em> Section 12.3 <em>Markov Chain Monte Carlo Methods</em>.</li>
 <li>Chapter 17 <em>Parameter Estimation</em> Section 17.5 <em>Learning Models with Shared Parameters</em>.</li>
 </ul></li>
+<li><a href="https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983#overview"><em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em></a> by Andrew Gelman and Jennifer Hill&nbsp;<span class="citation" data-cites="Gelman2006"><sup><a href="#ref-Gelman2006" role="doc-biblioref">4</a></sup></span>.
+<ul>
+<li>Chapter 1 <em>Why</em>.</li>
+<li>Chapter 11 <em>Multilevel structures</em>.</li>
+<li>Chapter 12 <em>Multilevel linear models: the basics</em>.</li>
+<li>Chapter 16 <em>Multilevel modeling in Bugs and R: the basics</em>.</li>
+<li>Chapter 21 <em>Understanding and summarizing the fitted models</em>.</li>
+</ul></li>
+<li><a href="https://www.stat.cmu.edu/~brian/463-663/">36-463/663: <em>Topics in Statistics: Hierarchical &amp; Multilevel Models</em></a> administered at Carnegie Mellon in the Fall of 2016 by professor Brian Junker&nbsp;<span class="citation" data-cites="Junker2016"><sup><a href="#ref-Junker2016" role="doc-biblioref">5</a></sup></span>.
+<ul>
+<li><a href="https://www.stat.cmu.edu/~brian/463-663/week10/Chapter%2009.pdf">Week 10 - <em>Introduction to Hierarchical Models for Bayesian Approaches</em></a></li>
+</ul></li>
 </ul>
+</section>
+</section>
+<section id="distribution-estimation-by-particle-sampling" class="level2">
+<h2 class="anchored" data-anchor-id="distribution-estimation-by-particle-sampling">Distribution Estimation by Particle Sampling</h2>
+<div class="img-float">
+<div class="quarto-figure quarto-figure-center" style="float: right; position: relative; top: 0px; padding-left: 20px; margin: auto auto auto auto; text-align: right;">
+<figure class="figure">
+<p><img src="Images/Probabilistic Graphical Models by Koller and Friedman_Abstraction of Intro to Chapter 12.png" class="img-fluid figure-img" width="350"></p>
+<figcaption>Abstraction of the introduction to Chapter 12 <em>Particle-Based</em><br><em>Approximate Inference</em> found in <em>Probabilistic Graphical Models</em> by<br>Koller and Friedman. Points on the graph are only illustrative<br>of the variation in techniques&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</figcaption>
+</figure>
 </div>
 </div>
+<p><strong>Particle-based methods</strong> approximate a multivariate distribution or network with a set of instantiations, referred to as <strong>particles</strong>, of some or all of the random variables in that distribution<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>. There are different flavors of this type of method illustrated on the right. Some particles are generated directly from an equation, while others are sampled from a distribution. Some particles represent all the variables in a distribution or network individually, while others assign a proxy variable that groups them&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</p>
+<p>Today we are discussing one type of particle estimation: Gibbs sampling. In most cases, random variables are represented individually. However, readers should be aware that there are variations of Gibbs sampling that facilitate grouping the full set of random variables into “blocks”.</p>
 <section id="recall-markov-chains---a-stochastic-process" class="level3">
 <h3 class="anchored" data-anchor-id="recall-markov-chains---a-stochastic-process">Recall Markov Chains - A Stochastic Process</h3>
 <p>This section summarizes relevant concepts presented in Wasserman’s <em>All of Statistics</em>, specifically Chapter 23&nbsp;<span class="citation" data-cites="Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>. Unless otherwise noted, the content comes from Wasserman’s <em>All of Statistics</em>.</p>
@@ -354,7 +360,7 @@ Solid theory supports effective and accurate application!
 <div class="quarto-figure quarto-figure-center" style="float: left; position: relative; top: 0px; padding-right: 10px; margin: auto auto auto auto;">
 <figure class="figure">
 <p><img src="Images/Lee and Ni 2012_Figure 1.jpg" class="img-fluid figure-img" width="450"></p>
-<figcaption>Illustration of state transition diagram for the Markov chain&nbsp;<span class="citation" data-cites="Lee2012"><sup><a href="#ref-Lee2012" role="doc-biblioref">4</a></sup></span>.</figcaption>
+<figcaption>Illustration of state transition diagram for the Markov chain&nbsp;<span class="citation" data-cites="Lee2012"><sup><a href="#ref-Lee2012" role="doc-biblioref">6</a></sup></span>.</figcaption>
 </figure>
 </div>
 </div>
@@ -371,7 +377,7 @@ Solid theory supports effective and accurate application!
 <li><p>Draw <span class="math inline">X_2</span> from the distribution <span class="math inline">\pi</span> gives <span class="math inline">\pi\mathbf{P}^2 = (\pi\mathbf{P})\mathbf{P} = \pi\mathbf{P} = \pi</span>.</p>
 <p><span class="math inline">\dots</span> etc.</p></li>
 </ol>
-<p>Here, <span class="math inline">\mu_n(i) = \mathbb{P}(X_n = i)</span> denotes the marginal probability that the chain is in state <span class="math inline">i</span> at time <span class="math inline">n</span>, while <span class="math inline">\mu_0</span> represents the <strong>initial distribution</strong>. Once the chain limits to the distribution <span class="math inline">\pi</span>, it will remain in this distribution indefinitely. However, ensuring the process is stationary is not sufficient; it is also important to guarantee that <span class="math inline">\pi</span> is unique. This uniqueness is guaranteed if the Markov chain is <strong>ergodic</strong>, which must satisfy the following two characteristics&nbsp;<span class="citation" data-cites="Bishop2006 Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a>,<a href="#ref-Bishop2006" role="doc-biblioref">5</a></sup></span>:</p>
+<p>Here, <span class="math inline">\mu_n(i) = \mathbb{P}(X_n = i)</span> denotes the marginal probability that the chain is in state <span class="math inline">i</span> at time <span class="math inline">n</span>, while <span class="math inline">\mu_0</span> represents the <strong>initial distribution</strong>. Once the chain limits to the distribution <span class="math inline">\pi</span>, it will remain in this distribution indefinitely. However, ensuring the process is stationary is not sufficient; it is also important to guarantee that <span class="math inline">\pi</span> is unique. This uniqueness is guaranteed if the Markov chain is <strong>ergodic</strong>, which must satisfy the following two characteristics&nbsp;<span class="citation" data-cites="Bishop2006 Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a>,<a href="#ref-Bishop2006" role="doc-biblioref">7</a></sup></span>:</p>
 <ol type="1">
 <li><strong>Aperiodicity:</strong> The states do not get trapped in cycles of fixed length. This means revisiting any state does not happen at regular intervals, ensuring more general behavior. For <span class="math inline">d = \text{gcd}\{n\ :\ p_{ii}(n) &gt; 0\}</span> then <span class="math inline">d(i) = 1</span>, where gcd means “greatest common divisor”.</li>
 <li><strong>Positive Recurrence:</strong> The expected number of steps to return to that state is finite. A Markov chain is positive recurrent if every state is positive recurrent.</li>
@@ -423,7 +429,7 @@ Note
 <p>Markov chains are typically reserved for discrete outcomes. However, general applications of MCMC can be used for discrete, continuous, or hybrid outcomes. In this context, Markov chains can be applied to any type of distribution&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
 </div>
 </div>
-<p>Standard Monte Carlo methods aim to draw <span class="math inline">n</span> independent, identically distributed (i.i.d.) samples of <span class="math inline">\mathbf{X}</span> directly from <span class="math inline">p(\boldsymbol{x})</span>, but this is also not always feasible&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. Simple random generation methods require specific restrictions to ensure a solution or might be computationally inefficient in high-dimensional problems. For example, the adaptation of the accept-reject method from <em>Monte Carlo Statistical Methods</em> by Robert and Casella, called adaptive rejection sampling, is restricted to densities that are log-concave and has computational power requirements that are proportional to the fifth power of <span class="math inline">\text{dim}(\mathbf{X})</span>&nbsp;<span class="citation" data-cites="Spall2005 Robert2004"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Robert2004" role="doc-biblioref">6</a></sup></span>.</p>
+<p>Standard Monte Carlo methods aim to draw <span class="math inline">n</span> independent, identically distributed (i.i.d.) samples of <span class="math inline">\mathbf{X}</span> directly from <span class="math inline">p(\boldsymbol{x})</span>, but this is also not always feasible&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. Simple random generation methods require specific restrictions to ensure a solution or might be computationally inefficient in high-dimensional problems. For example, the adaptation of the accept-reject method from <em>Monte Carlo Statistical Methods</em> by Robert and Casella, called adaptive rejection sampling, is restricted to densities that are log-concave and has computational power requirements that are proportional to the fifth power of <span class="math inline">\text{dim}(\mathbf{X})</span>&nbsp;<span class="citation" data-cites="Spall2005 Robert2004"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Robert2004" role="doc-biblioref">8</a></sup></span>.</p>
 <p>Canonical Monte Carlo approaches are more restrictive than is necessary to estimate <span class="math inline">E[f(\mathbf{X})]</span>. Leveraging Markov chain-based schemes avoids the necessity of sampling directly from <span class="math inline">p(\boldsymbol{x})</span>; instead, dependent sequences with a limiting distribution of <span class="math inline">p(\boldsymbol{x})</span> are used&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
 <p>Recall that in the previous section, we showed that a Markov chain that is irreducible and ergodic is guaranteed to have a unique stationary distribution, <span class="math inline">\pi</span>&nbsp;<span class="citation" data-cites="Wasserman2004"><sup><a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>. This is a consequence of the ergodic theorem, which guarantees that the normalized sum below will approach the mean of <span class="math inline">f(\mathbf{X})</span>, with convergence in mean square (m.s.) or almost surely (a.s.) as <span class="math inline">n \rightarrow \infty</span> for any fixed <span class="math inline">M</span>&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
 <p><span class="math display">
@@ -431,7 +437,7 @@ Note
 </span></p>
 <p>Here, <span class="math inline">M</span> is referred to as the “burn-in” period. We know that the dependence of <span class="math inline">\mathbf{X}_k</span> on early states, say <span class="math inline">\mathbf{X}_0, \mathbf{X}_1, \dots, \mathbf{X}_M</span>, for bounded <span class="math inline">M &lt; \infty</span>, disappears as <span class="math inline">k \rightarrow \infty</span>&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. With sufficient burn-in, we achieve the ergodic average that stabilizes at <span class="math inline">\pi</span>, and when executed correctly, <span class="math inline">\pi</span> equals the target density to within a scalar value&nbsp;<span class="citation" data-cites="Wasserman2004 Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Wasserman2004" role="doc-biblioref">3</a></sup></span>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -440,7 +446,7 @@ Types of Convergence
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>This excerpt summarizes Spall’s <em>Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control</em> Appendix C.2 Convergence Theory&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
 <p>Finite-sampled stochastic algorithms are often intractable, justifying the focus on the behavior of stochastic processes in their limit. The type of convergence properties a process has informs us about the scenarios where it is appropriate to apply the theory in practice and provides insight into non-limiting behaviors. Convergence for stochastic algorithms is probabilistic and characterized by measure-theoretic concepts, often classified into the following four types:</p>
@@ -471,7 +477,7 @@ P\left(\omega \in \Omega \ : \ \lim_{k \rightarrow \infty}\ \norm{\mathbf{X}_k(\
 </section>
 <section id="a-brief-interlude-in-probabilistic-graphical-modeling" class="level3">
 <h3 class="anchored" data-anchor-id="a-brief-interlude-in-probabilistic-graphical-modeling">A Brief Interlude in Probabilistic Graphical Modeling</h3>
-<p>The concept of Gibbs sampling was introduced by Geman and Geman in their paper <em>Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images</em>&nbsp;<span class="citation" data-cites="Geman1984 Bishop2006 Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Bishop2006" role="doc-biblioref">5</a>,<a href="#ref-Geman1984" role="doc-biblioref">7</a></sup></span>. In their work, they identified the equivalence between Markov random fields and the Gibbs distribution, also known as the Boltzmann distribution, which had been previously used in physical chemistry to relate the probability of a system’s state to its energy and temperature&nbsp;<span class="citation" data-cites="Geman1984 gibbs_dist"><sup><a href="#ref-Geman1984" role="doc-biblioref">7</a>,<a href="#ref-gibbs_dist" role="doc-biblioref">8</a></sup></span>.</p>
+<p>The concept of Gibbs sampling was introduced by Geman and Geman in their paper <em>Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images</em>&nbsp;<span class="citation" data-cites="Geman1984 Bishop2006 Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Bishop2006" role="doc-biblioref">7</a>,<a href="#ref-Geman1984" role="doc-biblioref">9</a></sup></span>. In their work, they identified the equivalence between Markov random fields and the Gibbs distribution, also known as the Boltzmann distribution, which had been previously used in physical chemistry to relate the probability of a system’s state to its energy and temperature&nbsp;<span class="citation" data-cites="Geman1984 gibbs_dist"><sup><a href="#ref-Geman1984" role="doc-biblioref">9</a>,<a href="#ref-gibbs_dist" role="doc-biblioref">10</a></sup></span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -482,12 +488,12 @@ Josiah Gibbs: Yale’s First Engineering Ph.D.&nbsp;and Chair of Mathematical Ph
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Gibbs sampling is named after the American mechanical engineer and scientist, Josiah Willard Gibbs, who received the first Ph.D.&nbsp;in engineering in the United States in 1863 from Yale University. He was also appointed the first chair of mathematical physics in the United States at Yale, and contributed to many areas in physics, chemistry, and mathematics. Gibbs is credited with laying the foundation for the field of physical chemistry&nbsp;<span class="citation" data-cites="josiah_gibbs Bishop2006"><sup><a href="#ref-Bishop2006" role="doc-biblioref">5</a>,<a href="#ref-josiah_gibbs" role="doc-biblioref">9</a></sup></span>.</p>
+<p>Gibbs sampling is named after the American mechanical engineer and scientist, Josiah Willard Gibbs, who received the first Ph.D.&nbsp;in engineering in the United States in 1863 from Yale University. He was also appointed the first chair of mathematical physics in the United States at Yale, and contributed to many areas in physics, chemistry, and mathematics. Gibbs is credited with laying the foundation for the field of physical chemistry&nbsp;<span class="citation" data-cites="josiah_gibbs Bishop2006"><sup><a href="#ref-Bishop2006" role="doc-biblioref">7</a>,<a href="#ref-josiah_gibbs" role="doc-biblioref">11</a></sup></span>.</p>
 </div>
 </div>
 <p>Fundamentally, this is why Gibbs sampling has a natural intuition tied to graphical modeling, a broader subject that we will only lightly touch upon in this week’s concept. Some sources attempt to explain Gibbs sampling outside of the graphical model framework, but the more comprehensive ones will acknowledge this connection. It is beyond our scope to bring students entirely up to speed with graphical theory, so additional reading has been provided earlier to help bridge this gap if readers find any of the content too advanced.</p>
 <p>In practice, especially in medical diagnosis problems, there may be hundreds of attributes that contribute to the joint probability distribution for a given disease&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>. Furthermore, some of these distributions may overlap or have similarities with those of other diseases, making them challenging to separate using standard probabilistic approaches. Probabilistic graphical models are graph-based representations of variable interactions, which can help to succinctly represent these interactions in digestible pieces despite their high dimensionality&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</p>
-<p>More impressively, graphical modeling encodes interaction attributes such as independencies, factorization, pathways, and message propagation. This not only provides an intuitive understanding of complex interactions but also allows for the exploitation of these features for inference and efficient computation&nbsp;<span class="citation" data-cites="Koller2009 Bishop2006"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a>,<a href="#ref-Bishop2006" role="doc-biblioref">5</a></sup></span>. Shown below are two fundamental ways in which variables and their relationships with one another can be represented: a Bayesian network, also referred to as a Directed Graph, and a Markov network, also known as an Undirected Graph.</p>
+<p>More impressively, graphical modeling encodes interaction attributes such as independencies, factorization, pathways, and message propagation. This not only provides an intuitive understanding of complex interactions but also allows for the exploitation of these features for inference and efficient computation&nbsp;<span class="citation" data-cites="Koller2009 Bishop2006"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a>,<a href="#ref-Bishop2006" role="doc-biblioref">7</a></sup></span>. Shown below are two fundamental ways in which variables and their relationships with one another can be represented: a Bayesian network, also referred to as a Directed Graph, and a Markov network, also known as an Undirected Graph.</p>
 <div class="quarto-figure quarto-figure-center" style="float: none; display: block; margin-left: auto; margin-right: auto; width: 90%;">
 <figure class="figure">
 <p><img src="Images/Probabilistic Graphical Models by Koller and Friedman_Modified Figure 1.1.png" class="img-fluid figure-img"></p>
@@ -512,7 +518,7 @@ Factor <span class="math inline">\neq</span> Marginal
 <p>A factor is one contribution to the overall joint distribution, while a marginal represents a distribution where at least one variable from the joint has been summed or integrated out&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>.</p>
 </div>
 </div>
-<p>Although we have discussed Markov chains earlier and provided the explicit definition of a Gibbs distribution in the context of probabilistic graphical modeling, this does not imply that Gibbs sampling is exclusively applicable to undirected graphs&nbsp;<span class="citation" data-cites="Bishop2006"><sup><a href="#ref-Bishop2006" role="doc-biblioref">5</a></sup></span>. How the differences affect Gibbs sampling is discussed in the next section.</p>
+<p>Although we have discussed Markov chains earlier and provided the explicit definition of a Gibbs distribution in the context of probabilistic graphical modeling, this does not imply that Gibbs sampling is exclusively applicable to undirected graphs&nbsp;<span class="citation" data-cites="Bishop2006"><sup><a href="#ref-Bishop2006" role="doc-biblioref">7</a></sup></span>. How the differences affect Gibbs sampling is discussed in the next section.</p>
 </section>
 <section id="gibbs-sampling" class="level3">
 <h3 class="anchored" data-anchor-id="gibbs-sampling">Gibbs Sampling</h3>
@@ -554,7 +560,7 @@ Y_0, Z_0;\ X_1, Y_1, Z_1;\ X_2, Y_2, Z_2;\ \dots; X_n, Y_n, Z_n
 <p><span class="math display">
 \frac{1}{n-M} \sum_{k = M+1}^n\ f(\mathbf{X}_k)
 </span></p>
-<p>Notice that samplings for <span class="math inline">X</span>, <span class="math inline">Y</span>, and <span class="math inline">Z</span> will converge to their respective marginal distributions, <span class="math inline">p_X(x)</span>, <span class="math inline">p_Y(y)</span>, and <span class="math inline">p_Z(z)</span>; see Section 7.1.3 from <em>Monte Carlo Statistical Methods</em> by Robert and Casella&nbsp;<span class="citation" data-cites="Spall2005 Robert2004"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Robert2004" role="doc-biblioref">6</a></sup></span>.</p>
+<p>Notice that samplings for <span class="math inline">X</span>, <span class="math inline">Y</span>, and <span class="math inline">Z</span> will converge to their respective marginal distributions, <span class="math inline">p_X(x)</span>, <span class="math inline">p_Y(y)</span>, and <span class="math inline">p_Z(z)</span>; see Section 7.1.3 from <em>Monte Carlo Statistical Methods</em> by Robert and Casella&nbsp;<span class="citation" data-cites="Spall2005 Robert2004"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Robert2004" role="doc-biblioref">8</a></sup></span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -565,10 +571,10 @@ Variations that make the Gibbs sequence resemble i.i.d.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The procedure we have detailed here to estimate the distribution using the collected Gibbs sequence is one of several methods. As might be expected, successive samples drawn from the Markov chain are highly correlated with one another&nbsp;<span class="citation" data-cites="Bishop2006"><sup><a href="#ref-Bishop2006" role="doc-biblioref">5</a></sup></span>. Different approaches are applied if it is desirable to make the values more i.i.d. You can learn more about some of these techniques in <em>Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control</em>, Section 16.3 <em>Gibbs Sampling</em> by Spall&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
+<p>The procedure we have detailed here to estimate the distribution using the collected Gibbs sequence is one of several methods. As might be expected, successive samples drawn from the Markov chain are highly correlated with one another&nbsp;<span class="citation" data-cites="Bishop2006"><sup><a href="#ref-Bishop2006" role="doc-biblioref">7</a></sup></span>. Different approaches are applied if it is desirable to make the values more i.i.d. You can learn more about some of these techniques in <em>Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control</em>, Section 16.3 <em>Gibbs Sampling</em> by Spall&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>.</p>
 </div>
 </div>
-<p>Because we are drawing from the conditioned factors of the target distribution, this makes Gibbs sampling less generalizable than M-H, but it comes with advantageous trade-offs. For instance, drawing directly from the target distribution itself ensures that detailed balance is already satisfied, and the algorithm is expected to be more efficient because the new point is always accepted&nbsp;<span class="citation" data-cites="Spall2005 Bishop2006 Koller2009"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Koller2009" role="doc-biblioref">2</a>,<a href="#ref-Bishop2006" role="doc-biblioref">5</a></sup></span>.</p>
+<p>Because we are drawing from the conditioned factors of the target distribution, this makes Gibbs sampling less generalizable than M-H, but it comes with advantageous trade-offs. For instance, drawing directly from the target distribution itself ensures that detailed balance is already satisfied, and the algorithm is expected to be more efficient because the new point is always accepted&nbsp;<span class="citation" data-cites="Spall2005 Bishop2006 Koller2009"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a>,<a href="#ref-Koller2009" role="doc-biblioref">2</a>,<a href="#ref-Bishop2006" role="doc-biblioref">7</a></sup></span>.</p>
 <p>It is helpful to see the process illustrated for a simpler case, but for completeness, it’s important to know how this extends to a generalized representation. The following is the generalized definition provided by Spall&nbsp;<span class="citation" data-cites="Spall2005"><sup><a href="#ref-Spall2005" role="doc-biblioref">1</a></sup></span>. Say that <span class="math inline">\mathbf{X}</span> is a collection of <span class="math inline">m</span> univariate components, then the <span class="math inline">k^{th}</span> sample from <span class="math inline">X</span> using the previous algorithm is</p>
 <p><span class="math display">
 \mathbf{X}_k = \left[ \begin{array}{c}
@@ -611,55 +617,15 @@ Extension to the multivariate case
 </div>
 </div>
 <p>When sampling from the conditional distribution is challenging or requires excessive computational power, the conditional properties associated with a distribution network graph can help&nbsp;<span class="citation" data-cites="Koller2009"><sup><a href="#ref-Koller2009" role="doc-biblioref">2</a></sup></span>. Depending on the type of associations defined, it might be possible to isolate variables from the rest of the network using its independence structures, assuming that these assertions are reasonably correct.</p>
-<p>For an undirected Markov network, this would involve isolating nodes contained within a Markov blanket. In directed graphs, nodes conditioned on their parents can lead to log-concave Gibbs sampling distributions. If these conditional distributions are log-concave, alternative sampling methods, such as the aforementioned adaptive rejection sampling method, can be used within the Gibbs sampling framework&nbsp;<span class="citation" data-cites="Bishop2006 Robert2004"><sup><a href="#ref-Bishop2006" role="doc-biblioref">5</a>,<a href="#ref-Robert2004" role="doc-biblioref">6</a></sup></span>.</p>
+<p>For an undirected Markov network, this would involve isolating nodes contained within a Markov blanket. In directed graphs, nodes conditioned on their parents can lead to log-concave Gibbs sampling distributions. If these conditional distributions are log-concave, alternative sampling methods, such as the aforementioned adaptive rejection sampling method, can be used within the Gibbs sampling framework&nbsp;<span class="citation" data-cites="Bishop2006 Robert2004"><sup><a href="#ref-Bishop2006" role="doc-biblioref">7</a>,<a href="#ref-Robert2004" role="doc-biblioref">8</a></sup></span>.</p>
 <p>With this fundamental understanding of Gibbs sampling of Markov chains, we are now better prepared to explore hierarchical modeling of our data.</p>
 </section>
 </section>
 <section id="hierarchical-modeling" class="level2">
 <h2 class="anchored" data-anchor-id="hierarchical-modeling">Hierarchical Modeling</h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The goal of this exercise is not to comprehensively teach you hierarchical modeling concepts in a way that enables you to derive your own models. Instead, it is intended to introduce you to the concept of breaking down complex systems of interactions into interrelated hierarchies or multilevel distributions.</p>
-<p>This section aims to introduce enough related concepts to help you follow the example below, interpret the results, and effectively apply the knowledge to your own study. For additional reading on the subject, please refer to the textbooks listed below.</p>
-</div>
-</div>
-<p>Hierarchical models, also known as multilevel models, equip us with the ability to separate features of our set of random variables into layers, contextualizing information that would otherwise not be accounted for in a single distribution. This can occur either methodologically, where units of analysis come from strongly dependent clusters, or substantively, where a predictors influence on a model may vary depending on the context&nbsp;<span class="citation" data-cites="Junker2016"><sup><a href="#ref-Junker2016" role="doc-biblioref">10</a></sup></span>.</p>
-<p>It is a versatile tool designed to address various inferential goals, including causal inference, prediction, and descriptive modeling. Such models are especially effective for capturing the intricacies of social science or biological processes, which are characterized by complex, interdependent, and situationally interconnected components&nbsp;<span class="citation" data-cites="Gelman2006"><sup><a href="#ref-Gelman2006" role="doc-biblioref">11</a></sup></span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solid theory supports effective and accurate application!
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, or online course materials to help students deepen their theoretical understanding of this week’s material. This foundation will aid in generating better analysis in practice.</p>
-<ul>
-<li><a href="https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983#overview"><em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em></a> by Andrew Gelman and Jennifer Hill&nbsp;<span class="citation" data-cites="Gelman2006"><sup><a href="#ref-Gelman2006" role="doc-biblioref">11</a></sup></span>.
-<ul>
-<li>Chapter 1 <em>Why</em>.</li>
-<li>Chapter 11 <em>Multilevel structures</em>.</li>
-<li>Chapter 12 <em>Multilevel linear models: the basics</em>.</li>
-<li>Chapter 16 <em>Multilevel modeling in Bugs and R: the basics</em>.</li>
-<li>Chapter 21 <em>Understanding and summarizing the fitted models</em>.</li>
-</ul></li>
-<li><a href="https://www.stat.cmu.edu/~brian/463-663/">36-463/663: <em>Topics in Statistics: Hierarchical &amp; Multilevel Models</em></a> administered at Carnegie Mellon in the Fall of 2016 by professor Brian Junker&nbsp;<span class="citation" data-cites="Junker2016"><sup><a href="#ref-Junker2016" role="doc-biblioref">10</a></sup></span>.
-<ul>
-<li><a href="https://www.stat.cmu.edu/~brian/463-663/week10/Chapter%2009.pdf">Week 10 - <em>Introduction to Hierarchical Models for Bayesian Approaches</em></a></li>
-</ul></li>
-</ul>
-</div>
-</div>
+<p>The goal of this exercise is not to comprehensively teach you hierarchical modeling concepts in a way that enables you to derive your own models. Instead, it is intended to introduce you to the concept of breaking down complex systems of interactions into interrelated hierarchies or multilevel distributions. This section aims to introduce enough related concepts to help you follow the example below, interpret the results, and effectively apply the knowledge to your own study. For additional reading on the subject, please refer to the textbooks listed earlier.</p>
+<p>Hierarchical models, also known as multilevel models, equip us with the ability to separate features of our set of random variables into layers, contextualizing information that would otherwise not be accounted for in a single distribution. This can occur either methodologically, where units of analysis come from strongly dependent clusters, or substantively, where a predictors influence on a model may vary depending on the context&nbsp;<span class="citation" data-cites="Junker2016"><sup><a href="#ref-Junker2016" role="doc-biblioref">5</a></sup></span>.</p>
+<p>It is a versatile tool designed to address various inferential goals, including causal inference, prediction, and descriptive modeling. Such models are especially effective for capturing the intricacies of social science or biological processes, which are characterized by complex, interdependent, and situationally interconnected components&nbsp;<span class="citation" data-cites="Gelman2006"><sup><a href="#ref-Gelman2006" role="doc-biblioref">4</a></sup></span>.</p>
 <section id="in-depth-solved-example" class="level3">
 <h3 class="anchored" data-anchor-id="in-depth-solved-example">In-Depth Solved Example</h3>
 <p>To start developing an intuition for hierarchical modeling, it is helpful to work through a simplified example in detail. Consider the following Binomial-Poisson hierarchy example from <em>Statistical Inference</em> by Casella and Berger (example 4.4.1)&nbsp;<span class="citation" data-cites="Casella2002"><sup><a href="#ref-Casella2002" role="doc-biblioref">12</a></sup></span>.</p>
@@ -722,7 +688,7 @@ Y &amp;\sim \text{NB}\left(\frac{1}{\beta+1},\ 1\right)
 \end{align*}</span></p>
 <p>This is a specific case of the Poisson-gamma mixture, with <span class="math inline">\Lambda \sim \text{gamma}(\alpha, \beta)</span>, which results in a negative binomial marginal distribution for <span class="math inline">Y</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -731,7 +697,7 @@ Solving for the Gamma PDF Kernel
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Although the gamma function extends to complex numbers, we will restrict its definition to real, strictly positive integers, <span class="math inline">b</span>, (i.e., <span class="math inline">\mathbb{R}(b) &gt; 0</span>). In this form, the gamma function can be defined as follows&nbsp;<span class="citation" data-cites="Casella2002 gamma_func"><sup><a href="#ref-Casella2002" role="doc-biblioref">12</a>,<a href="#ref-gamma_func" role="doc-biblioref">15</a></sup></span>:</p>
 <p><span class="math display">
@@ -797,7 +763,7 @@ Caution
 </div></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -806,7 +772,7 @@ If the namespace load failed
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Sometimes, the installer might place the JAGS program in a different location. For example, if you installed JAGS using Homebrew, the program might have been placed in the Homebrew library. If the file path differs, you will need to adjust the following code accordingly before reinstalling it in R.</p>
 <div class="code-with-filename">
@@ -912,7 +878,7 @@ Note
 </div></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -921,7 +887,7 @@ If the namespace load failed
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Sometimes the installer might place the JAGS program in a different location. If this happens, you can set the file path in the command line application as follows and retry installing the package through R.</p>
 <ol type="1">
@@ -1154,342 +1120,342 @@ Sample size per chain = 5000
    plus standard error of the mean:
 
                Mean        SD  Naive SE Time-series SE
-beta[1]   -0.008271  0.006975 6.975e-05      8.771e-05
-beta[2]    0.130609  0.009244 9.244e-05      1.660e-04
-beta[3]    0.136939  0.045579 4.558e-04      9.201e-04
-beta[4]    0.009306  0.097660 9.766e-04      1.266e-03
-beta[5]    0.125494  0.009725 9.725e-05      1.772e-04
-beta[6]    0.077081  0.082536 8.254e-04      1.286e-03
-beta[7]   -0.055709  0.118032 1.180e-03      1.619e-03
-beta[8]    0.139393  0.042208 4.221e-04      7.976e-04
-beta[9]   -0.093372  0.156247 1.562e-03      2.585e-03
-beta[10]   0.178706  0.007724 7.724e-05      1.655e-04
-beta[11]   0.103352  0.045839 4.584e-04      8.081e-04
-beta[12]  -0.046153  0.007283 7.283e-05      9.707e-05
-beta[13]   0.202444  0.012510 1.251e-04      3.169e-04
-beta[14]   0.142425  0.014346 1.435e-04      2.699e-04
-beta[15]   0.150341  0.019510 1.951e-04      3.920e-04
-beta[16]   0.102786  0.073065 7.307e-04      1.254e-03
-beta[17]   0.204297  0.018165 1.817e-04      4.458e-04
-beta[18]   5.934516  2.610015 2.610e-02      9.704e-01
-beta[19]   0.170775  0.019755 1.975e-04      4.366e-04
-beta[20]  -0.187177  0.277148 2.771e-03      7.516e-03
-beta[21]   0.114948  0.036125 3.612e-04      6.204e-04
-beta[22]   0.141830  0.165531 1.655e-03      3.672e-03
-beta[23]   0.012079  0.014745 1.474e-04      1.930e-04
-beta[24]  -0.175169  0.183056 1.831e-03      4.737e-03
-beta[25]   0.100757  0.005906 5.906e-05      9.448e-05
-beta[26]   0.238741  0.274184 2.742e-03      7.386e-03
-beta[27]  -0.371813  0.371928 3.719e-03      2.013e-02
-beta[28]   0.053094  0.009731 9.731e-05      1.320e-04
-beta[29]   0.156860  0.014771 1.477e-04      3.061e-04
-beta[30]   0.288576  0.077193 7.719e-04      2.841e-03
-beta[31]   0.030193  0.087648 8.765e-04      1.156e-03
-beta[32]  -0.168992  0.168317 1.683e-03      3.783e-03
-beta[33]   0.145024  0.006459 6.459e-05      1.260e-04
-beta[34]   0.163175  0.010558 1.056e-04      2.193e-04
-beta[35]   0.373390  0.359431 3.594e-03      1.559e-02
-beta[36]   0.203911  0.012459 1.246e-04      3.095e-04
-beta[37]  -0.180283  0.255653 2.557e-03      6.021e-03
-beta[38]  -0.019762  0.011004 1.100e-04      1.408e-04
-beta[39]   0.100779  0.104913 1.049e-03      1.799e-03
-beta[40]   0.043348  0.114973 1.150e-03      1.576e-03
-beta[41]   0.151012  0.010985 1.099e-04      2.236e-04
-beta[42]   0.011997  0.113120 1.131e-03      1.484e-03
-beta[43]  -0.011933  0.098272 9.827e-04      1.274e-03
-beta[44]   1.348384  0.902118 9.021e-03      1.091e-01
-beta[45]   2.754803  1.641191 1.641e-02      3.525e-01
-beta[46]   0.177438  0.033630 3.363e-04      7.754e-04
-beta[47]   0.192757  0.055566 5.557e-04      1.334e-03
-beta[48]   0.008869  0.065853 6.585e-04      8.243e-04
-beta[49]   0.141100  0.004063 4.063e-05      7.660e-05
-beta[50]   0.173610  0.015951 1.595e-04      3.514e-04
-beta[51]  -0.134357  0.056935 5.694e-04      1.066e-03
-beta[52]  -0.116657  0.163117 1.631e-03      3.330e-03
-beta[53]   0.133562  0.013245 1.325e-04      2.494e-04
-beta[54]   0.137715  0.023130 2.313e-04      4.406e-04
-beta[55]   0.078494  0.067567 6.757e-04      1.038e-03
-beta[56]   0.190334  0.017017 1.702e-04      4.135e-04
-beta[57]   0.046113  0.056840 5.684e-04      7.513e-04
-beta[58]   0.153751  0.013125 1.312e-04      2.676e-04
-beta[59]   0.164084  0.052550 5.255e-04      1.126e-03
-beta[60]   0.161862  0.015142 1.514e-04      3.092e-04
-beta[61]   0.005550  0.230979 2.310e-03      3.145e-03
-beta[62]   0.003555  0.008392 8.392e-05      1.048e-04
-beta[63]  -0.053079  0.043814 4.381e-04      6.240e-04
-beta[64]   0.005205  0.010939 1.094e-04      1.406e-04
-beta[65]  -0.113523  0.244493 2.445e-03      4.251e-03
-beta[66]  -0.026390  0.014336 1.434e-04      1.817e-04
-beta[67]  -0.114202  0.244724 2.447e-03      4.276e-03
-beta[68]   0.127053  0.010999 1.100e-04      1.983e-04
-beta[69]   0.196464  0.113008 1.130e-03      2.864e-03
-beta[70]   0.051059  0.232529 2.325e-03      3.515e-03
-beta[71]  -0.175213  0.257544 2.575e-03      5.838e-03
-beta[72]   0.066053  0.151789 1.518e-03      2.299e-03
-beta[73]   0.347233  0.074134 7.413e-04      3.226e-03
-beta[74]   0.119047  0.043189 4.319e-04      7.500e-04
-beta[75]   0.020076  0.005687 5.687e-05      7.339e-05
-beta[76]   0.204141  0.007476 7.476e-05      1.861e-04
-beta[77]  -0.047274  0.071774 7.177e-04      9.294e-04
-beta[78]  -0.047292  0.073890 7.389e-04      1.032e-03
-beta[79]   0.164712  0.008303 8.303e-05      1.786e-04
-beta[80]   0.001313  0.237747 2.377e-03      3.256e-03
-beta[81]  -0.032413  0.011232 1.123e-04      1.435e-04
-beta[82]   0.172950  0.046760 4.676e-04      1.083e-03
-beta[83]   0.281260  0.210093 2.101e-03      7.514e-03
-mu[1]      3.597261  0.037933 3.793e-04      4.919e-04
-mu[2]      3.048151  0.054929 5.493e-04      9.910e-04
-mu[3]     -0.123315  0.273569 2.736e-03      5.476e-03
-mu[4]     -1.821549  0.558167 5.582e-03      8.776e-03
-mu[5]      2.961349  0.057530 5.753e-04      1.051e-03
-mu[6]     -1.415013  0.472064 4.721e-03      7.953e-03
-mu[7]     -2.249193  0.691633 6.916e-03      1.149e-02
-mu[8]     -0.002039  0.254923 2.549e-03      5.081e-03
-mu[9]     -2.929743  0.975952 9.760e-03      1.981e-02
-mu[10]     3.380081  0.048590 4.859e-04      1.041e-03
-mu[11]    -0.155947  0.265449 2.654e-03      4.703e-03
-mu[12]     3.494767  0.040790 4.079e-04      5.549e-04
-mu[13]     2.437576  0.079482 7.948e-04      1.998e-03
-mu[14]     2.197239  0.086279 8.628e-04      1.630e-03
-mu[15]     1.534315  0.118886 1.189e-03      2.435e-03
-mu[16]    -1.141444  0.434031 4.340e-03      7.785e-03
-mu[17]     1.647177  0.116737 1.167e-03      2.794e-03
-mu[18]   -53.997609 23.354381 2.335e-01      8.595e+00
-mu[19]     1.564625  0.123047 1.230e-03      2.775e-03
-mu[20]    -4.551341  1.932019 1.932e-02      5.809e-02
-mu[21]     0.329271  0.209602 2.096e-03      3.666e-03
-mu[22]    -3.057111  1.095946 1.096e-02      2.807e-02
-mu[23]     2.135336  0.078908 7.891e-04      1.012e-03
-mu[24]    -3.216629  1.225970 1.226e-02      3.560e-02
-mu[25]     3.947115  0.033960 3.396e-04      5.156e-04
-mu[26]    -4.702662  1.914084 1.914e-02      5.636e-02
-mu[27]    -5.571825  2.833268 2.833e-02      1.854e-01
-mu[28]     2.912232  0.054804 5.480e-04      7.470e-04
-mu[29]     2.123235  0.089781 8.978e-04      1.872e-03
-mu[30]    -1.263260  0.538959 5.390e-03      2.007e-02
-mu[31]    -1.559301  0.501219 5.012e-03      7.736e-03
-mu[32]    -3.152550  1.107228 1.107e-02      2.713e-02
-mu[33]     3.799284  0.038976 3.898e-04      7.686e-04
-mu[34]     2.779601  0.063948 6.395e-04      1.346e-03
-mu[35]    -5.543031  2.721244 2.721e-02      1.235e-01
-mu[36]     2.458983  0.079880 7.988e-04      1.958e-03
-mu[37]    -4.445781  1.815461 1.815e-02      4.799e-02
-mu[38]     2.640774  0.061422 6.142e-04      7.964e-04
-mu[39]    -1.962610  0.637711 6.377e-03      1.195e-02
-mu[40]    -2.225236  0.693830 6.938e-03      1.152e-02
-mu[41]     2.682613  0.067181 6.718e-04      1.359e-03
-mu[42]    -2.196658  0.676101 6.761e-03      1.189e-02
-mu[43]    -1.817904  0.570642 5.706e-03      8.988e-03
-mu[44]   -13.272572  7.740486 7.740e-02      9.691e-01
-mu[45]   -25.525902 14.574671 1.457e-01      3.122e+00
-mu[46]     0.493950  0.209069 2.091e-03      4.787e-03
-mu[47]    -0.559015  0.359849 3.598e-03      8.694e-03
-mu[48]    -0.984428  0.372263 3.723e-03      5.187e-03
-mu[49]     4.707609  0.024457 2.446e-04      4.737e-04
-mu[50]     1.928677  0.099958 9.996e-04      2.205e-03
-mu[51]    -0.634242  0.345077 3.451e-03      6.262e-03
-mu[52]    -2.988671  1.032146 1.032e-02      2.484e-02
-mu[53]     2.384582  0.077471 7.747e-04      1.470e-03
-mu[54]     1.203877  0.137689 1.377e-03      2.604e-03
-mu[55]    -0.955041  0.392510 3.925e-03      6.486e-03
-mu[56]     1.835280  0.108063 1.081e-03      2.617e-03
-mu[57]    -0.665664  0.321705 3.217e-03      4.564e-03
-mu[58]     2.371495  0.080334 8.033e-04      1.638e-03
-mu[59]    -0.427459  0.324983 3.250e-03      7.008e-03
-mu[60]     2.086286  0.092721 9.272e-04      1.856e-03
-mu[61]    -4.082026  1.499493 1.499e-02      3.147e-02
-mu[62]     3.200782  0.046790 4.679e-04      5.890e-04
-mu[63]    -0.092193  0.243973 2.440e-03      3.546e-03
-mu[64]     2.665307  0.060206 6.021e-04      7.606e-04
-mu[65]    -4.247925  1.614445 1.614e-02      3.747e-02
-mu[66]     2.120542  0.079736 7.974e-04      9.764e-04
-mu[67]    -4.285454  1.633086 1.633e-02      3.700e-02
-mu[68]     2.727454  0.064173 6.417e-04      1.152e-03
-mu[69]    -2.065894  0.730495 7.305e-03      1.954e-02
-mu[70]    -4.130035  1.517874 1.518e-02      3.118e-02
-mu[71]    -4.457701  1.777376 1.777e-02      4.774e-02
-mu[72]    -2.851100  0.894898 8.949e-03      1.524e-02
-mu[73]    -1.252143  0.533547 5.335e-03      2.351e-02
-mu[74]    -0.017783  0.253659 2.537e-03      4.457e-03
-mu[75]     3.987384  0.031687 3.169e-04      4.004e-04
-mu[76]     3.485603  0.047927 4.793e-04      1.167e-03
-mu[77]    -1.178823  0.412290 4.123e-03      5.826e-03
-mu[78]    -1.179351  0.423373 4.234e-03      6.197e-03
-mu[79]     3.323191  0.051412 5.141e-04      1.103e-03
-mu[80]    -4.123857  1.567891 1.568e-02      3.359e-02
-mu[81]     2.649954  0.061674 6.167e-04      8.390e-04
-mu[82]    -0.222616  0.289699 2.897e-03      6.737e-03
-mu[83]    -3.751059  1.505835 1.506e-02      5.747e-02
+beta[1]  -8.349e-03  0.006927 6.927e-05      8.772e-05
+beta[2]   1.309e-01  0.009334 9.334e-05      1.696e-04
+beta[3]   1.369e-01  0.044197 4.420e-04      8.557e-04
+beta[4]   9.393e-03  0.098917 9.892e-04      1.261e-03
+beta[5]   1.256e-01  0.009740 9.740e-05      1.681e-04
+beta[6]   7.673e-02  0.082363 8.236e-04      1.311e-03
+beta[7]  -5.425e-02  0.117911 1.179e-03      1.663e-03
+beta[8]   1.395e-01  0.042014 4.201e-04      8.321e-04
+beta[9]  -9.470e-02  0.157723 1.577e-03      2.731e-03
+beta[10]  1.790e-01  0.008009 8.009e-05      1.786e-04
+beta[11]  1.047e-01  0.046627 4.663e-04      8.067e-04
+beta[12] -4.630e-02  0.007372 7.372e-05      9.897e-05
+beta[13]  2.027e-01  0.013022 1.302e-04      3.546e-04
+beta[14]  1.428e-01  0.014353 1.435e-04      2.771e-04
+beta[15]  1.503e-01  0.019840 1.984e-04      4.079e-04
+beta[16]  1.041e-01  0.073003 7.300e-04      1.206e-03
+beta[17]  2.031e-01  0.019092 1.909e-04      5.071e-04
+beta[18]  4.189e+00  2.500060 2.500e-02      8.249e-01
+beta[19]  1.710e-01  0.019644 1.964e-04      4.475e-04
+beta[20] -1.730e-01  0.262630 2.626e-03      6.768e-03
+beta[21]  1.141e-01  0.036289 3.629e-04      6.594e-04
+beta[22]  1.459e-01  0.164886 1.649e-03      3.192e-03
+beta[23]  1.227e-02  0.014453 1.445e-04      1.943e-04
+beta[24] -1.792e-01  0.180077 1.801e-03      4.342e-03
+beta[25]  1.008e-01  0.006000 6.000e-05      1.034e-04
+beta[26]  2.629e-01  0.310081 3.101e-03      1.050e-02
+beta[27] -3.448e-01  0.326115 3.261e-03      1.099e-02
+beta[28]  5.304e-02  0.009745 9.745e-05      1.352e-04
+beta[29]  1.558e-01  0.014781 1.478e-04      3.221e-04
+beta[30]  2.897e-01  0.079598 7.960e-04      3.066e-03
+beta[31]  2.913e-02  0.088231 8.823e-04      1.189e-03
+beta[32] -1.723e-01  0.174270 1.743e-03      4.010e-03
+beta[33]  1.451e-01  0.006523 6.523e-05      1.302e-04
+beta[34]  1.628e-01  0.010663 1.066e-04      2.295e-04
+beta[35]  3.818e-01  0.353469 3.535e-03      1.451e-02
+beta[36]  2.037e-01  0.012532 1.253e-04      3.186e-04
+beta[37] -1.882e-01  0.281489 2.815e-03      8.259e-03
+beta[38] -1.974e-02  0.010964 1.096e-04      1.376e-04
+beta[39]  1.025e-01  0.106156 1.062e-03      1.868e-03
+beta[40]  4.257e-02  0.118097 1.181e-03      1.692e-03
+beta[41]  1.509e-01  0.011234 1.123e-04      2.271e-04
+beta[42]  1.330e-02  0.114041 1.140e-03      1.496e-03
+beta[43] -8.628e-03  0.097664 9.766e-04      1.263e-03
+beta[44]  1.364e+00  1.009862 1.010e-02      1.377e-01
+beta[45]  3.286e+00  2.005734 2.006e-02      5.327e-01
+beta[46]  1.784e-01  0.033102 3.310e-04      7.400e-04
+beta[47]  1.938e-01  0.056236 5.624e-04      1.465e-03
+beta[48]  7.326e-03  0.068173 6.817e-04      9.118e-04
+beta[49]  1.410e-01  0.004123 4.123e-05      8.117e-05
+beta[50]  1.744e-01  0.016523 1.652e-04      3.825e-04
+beta[51] -1.350e-01  0.057961 5.796e-04      1.107e-03
+beta[52] -1.191e-01  0.161198 1.612e-03      3.036e-03
+beta[53]  1.337e-01  0.012946 1.295e-04      2.390e-04
+beta[54]  1.372e-01  0.022928 2.293e-04      4.301e-04
+beta[55]  7.806e-02  0.064677 6.468e-04      9.463e-04
+beta[56]  1.905e-01  0.016808 1.681e-04      3.861e-04
+beta[57]  4.463e-02  0.056388 5.639e-04      7.344e-04
+beta[58]  1.542e-01  0.013095 1.310e-04      2.703e-04
+beta[59]  1.649e-01  0.051716 5.172e-04      1.106e-03
+beta[60]  1.610e-01  0.014930 1.493e-04      3.170e-04
+beta[61]  5.712e-03  0.232160 2.322e-03      3.066e-03
+beta[62]  3.333e-03  0.008460 8.460e-05      1.084e-04
+beta[63] -5.363e-02  0.044310 4.431e-04      6.454e-04
+beta[64]  5.098e-03  0.011058 1.106e-04      1.389e-04
+beta[65] -1.158e-01  0.246507 2.465e-03      4.660e-03
+beta[66] -2.669e-02  0.014564 1.456e-04      1.916e-04
+beta[67] -1.122e-01  0.243859 2.439e-03      4.495e-03
+beta[68]  1.270e-01  0.010970 1.097e-04      1.960e-04
+beta[69]  1.942e-01  0.109653 1.097e-03      2.812e-03
+beta[70]  5.672e-02  0.234806 2.348e-03      3.072e-03
+beta[71] -1.789e-01  0.262953 2.630e-03      6.256e-03
+beta[72]  6.755e-02  0.155014 1.550e-03      2.587e-03
+beta[73]  3.489e-01  0.074363 7.436e-04      3.267e-03
+beta[74]  1.185e-01  0.042410 4.241e-04      7.457e-04
+beta[75]  2.010e-02  0.005720 5.720e-05      7.461e-05
+beta[76]  2.040e-01  0.007617 7.617e-05      1.924e-04
+beta[77] -4.643e-02  0.071256 7.126e-04      9.361e-04
+beta[78] -4.804e-02  0.073553 7.355e-04      9.868e-04
+beta[79]  1.651e-01  0.008162 8.162e-05      1.776e-04
+beta[80]  2.199e-03  0.240420 2.404e-03      3.221e-03
+beta[81] -3.221e-02  0.011216 1.122e-04      1.463e-04
+beta[82]  1.740e-01  0.048114 4.811e-04      1.121e-03
+beta[83]  2.986e-01  0.216814 2.168e-03      7.372e-03
+mu[1]     3.598e+00  0.037913 3.791e-04      4.806e-04
+mu[2]     3.046e+00  0.055214 5.521e-04      1.025e-03
+mu[3]    -1.199e-01  0.265473 2.655e-03      4.972e-03
+mu[4]    -1.820e+00  0.554549 5.545e-03      8.074e-03
+mu[5]     2.960e+00  0.057863 5.786e-04      1.026e-03
+mu[6]    -1.415e+00  0.490074 4.901e-03      8.829e-03
+mu[7]    -2.228e+00  0.694059 6.941e-03      1.146e-02
+mu[8]    -7.651e-05  0.255286 2.553e-03      4.958e-03
+mu[9]    -2.906e+00  0.963830 9.638e-03      1.905e-02
+mu[10]    3.379e+00  0.050243 5.024e-04      1.122e-03
+mu[11]   -1.618e-01  0.273920 2.739e-03      4.728e-03
+mu[12]    3.494e+00  0.040437 4.044e-04      5.396e-04
+mu[13]    2.436e+00  0.083345 8.335e-04      2.212e-03
+mu[14]    2.195e+00  0.086284 8.628e-04      1.682e-03
+mu[15]    1.533e+00  0.121601 1.216e-03      2.509e-03
+mu[16]   -1.152e+00  0.441744 4.417e-03      7.879e-03
+mu[17]    1.653e+00  0.122682 1.227e-03      3.254e-03
+mu[18]   -3.836e+01 22.372259 2.237e-01      7.474e+00
+mu[19]    1.563e+00  0.121969 1.220e-03      2.810e-03
+mu[20]   -4.444e+00  1.803342 1.803e-02      5.199e-02
+mu[21]    3.365e-01  0.210324 2.103e-03      3.571e-03
+mu[22]   -3.070e+00  1.053012 1.053e-02      2.355e-02
+mu[23]    2.134e+00  0.078661 7.866e-04      1.011e-03
+mu[24]   -3.237e+00  1.182913 1.183e-02      3.158e-02
+mu[25]    3.946e+00  0.034404 3.440e-04      5.823e-04
+mu[26]   -4.896e+00  2.261350 2.261e-02      8.242e-02
+mu[27]   -5.356e+00  2.425527 2.426e-02      9.112e-02
+mu[28]    2.911e+00  0.054404 5.440e-04      7.941e-04
+mu[29]    2.128e+00  0.091726 9.173e-04      1.968e-03
+mu[30]   -1.276e+00  0.552267 5.523e-03      2.134e-02
+mu[31]   -1.568e+00  0.499731 4.997e-03      7.514e-03
+mu[32]   -3.185e+00  1.167048 1.167e-02      2.886e-02
+mu[33]    3.800e+00  0.039426 3.943e-04      7.692e-04
+mu[34]    2.782e+00  0.066550 6.655e-04      1.443e-03
+mu[35]   -5.620e+00  2.641768 2.642e-02      1.128e-01
+mu[36]    2.460e+00  0.080462 8.046e-04      2.023e-03
+mu[37]   -4.566e+00  2.023078 2.023e-02      7.137e-02
+mu[38]    2.641e+00  0.061945 6.194e-04      7.795e-04
+mu[39]   -1.972e+00  0.640303 6.403e-03      1.203e-02
+mu[40]   -2.222e+00  0.680348 6.803e-03      1.081e-02
+mu[41]    2.684e+00  0.068391 6.839e-04      1.376e-03
+mu[42]   -2.183e+00  0.658263 6.583e-03      1.029e-02
+mu[43]   -1.811e+00  0.554924 5.549e-03      7.945e-03
+mu[44]   -1.342e+01  8.766347 8.766e-02      1.239e+00
+mu[45]   -3.026e+01 17.905984 1.791e-01      4.954e+00
+mu[46]    4.887e-01  0.206137 2.061e-03      4.514e-03
+mu[47]   -5.658e-01  0.357826 3.578e-03      9.452e-03
+mu[48]   -9.964e-01  0.374933 3.749e-03      5.016e-03
+mu[49]    4.708e+00  0.024447 2.445e-04      4.776e-04
+mu[50]    1.922e+00  0.103298 1.033e-03      2.385e-03
+mu[51]   -6.425e-01  0.349304 3.493e-03      6.931e-03
+mu[52]   -3.001e+00  1.022128 1.022e-02      2.193e-02
+mu[53]    2.384e+00  0.078416 7.842e-04      1.424e-03
+mu[54]    1.207e+00  0.137907 1.379e-03      2.549e-03
+mu[55]   -9.469e-01  0.371676 3.717e-03      5.937e-03
+mu[56]    1.834e+00  0.107399 1.074e-03      2.476e-03
+mu[57]   -6.667e-01  0.317811 3.178e-03      4.462e-03
+mu[58]    2.369e+00  0.079414 7.941e-04      1.674e-03
+mu[59]   -4.291e-01  0.317550 3.175e-03      6.804e-03
+mu[60]    2.091e+00  0.091666 9.167e-04      1.950e-03
+mu[61]   -4.114e+00  1.506274 1.506e-02      2.973e-02
+mu[62]    3.202e+00  0.046354 4.635e-04      5.797e-04
+mu[63]   -9.414e-02  0.243171 2.432e-03      3.424e-03
+mu[64]    2.664e+00  0.060417 6.042e-04      8.277e-04
+mu[65]   -4.282e+00  1.660331 1.660e-02      3.942e-02
+mu[66]    2.119e+00  0.080669 8.067e-04      1.057e-03
+mu[67]   -4.237e+00  1.628498 1.628e-02      3.696e-02
+mu[68]    2.727e+00  0.064405 6.441e-04      1.162e-03
+mu[69]   -2.042e+00  0.714248 7.142e-03      1.850e-02
+mu[70]   -4.145e+00  1.530648 1.531e-02      3.035e-02
+mu[71]   -4.495e+00  1.843803 1.844e-02      5.101e-02
+mu[72]   -2.871e+00  0.962064 9.621e-03      1.891e-02
+mu[73]   -1.266e+00  0.540761 5.408e-03      2.423e-02
+mu[74]   -5.113e-03  0.249431 2.494e-03      4.300e-03
+mu[75]    3.987e+00  0.031641 3.164e-04      3.929e-04
+mu[76]    3.487e+00  0.048785 4.878e-04      1.235e-03
+mu[77]   -1.170e+00  0.417996 4.180e-03      6.080e-03
+mu[78]   -1.189e+00  0.417626 4.176e-03      6.267e-03
+mu[79]    3.321e+00  0.050427 5.043e-04      1.062e-03
+mu[80]   -4.202e+00  1.578313 1.578e-02      3.415e-02
+mu[81]    2.651e+00  0.061291 6.129e-04      8.332e-04
+mu[82]   -2.296e-01  0.299709 2.997e-03      7.038e-03
+mu[83]   -3.873e+00  1.562016 1.562e-02      5.625e-02
 
 2. Quantiles for each variable:
 
                2.5%        25%        50%        75%     97.5%
-beta[1]   -0.022009  -0.013006  -0.008282  -0.003643  0.005611
-beta[2]    0.112953   0.124470   0.130543   0.136889  0.148397
-beta[3]    0.053831   0.105517   0.135075   0.166278  0.232705
-beta[4]   -0.180602  -0.055288   0.008762   0.072346  0.204325
-beta[5]    0.106205   0.118916   0.125393   0.132148  0.144397
-beta[6]   -0.080375   0.021021   0.074989   0.131716  0.243811
-beta[7]   -0.303087  -0.129472  -0.051613   0.023646  0.163977
-beta[8]    0.057758   0.110739   0.138396   0.167061  0.223610
-beta[9]   -0.438650  -0.186925  -0.082302   0.008635  0.191417
-beta[10]   0.163871   0.173431   0.178657   0.183995  0.193455
-beta[11]   0.018691   0.071618   0.101622   0.133284  0.198375
-beta[12]  -0.060531  -0.050937  -0.046147  -0.041367 -0.031845
-beta[13]   0.178419   0.193944   0.202302   0.210956  0.226981
-beta[14]   0.114239   0.132885   0.142186   0.151853  0.171166
-beta[15]   0.113635   0.136970   0.150155   0.163166  0.189303
-beta[16]  -0.037105   0.053099   0.101332   0.149921  0.253397
-beta[17]   0.169929   0.192000   0.204116   0.216224  0.240837
-beta[18]   0.729555   4.023486   6.291495   7.899673 10.573954
-beta[19]   0.133450   0.157283   0.170211   0.183991  0.210478
-beta[20]  -0.839334  -0.331761  -0.155395  -0.006391  0.277117
-beta[21]   0.044836   0.090887   0.114483   0.138659  0.186254
-beta[22]  -0.145635   0.031083   0.126836   0.236825  0.514482
-beta[23]  -0.016836   0.002180   0.012189   0.021865  0.041547
-beta[24]  -0.600102  -0.276587  -0.155568  -0.051104  0.128203
-beta[25]   0.089280   0.096754   0.100736   0.104790  0.112358
-beta[26]  -0.221123   0.054025   0.208400   0.396067  0.878555
-beta[27]  -1.295800  -0.551660  -0.310366  -0.123766  0.180469
-beta[28]   0.033949   0.046551   0.053174   0.059643  0.072140
-beta[29]   0.128017   0.146943   0.156352   0.166654  0.186892
-beta[30]   0.153224   0.234611   0.283111   0.336605  0.455647
-beta[31]  -0.141039  -0.027845   0.029104   0.086483  0.208913
-beta[32]  -0.535451  -0.268549  -0.157394  -0.054346  0.124299
-beta[33]   0.132276   0.140728   0.144957   0.149267  0.158018
-beta[34]   0.143094   0.155850   0.163101   0.170235  0.184044
-beta[35]  -0.160399   0.125141   0.314025   0.553233  1.233402
-beta[36]   0.180278   0.195452   0.203792   0.212288  0.228673
-beta[37]  -0.761417  -0.324516  -0.152498  -0.007359  0.247108
-beta[38]  -0.041880  -0.027126  -0.019813  -0.012345  0.001600
-beta[39]  -0.092133   0.030786   0.096886   0.164418  0.328299
-beta[40]  -0.179313  -0.032371   0.040662   0.115680  0.279627
-beta[41]   0.129277   0.143670   0.150980   0.158350  0.172328
-beta[42]  -0.209914  -0.060837   0.009531   0.083332  0.242615
-beta[43]  -0.209747  -0.075739  -0.011032   0.052431  0.183293
-beta[44]   0.083985   0.601533   1.194516   1.956009  3.368055
-beta[45]   0.424845   1.461887   2.532248   3.669665  6.886029
-beta[46]   0.114493   0.153942   0.176440   0.199973  0.245132
-beta[47]   0.091523   0.154249   0.190209   0.227617  0.310747
-beta[48]  -0.118994  -0.035079   0.007885   0.053486  0.138061
-beta[49]   0.133235   0.138345   0.141111   0.143839  0.149001
-beta[50]   0.142633   0.162837   0.173706   0.184231  0.204855
-beta[51]  -0.250636  -0.171645  -0.132742  -0.094815 -0.025638
-beta[52]  -0.469110  -0.210900  -0.105041  -0.007889  0.175210
-beta[53]   0.107662   0.124486   0.133600   0.142668  0.159676
-beta[54]   0.092051   0.122210   0.137453   0.153212  0.182867
-beta[55]  -0.048671   0.032149   0.076583   0.122581  0.216559
-beta[56]   0.158301   0.178599   0.189949   0.201275  0.225174
-beta[57]  -0.064422   0.007822   0.044895   0.083919  0.158954
-beta[58]   0.128474   0.144976   0.153568   0.162431  0.179736
-beta[59]   0.067846   0.127839   0.161172   0.197299  0.276227
-beta[60]   0.132186   0.151633   0.161806   0.171955  0.191821
-beta[61]  -0.461911  -0.133005   0.008133   0.144780  0.476670
-beta[62]  -0.013120  -0.001967   0.003542   0.009304  0.019560
-beta[63]  -0.140823  -0.081360  -0.052122  -0.023936  0.032130
-beta[64]  -0.016254  -0.002077   0.005217   0.012549  0.026672
-beta[65]  -0.652013  -0.256694  -0.097409   0.043620  0.336494
-beta[66]  -0.054693  -0.036082  -0.026556  -0.016700  0.001903
-beta[67]  -0.637839  -0.258640  -0.101528   0.049333  0.332987
-beta[68]   0.105870   0.119606   0.126829   0.134469  0.148943
-beta[69]  -0.004291   0.118366   0.189288   0.266496  0.440104
-beta[70]  -0.390811  -0.096225   0.042095   0.185231  0.562361
-beta[71]  -0.772757  -0.322843  -0.154066  -0.006538  0.277311
-beta[72]  -0.220395  -0.035342   0.059368   0.161918  0.386817
-beta[73]   0.216062   0.295345   0.342438   0.395398  0.505091
-beta[74]   0.037128   0.089387   0.117607   0.147526  0.207220
-beta[75]   0.008964   0.016215   0.020033   0.023979  0.030980
-beta[76]   0.189881   0.199099   0.204087   0.209084  0.219078
-beta[77]  -0.190690  -0.094309  -0.047277   0.000592  0.090686
-beta[78]  -0.194126  -0.095733  -0.045847   0.002338  0.096819
-beta[79]   0.148753   0.159043   0.164591   0.170368  0.181206
-beta[80]  -0.462560  -0.142219  -0.003104   0.139597  0.492551
-beta[81]  -0.054712  -0.040084  -0.032252  -0.024705 -0.010685
-beta[82]   0.085025   0.140300   0.171616   0.203052  0.269190
-beta[83]  -0.056237   0.129794   0.254995   0.407997  0.752995
-mu[1]      3.521793   3.571511   3.597821   3.623092  3.670619
-mu[2]      2.938973   3.011273   3.048662   3.085398  3.154747
-mu[3]     -0.717314  -0.296035  -0.100738   0.065634  0.366756
-mu[4]     -3.046405  -2.167311  -1.785137  -1.427967 -0.849233
-mu[5]      2.848825   2.921867   2.961221   3.000040  3.075528
-mu[6]     -2.441018  -1.708933  -1.379057  -1.076654 -0.609949
-mu[7]     -3.824078  -2.649253  -2.170260  -1.762684 -1.119978
-mu[8]     -0.541114  -0.167524   0.014026   0.177541  0.458024
-mu[9]     -5.260828  -3.452963  -2.790564  -2.247307 -1.427496
-mu[10]     3.284121   3.346922   3.380258   3.413286  3.473731
-mu[11]    -0.719612  -0.323760  -0.140049   0.028442  0.319277
-mu[12]     3.414239   3.467230   3.495384   3.522075  3.575566
-mu[13]     2.281768   2.383946   2.438610   2.491425  2.590298
-mu[14]     2.025431   2.139964   2.198272   2.257118  2.362585
-mu[15]     1.291780   1.456155   1.537002   1.616249  1.758512
-mu[16]    -2.065969  -1.410228  -1.103153  -0.835562 -0.395660
-mu[17]     1.409662   1.568911   1.649712   1.729241  1.863833
-mu[18]   -95.499006 -71.624034 -57.192940 -36.895145 -7.971501
-mu[19]     1.315419   1.482892   1.570310   1.650180  1.791109
-mu[20]    -9.477859  -5.463411  -4.159976  -3.198267 -1.994275
-mu[21]    -0.103533   0.193415   0.336952   0.472863  0.715003
-mu[22]    -5.738470  -3.616174  -2.877931  -2.298691 -1.443602
-mu[23]     1.975902   2.082925   2.136584   2.189540  2.287281
-mu[24]    -6.280505  -3.801537  -2.992130  -2.372284 -1.492542
-mu[25]     3.879026   3.924626   3.947255   3.970212  4.013662
-mu[26]    -9.549356  -5.654189  -4.344516  -3.346651 -2.012738
-mu[27]   -12.967725  -6.769267  -4.875209  -3.627253 -2.164669
-mu[28]     2.803973   2.874779   2.912925   2.950452  3.015596
-mu[29]     1.942123   2.064496   2.124541   2.185845  2.292536
-mu[30]    -2.443427  -1.592944  -1.215234  -0.879955 -0.352350
-mu[31]    -2.644814  -1.854416  -1.519122  -1.207956 -0.702335
-mu[32]    -5.777412  -3.753799  -2.988462  -2.367496 -1.478896
-mu[33]     3.720948   3.773574   3.799771   3.825161  3.876262
-mu[34]     2.650287   2.737571   2.779683   2.822817  2.904563
-mu[35]   -12.598688  -6.744833  -4.888883  -3.668669 -2.108908
-mu[36]     2.302308   2.406011   2.459302   2.514078  2.614364
-mu[37]    -8.998795  -5.367089  -4.081686  -3.174970 -1.948505
-mu[38]     2.521131   2.599406   2.640430   2.682061  2.760511
-mu[39]    -3.411908  -2.337971  -1.899371  -1.513601 -0.911301
-mu[40]    -3.770155  -2.633040  -2.161305  -1.732952 -1.085861
-mu[41]     2.550149   2.637642   2.683393   2.727448  2.814127
-mu[42]    -3.759877  -2.592841  -2.119639  -1.721532 -1.103599
-mu[43]    -3.073650  -2.162756  -1.768999  -1.423988 -0.845826
-mu[44]   -31.020525 -18.372448 -11.745988  -6.811403 -3.032657
-mu[45]   -62.377401 -33.574853 -23.498315 -13.892119 -5.291149
-mu[46]     0.068730   0.355910   0.500510   0.640993  0.879517
-mu[47]    -1.332819  -0.783639  -0.535213  -0.304944  0.079306
-mu[48]    -1.776253  -1.217289  -0.961323  -0.725621 -0.316573
-mu[49]     4.657792   4.691342   4.708250   4.724134  4.754205
-mu[50]     1.733357   1.862188   1.928389   1.995978  2.123411
-mu[51]    -1.371247  -0.849569  -0.612042  -0.398126 -0.019917
-mu[52]    -5.451264  -3.546011  -2.844050  -2.258211 -1.446099
-mu[53]     2.231150   2.332048   2.385184   2.437620  2.532004
-mu[54]     0.933379   1.111784   1.206496   1.299406  1.467421
-mu[55]    -1.805569  -1.199563  -0.922447  -0.684422 -0.261605
-mu[56]     1.614704   1.765534   1.837753   1.910007  2.036427
-mu[57]    -1.354036  -0.872174  -0.649491  -0.444151 -0.086217
-mu[58]     2.210601   2.318115   2.372191   2.427101  2.522129
-mu[59]    -1.144630  -0.631624  -0.401928  -0.200458  0.147514
-mu[60]     1.902490   2.023913   2.087607   2.148062  2.268624
-mu[61]    -7.591775  -4.891247  -3.849137  -3.015733 -1.892226
-mu[62]     3.105540   3.169720   3.200970   3.232210  3.292111
-mu[63]    -0.596102  -0.250452  -0.083762   0.076664  0.354383
-mu[64]     2.545843   2.624573   2.665888   2.705610  2.782457
-mu[65]    -8.223205  -5.098902  -3.974161  -3.106032 -1.888932
-mu[66]     1.962438   2.067135   2.122279   2.175573  2.271570
-mu[67]    -8.305731  -5.135457  -4.024024  -3.123059 -1.926756
-mu[68]     2.598178   2.685668   2.729517   2.771215  2.850057
-mu[69]    -3.754623  -2.493757  -1.986227  -1.548324 -0.886964
-mu[70]    -7.693712  -4.925184  -3.878026  -3.043325 -1.915921
-mu[71]    -8.939720  -5.360312  -4.149828  -3.183963 -1.935194
-mu[72]    -4.884958  -3.373815  -2.750899  -2.211544 -1.414910
-mu[73]    -2.436495  -1.580230  -1.206212  -0.875249 -0.331671
-mu[74]    -0.551441  -0.183414  -0.004352   0.160271  0.435346
-mu[75]     3.925192   3.966134   3.987114   4.009132  4.049140
-mu[76]     3.388454   3.453458   3.486495   3.517785  3.577349
-mu[77]    -2.049779  -1.442407  -1.154696  -0.890014 -0.446890
-mu[78]    -2.092370  -1.447326  -1.148112  -0.878212 -0.442076
-mu[79]     3.219665   3.289653   3.324205   3.358472  3.420023
-mu[80]    -8.023900  -4.896030  -3.851890  -3.018442 -1.881620
-mu[81]     2.526725   2.608480   2.651268   2.692756  2.766863
-mu[82]    -0.820929  -0.403940  -0.209287  -0.019373  0.307583
-mu[83]    -7.453480  -4.561047  -3.449298  -2.660186 -1.625108</code></pre>
+beta[1]   -0.021938  -0.013052  -0.008366  -0.003607  0.005288
+beta[2]    0.112971   0.124530   0.130885   0.137242  0.149396
+beta[3]    0.053392   0.106606   0.135968   0.165773  0.227367
+beta[4]   -0.184741  -0.056426   0.009731   0.076112  0.206299
+beta[5]    0.106651   0.119049   0.125618   0.132075  0.144732
+beta[6]   -0.077374   0.021492   0.073680   0.129458  0.245847
+beta[7]   -0.298568  -0.126572  -0.051098   0.021404  0.169026
+beta[8]    0.061146   0.110497   0.138016   0.166891  0.227204
+beta[9]   -0.432791  -0.190303  -0.085697   0.008843  0.190830
+beta[10]   0.163321   0.173631   0.178976   0.184340  0.194563
+beta[11]   0.015894   0.073160   0.104039   0.135040  0.198585
+beta[12]  -0.060866  -0.051211  -0.046243  -0.041351 -0.032185
+beta[13]   0.177459   0.194027   0.202228   0.211384  0.228328
+beta[14]   0.115345   0.133009   0.142718   0.152536  0.171562
+beta[15]   0.112659   0.136748   0.149847   0.163382  0.190298
+beta[16]  -0.034029   0.055281   0.100236   0.150921  0.254560
+beta[17]   0.166503   0.190278   0.202458   0.215506  0.242258
+beta[18]   0.518628   2.057112   3.658318   5.987379  9.203411
+beta[19]   0.133670   0.157571   0.170259   0.184019  0.210817
+beta[20]  -0.790916  -0.311630  -0.147183  -0.001442  0.274045
+beta[21]   0.045283   0.089226   0.113482   0.138177  0.187223
+beta[22]  -0.150447   0.034624   0.134183   0.246400  0.512102
+beta[23]  -0.015807   0.002572   0.012376   0.021765  0.040879
+beta[24]  -0.583214  -0.284485  -0.162976  -0.055220  0.126142
+beta[25]   0.089372   0.096836   0.100775   0.104824  0.112919
+beta[26]  -0.226752   0.055091   0.216543   0.419300  1.006493
+beta[27]  -1.087622  -0.530580  -0.299759  -0.114216  0.172415
+beta[28]   0.034025   0.046561   0.052999   0.059500  0.072345
+beta[29]   0.127160   0.145682   0.155619   0.165655  0.184966
+beta[30]   0.148011   0.234303   0.284950   0.340383  0.461893
+beta[31]  -0.143291  -0.028985   0.027635   0.086946  0.205376
+beta[32]  -0.563070  -0.272870  -0.154049  -0.053732  0.124436
+beta[33]   0.132377   0.140654   0.145048   0.149408  0.158022
+beta[34]   0.142397   0.155584   0.162685   0.169971  0.184238
+beta[35]  -0.161643   0.132338   0.324943   0.580548  1.232658
+beta[36]   0.179413   0.195310   0.203524   0.212037  0.228755
+beta[37]  -0.836532  -0.329844  -0.153211  -0.006776  0.267781
+beta[38]  -0.041421  -0.027090  -0.019634  -0.012255  0.001437
+beta[39]  -0.091991   0.030017   0.098638   0.168623  0.326643
+beta[40]  -0.183980  -0.034263   0.040054   0.118335  0.281060
+beta[41]   0.129147   0.143271   0.150835   0.158348  0.173223
+beta[42]  -0.209348  -0.062285   0.012613   0.089072  0.238640
+beta[43]  -0.203239  -0.072328  -0.007211   0.055181  0.187237
+beta[44]   0.075448   0.625384   1.140792   1.830845  4.131423
+beta[45]   0.465107   1.722390   2.682212   4.918941  7.307286
+beta[46]   0.115299   0.155194   0.177775   0.200938  0.244194
+beta[47]   0.090784   0.154873   0.191631   0.229036  0.313483
+beta[48]  -0.126287  -0.038367   0.007092   0.051727  0.142079
+beta[49]   0.132973   0.138182   0.140932   0.143786  0.149088
+beta[50]   0.142624   0.163071   0.174094   0.185405  0.207311
+beta[51]  -0.253821  -0.172855  -0.133311  -0.095377 -0.024385
+beta[52]  -0.474678  -0.217205  -0.106533  -0.012192  0.165206
+beta[53]   0.108804   0.124735   0.133539   0.142444  0.159450
+beta[54]   0.092761   0.121406   0.136842   0.152617  0.182912
+beta[55]  -0.045879   0.034625   0.077103   0.120055  0.208792
+beta[56]   0.158114   0.178872   0.190421   0.201778  0.223816
+beta[57]  -0.061632   0.006216   0.043785   0.083004  0.157637
+beta[58]   0.129353   0.145081   0.154011   0.163031  0.180458
+beta[59]   0.068688   0.129773   0.163802   0.198231  0.269713
+beta[60]   0.132329   0.150939   0.160892   0.170991  0.190770
+beta[61]  -0.453731  -0.139313   0.004359   0.148356  0.482874
+beta[62]  -0.013512  -0.002327   0.003353   0.009021  0.019921
+beta[63]  -0.142283  -0.082754  -0.053462  -0.024011  0.031599
+beta[64]  -0.016673  -0.002497   0.005162   0.012670  0.027162
+beta[65]  -0.651091  -0.253251  -0.098472   0.042166  0.330259
+beta[66]  -0.054426  -0.036497  -0.026794  -0.016852  0.001480
+beta[67]  -0.647348  -0.253398  -0.098314   0.044326  0.337100
+beta[68]   0.105220   0.119600   0.126894   0.134315  0.148941
+beta[69]   0.001284   0.118285   0.185009   0.260026  0.436860
+beta[70]  -0.402365  -0.091242   0.051568   0.199001  0.552405
+beta[71]  -0.792651  -0.325819  -0.152485  -0.005517  0.269832
+beta[72]  -0.221048  -0.034273   0.060832   0.157771  0.405662
+beta[73]   0.216202   0.296562   0.343914   0.396952  0.508245
+beta[74]   0.038602   0.089712   0.116938   0.146044  0.205921
+beta[75]   0.009086   0.016266   0.019989   0.023990  0.031407
+beta[76]   0.189153   0.198908   0.203931   0.209052  0.218841
+beta[77]  -0.189476  -0.092955  -0.045026   0.002045  0.089833
+beta[78]  -0.197646  -0.096344  -0.046340   0.001167  0.094488
+beta[79]   0.149281   0.159593   0.164905   0.170358  0.181488
+beta[80]  -0.487322  -0.143089   0.003306   0.146126  0.485130
+beta[81]  -0.053978  -0.039875  -0.032274  -0.024511 -0.010642
+beta[82]   0.085771   0.141018   0.172017   0.205400  0.272826
+beta[83]  -0.046449   0.142642   0.267497   0.427762  0.787190
+mu[1]      3.523200   3.572215   3.597533   3.623270  3.671749
+mu[2]      2.936502   3.009390   3.047289   3.084231  3.153808
+mu[3]     -0.655395  -0.291444  -0.111535   0.062084  0.373451
+mu[4]     -3.035025  -2.169422  -1.767454  -1.429422 -0.866180
+mu[5]      2.844654   2.920617   2.960690   2.999722  3.071679
+mu[6]     -2.502123  -1.707674  -1.369094  -1.078511 -0.578775
+mu[7]     -3.768832  -2.640485  -2.153011  -1.736912 -1.076706
+mu[8]     -0.550136  -0.160525   0.015068   0.180643  0.457462
+mu[9]     -5.172386  -3.438700  -2.764494  -2.232179 -1.416966
+mu[10]     3.282123   3.344450   3.378080   3.412465  3.475897
+mu[11]    -0.737927  -0.335746  -0.148185   0.030097  0.335591
+mu[12]     3.414540   3.467501   3.494734   3.521275  3.574276
+mu[13]     2.270047   2.380739   2.436708   2.493567  2.595092
+mu[14]     2.024669   2.138580   2.196140   2.254157  2.359816
+mu[15]     1.284123   1.453108   1.535456   1.615013  1.763783
+mu[16]    -2.105115  -1.417659  -1.120334  -0.848338 -0.390289
+mu[17]     1.398608   1.573416   1.657615   1.737190  1.885375
+mu[18]   -83.363437 -54.544256 -33.438099 -19.174584 -6.019463
+mu[19]     1.311072   1.483638   1.566884   1.646206  1.789549
+mu[20]    -9.108769  -5.304590  -4.118526  -3.179069 -1.962694
+mu[21]    -0.105188   0.201940   0.344207   0.481817  0.727693
+mu[22]    -5.572365  -3.644387  -2.906203  -2.321412 -1.441563
+mu[23]     1.976159   2.080962   2.134893   2.187804  2.285816
+mu[24]    -6.027462  -3.871762  -3.045526  -2.403950 -1.457985
+mu[25]     3.877600   3.923309   3.946298   3.969959  4.012265
+mu[26]   -10.532543  -5.879766  -4.358526  -3.341079 -2.009844
+mu[27]   -11.019955  -6.621794  -4.812488  -3.596735 -2.091448
+mu[28]     2.801514   2.874719   2.912041   2.948179  3.015048
+mu[29]     1.939465   2.067678   2.128961   2.189296  2.302963
+mu[30]    -2.520180  -1.615051  -1.219553  -0.886972 -0.338368
+mu[31]    -2.676517  -1.869622  -1.526992  -1.219044 -0.702725
+mu[32]    -5.968748  -3.809638  -2.970780  -2.363372 -1.464907
+mu[33]     3.719953   3.773585   3.800194   3.826843  3.875268
+mu[34]     2.646491   2.737538   2.782329   2.827559  2.910356
+mu[35]   -12.254950  -6.936515  -4.981678  -3.716312 -2.102965
+mu[36]     2.295789   2.406061   2.461792   2.514616  2.614775
+mu[37]    -9.482808  -5.477202  -4.147926  -3.196683 -1.930412
+mu[38]     2.517062   2.599275   2.641506   2.683366  2.761093
+mu[39]    -3.457713  -2.340974  -1.900731  -1.524680 -0.915817
+mu[40]    -3.762073  -2.622861  -2.154215  -1.742564 -1.086142
+mu[41]     2.549397   2.637339   2.685409   2.730982  2.816444
+mu[42]    -3.692078  -2.572271  -2.120934  -1.713690 -1.100185
+mu[43]    -3.025723  -2.147439  -1.767081  -1.419828 -0.864210
+mu[44]   -37.674772 -17.496439 -11.325213  -6.965335 -2.884267
+mu[45]   -66.122587 -44.855643 -24.765863 -16.236476 -5.433375
+mu[46]     0.072811   0.352915   0.495450   0.633584  0.870859
+mu[47]    -1.345891  -0.787471  -0.545103  -0.315374  0.055657
+mu[48]    -1.796878  -1.237017  -0.975270  -0.730374 -0.318142
+mu[49]     4.661106   4.691605   4.708151   4.724745  4.756620
+mu[50]     1.714579   1.853708   1.924366   1.991243  2.116062
+mu[51]    -1.402678  -0.861989  -0.618140  -0.397162 -0.023400
+mu[52]    -5.488414  -3.566658  -2.858744  -2.266070 -1.401906
+mu[53]     2.222951   2.332503   2.384899   2.437204  2.532200
+mu[54]     0.921837   1.118126   1.210324   1.301476  1.463498
+mu[55]    -1.746305  -1.177780  -0.924509  -0.687857 -0.283632
+mu[56]     1.619566   1.763636   1.835112   1.906174  2.041656
+mu[57]    -1.332848  -0.867084  -0.648821  -0.447336 -0.088938
+mu[58]     2.210569   2.317432   2.370388   2.422956  2.520520
+mu[59]    -1.103922  -0.631369  -0.407221  -0.206491  0.139393
+mu[60]     1.903341   2.030000   2.091912   2.153851  2.264957
+mu[61]    -7.681583  -4.946055  -3.870615  -3.020870 -1.885570
+mu[62]     3.109887   3.171182   3.202441   3.233294  3.291593
+mu[63]    -0.612016  -0.248564  -0.083752   0.076539  0.344148
+mu[64]     2.543860   2.624255   2.664827   2.705578  2.781999
+mu[65]    -8.300338  -5.127341  -3.966194  -3.112475 -1.945735
+mu[66]     1.958012   2.064121   2.119260   2.174741  2.274813
+mu[67]    -8.202614  -5.049938  -3.951320  -3.104168 -1.911322
+mu[68]     2.600065   2.682929   2.727370   2.772119  2.851753
+mu[69]    -3.685987  -2.446019  -1.944789  -1.538468 -0.893906
+mu[70]    -7.804281  -4.989412  -3.894120  -3.053817 -1.862486
+mu[71]    -9.142958  -5.403070  -4.121656  -3.189934 -1.968940
+mu[72]    -5.180029  -3.407467  -2.740843  -2.185582 -1.388242
+mu[73]    -2.456335  -1.613608  -1.217999  -0.885963 -0.342038
+mu[74]    -0.522124  -0.163531   0.004207   0.168894  0.448601
+mu[75]     3.925859   3.965387   3.986726   4.008426  4.049546
+mu[76]     3.389134   3.455008   3.486720   3.519886  3.582426
+mu[77]    -2.073469  -1.428172  -1.147417  -0.879209 -0.434133
+mu[78]    -2.075200  -1.453089  -1.163428  -0.894871 -0.445519
+mu[79]     3.220034   3.287617   3.321510   3.355059  3.416521
+mu[80]    -7.911200  -5.040595  -3.950507  -3.083508 -1.930174
+mu[81]     2.530562   2.609533   2.651219   2.692907  2.768186
+mu[82]    -0.871699  -0.414623  -0.212114  -0.022027  0.308417
+mu[83]    -7.645804  -4.708167  -3.583976  -2.743160 -1.635740</code></pre>
 </div>
 </div>
 </div>
@@ -1590,29 +1556,29 @@ mu[83]    -7.453480  -4.561047  -3.449298  -2.660186 -1.625108</code></pre>
 <div id="ref-Wasserman2004" class="csl-entry" role="listitem">
 <div class="csl-left-margin">3. </div><div class="csl-right-inline">Wasserman, L. <em>All of Statistics</em>. (Springer New York, 2004). doi:<a href="https://doi.org/10.1007/978-0-387-21736-9">10.1007/978-0-387-21736-9</a>.</div>
 </div>
-<div id="ref-Lee2012" class="csl-entry" role="listitem">
-<div class="csl-left-margin">4. </div><div class="csl-right-inline">Lee, S. &amp; Ni, J. <a href="https://doi.org/10.1155/2012/875641">Genetic algorithm for job scheduling with maintenance consideration in semiconductor manufacturing process</a>. <em>Mathematical Problems in Engineering</em> <strong>2012</strong>, 875641 (2012).</div>
-</div>
-<div id="ref-Bishop2006" class="csl-entry" role="listitem">
-<div class="csl-left-margin">5. </div><div class="csl-right-inline">Bishop, C. M. <em><a href="https://link.springer.com/book/9780387310732">Pattern Recognition and Machine Learning | SpringerLink</a></em>. (Springer New York, NY, 2006).</div>
-</div>
-<div id="ref-Robert2004" class="csl-entry" role="listitem">
-<div class="csl-left-margin">6. </div><div class="csl-right-inline">Robert, C. P. &amp; Casella, G. <em>Monte Carlo Statistical Methods</em>. (Springer New York, 2004). doi:<a href="https://doi.org/10.1007/978-1-4757-4145-2">10.1007/978-1-4757-4145-2</a>.</div>
-</div>
-<div id="ref-Geman1984" class="csl-entry" role="listitem">
-<div class="csl-left-margin">7. </div><div class="csl-right-inline">Geman, S. &amp; Geman, D. Stochastic relaxation, gibbs distributions, and the bayesian restoration of images. <em>Institute of Electrical and Electronics Engineers (IEEE)</em> 721–741 (1984) doi:<a href="https://doi.org/10.1109/TPAMI.1984.4767596">10.1109/TPAMI.1984.4767596</a>.</div>
-</div>
-<div id="ref-gibbs_dist" class="csl-entry" role="listitem">
-<div class="csl-left-margin">8. </div><div class="csl-right-inline">Wikipedia. <a href="https://en.wikipedia.org/wiki/Boltzmann_distribution">Boltzmann distribution</a>. <em>Wikipedia</em>.</div>
-</div>
-<div id="ref-josiah_gibbs" class="csl-entry" role="listitem">
-<div class="csl-left-margin">9. </div><div class="csl-right-inline">Wikipedia. <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah willard gibbs</a>. <em>Wikipedia</em>.</div>
+<div id="ref-Gelman2006" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Gelman, A. &amp; Hill, J. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em> (Cambridge University Press, 2006). doi:<a href="https://doi.org/10.1017/CBO9780511790942">10.1017/CBO9780511790942</a>.</div>
 </div>
 <div id="ref-Junker2016" class="csl-entry" role="listitem">
-<div class="csl-left-margin">10. </div><div class="csl-right-inline">Junker, B. <a href="https://www.stat.cmu.edu/~brian/463-663/">36-463/663: Topics in statistics: Hierarchical &amp; multilevel models</a>. (2016).</div>
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Junker, B. <a href="https://www.stat.cmu.edu/~brian/463-663/">36-463/663: Topics in statistics: Hierarchical &amp; multilevel models</a>. (2016).</div>
 </div>
-<div id="ref-Gelman2006" class="csl-entry" role="listitem">
-<div class="csl-left-margin">11. </div><div class="csl-right-inline">Gelman, A. &amp; Hill, J. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em> (Cambridge University Press, 2006). doi:<a href="https://doi.org/10.1017/CBO9780511790942">10.1017/CBO9780511790942</a>.</div>
+<div id="ref-Lee2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Lee, S. &amp; Ni, J. <a href="https://doi.org/10.1155/2012/875641">Genetic algorithm for job scheduling with maintenance consideration in semiconductor manufacturing process</a>. <em>Mathematical Problems in Engineering</em> <strong>2012</strong>, 875641 (2012).</div>
+</div>
+<div id="ref-Bishop2006" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Bishop, C. M. <em><a href="https://link.springer.com/book/9780387310732">Pattern Recognition and Machine Learning | SpringerLink</a></em>. (Springer New York, NY, 2006).</div>
+</div>
+<div id="ref-Robert2004" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Robert, C. P. &amp; Casella, G. <em>Monte Carlo Statistical Methods</em>. (Springer New York, 2004). doi:<a href="https://doi.org/10.1007/978-1-4757-4145-2">10.1007/978-1-4757-4145-2</a>.</div>
+</div>
+<div id="ref-Geman1984" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Geman, S. &amp; Geman, D. Stochastic relaxation, gibbs distributions, and the bayesian restoration of images. <em>Institute of Electrical and Electronics Engineers (IEEE)</em> 721–741 (1984) doi:<a href="https://doi.org/10.1109/TPAMI.1984.4767596">10.1109/TPAMI.1984.4767596</a>.</div>
+</div>
+<div id="ref-gibbs_dist" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Wikipedia. <a href="https://en.wikipedia.org/wiki/Boltzmann_distribution">Boltzmann distribution</a>. <em>Wikipedia</em>.</div>
+</div>
+<div id="ref-josiah_gibbs" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Wikipedia. <a href="https://en.wikipedia.org/wiki/Josiah_Willard_Gibbs">Josiah willard gibbs</a>. <em>Wikipedia</em>.</div>
 </div>
 <div id="ref-Casella2002" class="csl-entry" role="listitem">
 <div class="csl-left-margin">12. </div><div class="csl-right-inline">Casella, G. &amp; Berger, R. L. <em>Statistical Inference</em>. <em>Statistical Inference</em> (Wadsworth Group. Duxbury, 2002).</div>
