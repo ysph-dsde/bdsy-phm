@@ -87,11 +87,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<link href="../../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
-<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-<link href="../../site_libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
-<script src="../../site_libs/vis-9.1.0/vis-network.min.js"></script>
-<script src="../../site_libs/visNetwork-binding-2.1.2/visNetwork.js"></script>
 
 
 </head>
@@ -137,6 +132,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Pages/Week4/Market Basket Analysis.html">
  <span class="dropdown-text">Market Basket Analysis</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Pages/Week5/Sequence Clustering with GPS Pipeline.html">
+ <span class="dropdown-text">Sequence Clustering with GPS Pipeline</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -161,7 +160,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#create-some-rules" id="toc-create-some-rules" class="nav-link active" data-scroll-target="#create-some-rules">Create some rules</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#set-up-the-environment" id="toc-set-up-the-environment" class="nav-link" data-scroll-target="#set-up-the-environment">Set Up the Environment</a>
+  <ul class="collapse">
+  <li><a href="#installing-tcltk-libraries" id="toc-installing-tcltk-libraries" class="nav-link" data-scroll-target="#installing-tcltk-libraries">Installing Tcl/Tk Libraries</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary">Data Dictionary</a></li>
+  </ul></li>
+  <li><a href="#create-some-rules" id="toc-create-some-rules" class="nav-link" data-scroll-target="#create-some-rules">Create some rules</a></li>
+  <li><a href="#network-graphs" id="toc-network-graphs" class="nav-link" data-scroll-target="#network-graphs">Network Graphs</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/Pages/Week4/Market Basket Analysis.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -201,70 +208,157 @@ BDSY 2025 - Public Health Modeling Project</div><p></p>
 </header>
 
 
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Page still in progress!!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Market Basket Analysis, aka affinity analysis aka association rules mining is an unsupervised machine learning technique which applies an algorithm (apriori algorithm) to identify association rules in datasets.</p>
 <p>We’ll be applying this algorithm to identify associations in a dataset containing information about cases of perforative acute otitis media in children.</p>
-<p>We’ll start with loading in our packages</p>
+<p>Overview:</p>
+<ul>
+<li><em>Application of market–basket analysis on healthcare by Rao et al.&nbsp;2020</em> (<a href="CPapers/Rao et al_2020_Overview Market–Basket Analysis on Healthcare.pdf">view paper</a>)</li>
+</ul>
+<p>Examples of different applications:</p>
+<ul>
+<li><em>Applying Market Basket Analysis to Determine Complex Coassociations Among Food Allergens in Children With Food Protein-Induced Enterocolitis Syndrome (FPIES) by Banerjee et al.&nbsp;2024</em> (<a href="CPapers/Banerjee et al_2024_Coassociations Among Food Allergens in Children With Food Protein-Induced Enterocolitis Syndrome (FPIES).pdf">view paper</a>)</li>
+<li><em>Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus by Joshi et al.&nbsp;2019</em> (<a href="Papers/Joshi et al_2019_Nonrandom Patterns of Serotype Switching in Pneumococcus.pdf">view paper</a>)</li>
+</ul>
+</section>
+<section id="set-up-the-environment" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-the-environment">Set Up the Environment</h2>
+<section id="installing-tcltk-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="installing-tcltk-libraries">Installing Tcl/Tk Libraries</h3>
+<p>The <code>tcltk2</code> package may require <a href="https://www.tcl-lang.org/">Tcl/Tk</a> to be installed separately, depending on your system. Tcl (Tool Command Language) is an open-source programming language suitable for numerous development projects, while Tk is the standard graphical user interface (GUI) toolkit for many languages, including Tcl. Together, Tcl/Tk enables the creation of GUIs and interactive visualizations in R.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Linux</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">PC</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Download <a href="https://www.xquartz.org/">XQuartz</a>, which provides a version of the X.Org X Window System that runs on macOS with supporting libraries and applications. As of this writing, the current version available is 2.8.5 for macOS 10.9 or later.</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>For Debian-based systems (like Ubuntu)</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Command-Line Application</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install tcl tk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For RPM-based systems (like CentOS)</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Command-Line Application</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" data-filename="Command-Line Application"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> yum install tcl tk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This page was developed on a Mac, and so the directions for a PC were not able to be tested.</p>
+</div>
+</div>
+<p>The base R distribution on Windows should include Tcl/Tk. If the <code>tcltk2</code> package fails to load, try reinstalling R and ensure you select the option to install Tcl/Tk components.</p>
+</div>
+</div>
+</div>
+<p>With Tcl/Tk installed, we can now proceed with the standard process of installing the necessary packages. If you have not done so already, you will need to initialize the project’s <code>renv</code> lockfile to ensure that the same package versions are installed in the project’s local package library.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: you might need to specify the source for the arules package:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("arules", repos='http://cran.rstudio.com/')</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"tidyverse"</span>)     <span class="co"># Collection of R packages for data science</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"plyr"</span>)          <span class="co"># For data manipulation</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"knitr"</span>)         <span class="co"># For dynamic report generation</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"ggplot2"</span>)       <span class="co"># For creating static visualizations</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"lubridate"</span>)     <span class="co"># For date and time manipulation</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"arules"</span>)        <span class="co"># For mining association rules and frequent itemsets</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"arulesViz"</span>)     <span class="co"># For visualizing association rules</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"tcltk2"</span>)        <span class="co"># Provides enhanced functionality for Tcl/Tk GUI</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"RColorBrewer"</span>)  <span class="co"># For color palettes</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"plotly"</span>)        <span class="co"># For creating interactive web-based graphs</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"httr"</span>)          <span class="co"># For downloading files from URLs</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to select "Not In"</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">'%!in%'</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y)<span class="sc">!</span>(<span class="st">'%in%'</span>(x,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: you might need to specify the source for the arules package:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("arules", repos='http://cran.rstudio.com/')</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"tidyverse"</span>)     <span class="co"># Collection of R packages for data science</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"plyr"</span>)          <span class="co"># For data manipulation</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"knitr"</span>)         <span class="co"># For dynamic report generation</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"ggplot2"</span>)       <span class="co"># For creating static visualizations</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"lubridate"</span>)     <span class="co"># For date and time manipulation</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"htmlwidgets"</span>)   <span class="co"># For creating web-compatible HTML widgets</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"arules"</span>)        <span class="co"># For mining association rules and frequent itemsets</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"arulesViz"</span>)     <span class="co"># For visualizing association rules</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"tcltk2"</span>)        <span class="co"># Provides enhanced functionality for Tcl/Tk GUI</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"visNetwork"</span>)    <span class="co"># For creating interactive network plots in Quarto</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"grid"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"gridExtra"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"RColorBrewer"</span>)  <span class="co"># For color palettes</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"plotly"</span>)        <span class="co"># For creating interactive web-based graphs</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"cowplot"</span>)       <span class="co"># For arranging multiple plots</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"httr"</span>)          <span class="co"># For downloading files from URLs</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to select "Not In"</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="st">'%!in%'</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y)<span class="sc">!</span>(<span class="st">'%in%'</span>(x,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And our dataset</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in the cleaned data directly from the instructor's GitHub.</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/pAOM.csv"</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pAOM <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 2137 Columns: 10
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (10): PtID, SmokeNum, PtDaycare, SibNum, Pre_Post_PCV13, PCV13_Serotype_...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in the cleaned data directly from the instructor's GitHub.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/pAOM.csv"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>pAOM <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize aspects and dimentions of our dataset.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(pAOM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,137
+Columns: 10
+$ PtID               &lt;chr&gt; "1401", "1501", "0401", "1502", "2801", "1101", "34…
+$ SmokeNum           &lt;chr&gt; "No Smokers", "1 Smoker", "No Smokers", "No Smokers…
+$ PtDaycare          &lt;chr&gt; "No Daycare", "Daycare", "Daycare", "No Daycare", "…
+$ SibNum             &lt;chr&gt; "1 Sibling", "No Sibings", "1 Sibling", "1 Sibling"…
+$ Pre_Post_PCV13     &lt;chr&gt; "PreVacc", "PreVacc", "PreVacc", "PreVacc", "PreVac…
+$ PCV13_Serotype_AOM &lt;chr&gt; NA, NA, "VT", NA, "VT", NA, NA, NA, "VT", NA, "NVT"…
+$ OtoPathogen        &lt;chr&gt; "Strep_pyogenes", "Strep_pyogenes", "Strep_pneumo",…
+$ Carriage1          &lt;chr&gt; "c_Strep_pyogenes", "c_Strep_pyogenes", "c_Morax_ca…
+$ Carriage2          &lt;chr&gt; NA, NA, NA, NA, NA, "c_Haem_inf", "c_Morax_cat", "c…
+$ Carriage3          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</code></pre>
 </div>
 </div>
+</section>
+<section id="data-dictionary" class="level3">
+<h3 class="anchored" data-anchor-id="data-dictionary">Data Dictionary</h3>
 <p>We have 2137 rows representing 2137 cases of pAOM. Each row contains information about PtID- study ID of patient SmokeNum- number of smokers in household PtDayCare- did patient attend daycare SibNum- number of siblings in household NumSibDaycare- number of siblings in daycare Pre_Post_PCV13- did the case occur before or after the child could have received PCV13? (PreVacc, PostVacc_yr1-5) PCV13_Serotype_AOM- of pneumococcal pAOM cases, were they from PCV13 serotypes? (VT,NVTs) OtoPathogen- Strep_pneumo,Strep_pyogenes,Haem_inf, Morax_cat, Staph_aur, OthBact, PresViral Carriage1- otopathogens (c_Strep_pneumo,c_Strep_pyogenes,c_Haem_inf, c_Morax_cat, c_Staph_aur, c_None)found in NP carriage Carriage2- additional otopathogens found in NP carriage Carriage3- additional otopathogens found in NP carriage</p>
 <p>Before using our rule mining algorithm, we need to transform data from the data frame format into transactions</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a temporary file</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the data from GitHub and save it to the temporary file</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">GET</span>(url, <span class="fu">write_disk</span>(temp_file, <span class="at">overwrite =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a temporary file</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the data from GitHub and save it to the temporary file</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">GET</span>(url, <span class="fu">write_disk</span>(temp_file, <span class="at">overwrite =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response [https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/main/Data/pAOM.csv]
-  Date: 2025-07-18 19:14
+  Date: 2025-07-23 03:44
   Status: 200
   Content-Type: text/plain; charset=utf-8
   Size: 144 kB
-&lt;ON DISK&gt;  /var/folders/9f/rwy2b8vj3m90x_s1fvx553cn5v3lr9/T//Rtmpc6Dpw3/file4e981a1c5a4</code></pre>
+&lt;ON DISK&gt;  /var/folders/9f/rwy2b8vj3m90x_s1fvx553cn5v3lr9/T//RtmpdkFNGT/file1802e2ba95746</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the transactions from the downloaded file</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">read.transactions</span>(temp_file, <span class="at">format =</span> <span class="st">'basket'</span>, <span class="at">sep =</span> <span class="st">','</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the transactions from the downloaded file</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">read.transactions</span>(temp_file, <span class="at">format =</span> <span class="st">'basket'</span>, <span class="at">sep =</span> <span class="st">','</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">'Description of the transactions'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">'Description of the transactions'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Description of the transactions"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>transactions as itemMatrix in sparse format with
  2138 rows (elements/itemsets/transactions) and
@@ -291,18 +385,7 @@ includes extended item information - examples:
 </div>
 <p>Let’s see what items occur most frequently:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">itemFrequencyPlot</span>(tr,<span class="at">topN=</span><span class="dv">25</span>,<span class="at">type=</span><span class="st">"absolute"</span>,<span class="at">col=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>,<span class="st">'Pastel2'</span>), <span class="at">main=</span><span class="st">"pAOM rules"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>a relative frequency plot</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">itemFrequencyPlot</span>(tr,<span class="at">topN=</span><span class="dv">20</span>,<span class="at">type=</span><span class="st">"relative"</span>,<span class="at">col=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>,<span class="st">'Pastel2'</span>),<span class="at">main=</span><span class="st">"Relative frequency, pAOM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">itemFrequencyPlot</span>(tr, <span class="at">topN =</span> <span class="dv">25</span>, <span class="at">type =</span> <span class="st">"absolute"</span>, <span class="at">col =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Pastel2"</span>), <span class="at">main =</span> <span class="st">"pAOM rules"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -311,6 +394,19 @@ includes extended item information - examples:
 </div>
 </div>
 </div>
+<p>a relative frequency plot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">itemFrequencyPlot</span>(tr,<span class="at">topN =</span> <span class="dv">20</span>, <span class="at">type =</span> <span class="st">"relative"</span>, <span class="at">col =</span> <span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Pastel2"</span>), <span class="at">main =</span> <span class="st">"Relative frequency, pAOM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
 <section id="create-some-rules" class="level2">
 <h2 class="anchored" data-anchor-id="create-some-rules">Create some rules</h2>
 <p>We use the Apriori algorithm from the arules package to look for itemsets and find support for rules</p>
@@ -318,7 +414,7 @@ includes extended item information - examples:
 <p>We sort the rules by decreasing confidence.</p>
 <p>Here are the rules matching these criteria:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(tr, <span class="at">parameter =</span> <span class="fu">list</span>(<span class="at">supp=</span><span class="fl">0.001</span>, <span class="at">conf=</span><span class="fl">0.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(tr, <span class="at">parameter =</span> <span class="fu">list</span>(<span class="at">supp =</span> <span class="fl">0.001</span>, <span class="at">conf =</span> <span class="fl">0.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Apriori
 
@@ -342,8 +438,8 @@ checking subsets of size 1 2 3 4 5 6 7 done [0.00s].
 writing ... [4093 rule(s)] done [0.03s].
 creating S4 object  ... done [0.00s].</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">sort</span>(rules, <span class="at">by=</span><span class="st">'confidence'</span>, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">sort</span>(rules, <span class="at">by =</span> <span class="st">"confidence"</span>, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>set of 4093 rules
 
@@ -379,7 +475,7 @@ mining info:
 </div>
 <p>We have 4093 rules, most are 4 or 5 items long. Let’s inspect the top 10 rules according to these parameters (supp 0.001, conf =0.8).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     lhs                        rhs            support     confidence
 [1]  {3 Smoker}              =&gt; {c_None}       0.001870907 1         
@@ -407,22 +503,8 @@ mining info:
 </div>
 <p>And plot these top 10 rules, or 20, or 50.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>topRules <span class="ot">&lt;-</span> rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>To reduce overplotting, jitter is added! Use jitter = 0 to prevent jitter.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>now with more colors</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rules, <span class="at">method =</span> <span class="st">"two-key plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>topRules <span class="ot">&lt;-</span> rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>To reduce overplotting, jitter is added! Use jitter = 0 to prevent jitter.</code></pre>
 </div>
@@ -434,9 +516,12 @@ mining info:
 </div>
 </div>
 </div>
-<p>now how about a network graph?</p>
+<p>now with more colors</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method=</span><span class="st">"graph"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rules, <span class="at">method =</span> <span class="st">"two-key plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>To reduce overplotting, jitter is added! Use jitter = 0 to prevent jitter.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -445,30 +530,151 @@ mining info:
 </div>
 </div>
 </div>
-<p>Now let’s see an interactive map:</p>
+</section>
+<section id="network-graphs" class="level2">
+<h2 class="anchored" data-anchor-id="network-graphs">Network Graphs</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method=</span><span class="st">"graph"</span>, <span class="at">engine =</span> <span class="st">'interactive'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"grouped"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method=</span><span class="st">"graph"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>Now let’s explore some interactive map options: Tcl/Tk using <code>engine = "interactive"</code>, JavaScript using <code>engine = "visNetwork"</code>, and HTML using <code>engine = "htmlwidget"</code>. Note that the Tcl/Tk output displays in a separate window outside of the IDE and cannot be directly embedded in this document. Therefore, only a screenshot is shown.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"graph"</span>,  <span class="at">engine =</span> <span class="st">"htmlwidget"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"graph"</span>, <span class="at">engine =</span> <span class="st">"interactive"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center" style="float: none; display: block; margin-left: auto; margin-right: auto; width: 50%;">
+<figure class="figure">
+<p><img src="Images/Tcl Tk Plot 1.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot showing the interactive output generated by Tcl/Tk in an XQuartz window.</figcaption>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate plots using different interactive engines.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>visNetwork_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"graph"</span>, <span class="at">engine =</span> <span class="st">"visNetwork"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>htmlwidget_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"graph"</span>, <span class="at">engine =</span> <span class="st">"htmlwidget"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="display: flex; justify-content: center; width: 100%;">
+  <!-- Interactive visNetwork Plot -->
+  <div style="flex: 1; margin-right: 10px; text-align: center; position: relative;">
+    <h3 class="anchored">Interactive visNetwork Plot</h3>
+    <iframe id="visNetwork_plot_frame" src="visNetwork_plot.html" width="100%" height="500px" style="border: 1px solid #ccc;"></iframe>
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+      <button onclick="zoomIn('visNetwork_plot_frame')">Zoom In</button>
+      <button onclick="zoomOut('visNetwork_plot_frame')">Zoom Out</button>
+      <button onclick="resetVisNetworkPlot('visNetwork_plot_frame', 'visNetwork_plot.html')">Reset</button>
+    </div>
+  </div>
+
+  <!-- Another htmlwidget Plot -->
+  <div style="flex: 1; margin-left: 10px; text-align: center; position: relative;">
+    <h3 class="anchored">Interactive htmlwidget Plot</h3>
+    <iframe id="htmlwidget_plot_frame" src="htmlwidget_plot.html" width="100%" height="500px" style="border: 1px solid #ccc;"></iframe>
+    <div style="position: absolute; bottom: 10px; right: 10px;">
+      <button onclick="zoomIn('htmlwidget_plot_frame')">Zoom In</button>
+      <button onclick="zoomOut('htmlwidget_plot_frame')">Zoom Out</button>
+      <button onclick="resetHtmlwidgetPlot('htmlwidget_plot_frame', 'htmlwidget_plot.html')">Reset</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let zoomLevel = 1; // Initial zoom level
+  const zoomFactor = 1.1;
+
+  function centerGraphContainer(iframeDocument, graphContainer) {
+    const iframeWindow = iframeDocument.defaultView;
+    const scaledWidth = graphContainer.scrollWidth * zoomLevel;
+    const scaledHeight = graphContainer.scrollHeight * zoomLevel;
+    const widthScroll = (scaledWidth - iframeWindow.innerWidth) / 2;
+    const heightScroll = (scaledHeight - iframeWindow.innerHeight) / 2;
+    iframeWindow.scrollTo(widthScroll, heightScroll);
+  }
+
+  function applyZoomAndCenter(frameId) {
+    const frame = document.getElementById(frameId);
+    if (frame && frame.contentWindow) {
+      const iframeDocument = frame.contentDocument || frame.contentWindow.document;
+      const graphContainer = iframeDocument.querySelector('.vis-network');
+      if (graphContainer) {
+        graphContainer.style.transform = `scale(${zoomLevel})`;
+        graphContainer.style.transformOrigin = '0 0';
+
+        centerGraphContainer(iframeDocument, graphContainer);
+      }
+    }
+  }
+
+  function zoomIn(frameId) {
+    zoomLevel *= zoomFactor;
+    applyZoomAndCenter(frameId);
+  }
+
+  function zoomOut(frameId) {
+    zoomLevel /= zoomFactor;
+    applyZoomAndCenter(frameId);
+  }
+
+  function resetView() {
+    zoomLevel = 1;
+    initialView();
+  }
+
+  function initialView() {
+    const frame = document.getElementById('htmlwidget_plot_frame2');
+    const iframeDocument = frame.contentDocument || frame.contentWindow.document;
+    const iframeWindow = frame.contentWindow;
+
+    iframeDocument.body.style.overflow = 'hidden';
+
+    const graphContainer = iframeDocument.querySelector('.vis-network');
+    if (graphContainer) {
+      const width = graphContainer.scrollWidth - iframeWindow.innerWidth;
+      const height = graphContainer.scrollHeight - iframeWindow.innerHeight;
+      iframeWindow.scrollTo(width / 2, height / 2);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initialView();
+  });
+
+  window.addEventListener('resize', () => {
+    initialView();
+  });
+
+  function resetVisNetworkPlot() {
+    resetViewHelper('visNetwork_plot_frame', 'visNetwork_plot.html');
+  }
+
+  function resetHtmlwidgetPlot() {
+    resetViewHelper('htmlwidget_plot_frame', 'htmlwidget_plot.html');
+  }
+
+  function resetViewHelper(frameId, frameSrc) {
+    zoomLevel = 1; // Reset zoom level to initial state
+    const frame = document.getElementById(frameId);
+    frame.src = frameSrc + "?reload=" + new Date().getTime();
+    frame.onload = initialView;
+  }
+</script>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"grouped"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="visNetwork html-widget html-fill-item" id="htmlwidget-89ae63c4c1501cc1b8df" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-89ae63c4c1501cc1b8df">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"label":["3 Smoker","3+ Sibling","c_Haem_inf","c_Morax_cat","c_None","c_Strep_pneumo","Morax_cat","No Sibings","No Smokers","NVT","PostVacc_yr1","PreVacc","Strep_pneumo","VT","rule 1","rule 2","rule 3","rule 4","rule 5","rule 6","rule 7","rule 8","rule 9","rule 10"],"group":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1.755725190839695,10.06870229007633,13.84732824427481,35.00763358778626,43.32061068702289,75.81679389312977,100,1,1,1],"color":["#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#EEDCDC","#EEC9C9","#EEC9C9","#EEC9C9","#EE1B1B","#EE1B1B","#EEDCDC","#EEDCDC","#EED9D9","#EEDCDC"],"title":["3 Smoker","3+ Sibling","c_Haem_inf","c_Morax_cat","c_None","c_Strep_pneumo","Morax_cat","No Sibings","No Smokers","NVT","PostVacc_yr1","PreVacc","Strep_pneumo","VT","<B>[1]<\/B><BR><B>{3 Smoker}<\/B><BR>&nbsp;&nbsp; => <B>{c_None}<\/B><BR><BR>support = 0.00187<BR>confidence = 1<BR>coverage = 0.00187<BR>lift = 1.06<BR>count = 4<BR>order = 2<BR>id = 1","<B>[2]<\/B><BR><B>{c_Haem_inf}<\/B><BR>&nbsp;&nbsp; => <B>{PreVacc}<\/B><BR><BR>support = 0.00702<BR>confidence = 1<BR>coverage = 0.00702<BR>lift = 2.68<BR>count = 15<BR>order = 2<BR>id = 2","<B>[3]<\/B><BR><B>{c_Strep_pneumo}<\/B><BR>&nbsp;&nbsp; => <B>{PreVacc}<\/B><BR><BR>support = 0.00935<BR>confidence = 1<BR>coverage = 0.00935<BR>lift = 2.68<BR>count = 20<BR>order = 2<BR>id = 3","<B>[4]<\/B><BR><B>{c_Morax_cat}<\/B><BR>&nbsp;&nbsp; => <B>{PreVacc}<\/B><BR><BR>support = 0.0225<BR>confidence = 1<BR>coverage = 0.0225<BR>lift = 2.68<BR>count = 48<BR>order = 2<BR>id = 4","<B>[5]<\/B><BR><B>{NVT}<\/B><BR>&nbsp;&nbsp; => <B>{Strep_pneumo}<\/B><BR><BR>support = 0.0276<BR>confidence = 1<BR>coverage = 0.0276<BR>lift = 13.3<BR>count = 59<BR>order = 2<BR>id = 5","<B>[6]<\/B><BR><B>{VT}<\/B><BR>&nbsp;&nbsp; => <B>{Strep_pneumo}<\/B><BR><BR>support = 0.0477<BR>confidence = 1<BR>coverage = 0.0477<BR>lift = 13.3<BR>count = 102<BR>order = 2<BR>id = 6","<B>[7]<\/B><BR><B>{PostVacc_yr1}<\/B><BR>&nbsp;&nbsp; => <B>{c_None}<\/B><BR><BR>support = 0.0627<BR>confidence = 1<BR>coverage = 0.0627<BR>lift = 1.06<BR>count = 134<BR>order = 2<BR>id = 7","<B>[8]<\/B><BR><B>{3 Smoker,<BR>&nbsp;&nbsp;3+ Sibling}<\/B><BR>&nbsp;&nbsp; => <B>{c_None}<\/B><BR><BR>support = 0.0014<BR>confidence = 1<BR>coverage = 0.0014<BR>lift = 1.06<BR>count = 3<BR>order = 3<BR>id = 8","<B>[9]<\/B><BR><B>{Morax_cat,<BR>&nbsp;&nbsp;No Sibings}<\/B><BR>&nbsp;&nbsp; => <B>{No Smokers}<\/B><BR><BR>support = 0.0014<BR>confidence = 1<BR>coverage = 0.0014<BR>lift = 1.23<BR>count = 3<BR>order = 3<BR>id = 9","<B>[10]<\/B><BR><B>{Morax_cat,<BR>&nbsp;&nbsp;No Sibings}<\/B><BR>&nbsp;&nbsp; => <B>{c_None}<\/B><BR><BR>support = 0.0014<BR>confidence = 1<BR>coverage = 0.0014<BR>lift = 1.06<BR>count = 3<BR>order = 3<BR>id = 10"],"shape":["box","box","box","box","box","box","box","box","box","box","box","box","box","box","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"x":[-0.7421939498844536,-0.7442066668035905,-1,0.02881380026491787,-0.2126880392883589,-0.2305521881183901,0.4433074367130265,0.4861507324915784,0.9666120071715052,1,0.07999271266347052,-0.5207142477753122,0.6982570111015305,0.3405783235623323,-0.5107247300293944,-0.8045493343619037,-0.4423440845319098,-0.2379990752599745,0.8148623835700275,0.537163531977171,-0.1037876195053732,-0.5260433388950555,0.7048105762689005,0.1833004152720517],"y":[0.5200118971790895,0.1337507556483606,-0.2810457740962746,-0.3677883945189097,0.5246410951498064,-1,0.2718495354501951,0.5881326627471761,0.3333473261885112,-0.1935332612801891,1,-0.5654277330658362,-0.5854748590522914,-0.9416805283983021,0.6629123000162094,-0.4540689425059815,-0.8372041973506755,-0.4403247612741191,-0.3579858270359099,-0.7861024918825701,0.8151822849389818,0.329974066033482,0.4070618445073368,0.449720215037839]},"edges":{"from":[1,3,6,4,10,14,11,1,2,7,8,7,8,15,16,17,18,19,20,21,22,23,24],"to":[15,16,17,18,19,20,21,22,22,23,23,24,24,5,12,12,12,13,13,5,5,9,5],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":false},"physics":{"stabilization":false},"interaction":{"hover":true,"zoomSpeed":1}},"groups":["1","2"],"width":null,"height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);","highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+<div>
+<figure class="figure">
+<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>now a matrix plot</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"matrix"</span>, <span class="at">engine =</span> <span class="st">"3d"</span>, <span class="at">measure =</span> <span class="st">"lift"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(topRules, <span class="at">method =</span> <span class="st">"matrix"</span>, <span class="at">engine =</span> <span class="st">"3d"</span>, <span class="at">measure =</span> <span class="st">"lift"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Itemsets in Antecedent (LHS)
 [1] "{NVT}"                  "{VT}"                   "{c_Haem_inf}"          
@@ -480,14 +686,14 @@ Itemsets in Consequent (RHS)
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>moving back a bit, let’s check a different set of rules:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>rules_b <span class="ot">&lt;-</span> <span class="fu">apriori</span>(tr, <span class="at">parameter =</span> <span class="fu">list</span>(<span class="at">supp=</span><span class="fl">0.01</span>, <span class="at">conf=</span><span class="fl">1.0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>rules_b <span class="ot">&lt;-</span> <span class="fu">apriori</span>(tr, <span class="at">parameter =</span> <span class="fu">list</span>(<span class="at">supp =</span> <span class="fl">0.01</span>, <span class="at">conf =</span> <span class="fl">1.0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Apriori
 
@@ -511,8 +717,8 @@ checking subsets of size 1 2 3 4 5 6 done [0.00s].
 writing ... [115 rule(s)] done [0.00s].
 creating S4 object  ... done [0.00s].</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>rules_b <span class="ot">&lt;-</span> <span class="fu">sort</span>(rules_b, <span class="at">by=</span><span class="st">'confidence'</span>, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rules_b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>rules_b <span class="ot">&lt;-</span> <span class="fu">sort</span>(rules_b, <span class="at">by =</span> <span class="st">"confidence"</span>, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rules_b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>set of 115 rules
 
@@ -548,7 +754,7 @@ mining info:
 </div>
 <p>these more stringent criteria mean that we’re down to 115 rules to sort through.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(rules_b[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(rules_b[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     lhs                          rhs            support    confidence
 [1]  {c_Morax_cat}             =&gt; {PreVacc}      0.02245089 1         
@@ -576,9 +782,9 @@ mining info:
 </div>
 <p>try to look for only for rules associated with Strep_pneumo</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pneumo.rules<span class="ot">&lt;-</span><span class="fu">sort</span>(<span class="fu">subset</span>(rules_b, <span class="at">subset =</span> rhs <span class="sc">%in%</span> <span class="st">"Strep_pneumo"</span>))</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(pneumo.rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>pneumo.rules <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">subset</span>(rules_b, <span class="at">subset =</span> rhs <span class="sc">%in%</span> <span class="st">"Strep_pneumo"</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(pneumo.rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     lhs                          rhs            support    confidence
 [1]  {VT}                      =&gt; {Strep_pneumo} 0.04770814 1         
@@ -606,26 +812,119 @@ mining info:
 </div>
 <p>now let’s plot the pneumo rules:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pneumo.rules, <span class="at">measure =</span> <span class="fu">c</span>(<span class="st">"support"</span>, <span class="st">"confidence"</span>), <span class="at">shading =</span> <span class="st">"lift"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pneumo.rules, <span class="at">measure =</span> <span class="fu">c</span>(<span class="st">"support"</span>, <span class="st">"confidence"</span>), <span class="at">shading =</span> <span class="st">"lift"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>To reduce overplotting, jitter is added! Use jitter = 0 to prevent jitter.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pneumo.rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">method=</span><span class="st">"graph"</span>, <span class="at">engine =</span> <span class="st">'interactive'</span>)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pneumo.rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">method=</span> <span class="st">"paracoord"</span>, <span class="at">control=</span><span class="fu">list</span>(<span class="at">reorder=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>pneumo_rules_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(pneumo.rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">method =</span> <span class="st">"graph"</span>, <span class="at">engine =</span> <span class="st">"htmlwidget"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="display: flex; justify-content: center; width: 100%;">
+  <!-- Interactive htmlwidget Plot -->
+  <div style="flex: 1; margin-right: 10px; text-align: center; position: relative;">
+    <iframe id="htmlwidget_plot_frame2" src="pneumo_rules_plot.html" width="100%" height="450px" style="border: 1px solid #ccc;"></iframe>
+    <div style="position: absolute; top: 10px; right: 10px;">
+      <button onclick="zoomIn('htmlwidget_plot_frame2')">Zoom In</button>
+      <button onclick="zoomOut('htmlwidget_plot_frame2')">Zoom Out</button>
+      <button onclick="resetHtmlwidgetPlot2('htmlwidget_plot_frame2', 'pneumo_rules_plot.html')">Reset</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let zoomLevel = 1;
+  const zoomFactor = 1.1;
+
+  function centerIframeContent(frame) {
+    frame.onload = function() {
+      const iframeDocument = frame.contentDocument || frame.contentWindow.document;
+      const iframeWindow = frame.contentWindow;
+
+      iframeDocument.body.style.overflow = 'hidden';
+
+      const graphContainer = iframeDocument.querySelector('.vis-network');
+      if (graphContainer) {
+        graphContainer.style.transform = `scale(${zoomLevel})`;
+        graphContainer.style.transformOrigin = '0 0';
+
+        const width = graphContainer.scrollWidth - iframeWindow.innerWidth;
+        const height = graphContainer.scrollHeight - iframeWindow.innerHeight;
+        iframeWindow.scrollTo(width / 2, height / 2);
+      }
+    };
+  }
+
+  function zoomIn(frameId) {
+    zoomLevel *= zoomFactor;
+    setZoom(frameId);
+  }
+
+  function zoomOut(frameId) {
+    zoomLevel /= zoomFactor;
+    setZoom(frameId);
+  }
+
+  function setZoom(frameId) {
+    const frame = document.getElementById(frameId);
+    if (frame && frame.contentWindow) {
+      const iframeDocument = frame.contentDocument || frame.contentWindow.document;
+      const graphContainer = iframeDocument.querySelector('.vis-network');
+      if (graphContainer) {
+        graphContainer.style.transform = `scale(${zoomLevel})`;
+        graphContainer.style.transformOrigin = '0 0';
+      }
+    }
+  }
+
+  function initialView() {
+    const frame = document.getElementById('htmlwidget_plot_frame2');
+    const iframeDocument = frame.contentDocument || frame.contentWindow.document;
+    const iframeWindow = frame.contentWindow;
+
+    iframeDocument.body.style.overflow = 'hidden';
+
+    const graphContainer = iframeDocument.querySelector('.vis-network');
+    if (graphContainer) {
+      const width = graphContainer.scrollWidth - iframeWindow.innerWidth;
+      const height = graphContainer.scrollHeight - iframeWindow.innerHeight;
+      iframeWindow.scrollTo(width / 2, height / 2);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initialView();
+  });
+
+  window.addEventListener('resize', () => {
+    initialView();
+  });
+
+  function resetHtmlwidgetPlot2(frameId, frameSrc) {
+    zoomLevel = 1; // Reset zoom level
+    const frame = document.getElementById(frameId);
+    frame.src = frameSrc + "?reload=" + new Date().getTime();
+    frame.onload = function() {
+      centerIframeContent(frame);
+    };
+  }
+</script>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pneumo.rules[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">method =</span> <span class="st">"paracoord"</span>, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">reorder =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Market-Basket-Analysis_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

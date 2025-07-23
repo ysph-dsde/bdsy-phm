@@ -6,6 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Stephanie Perniciaro, PhD, MPH">
+<meta name="dcterms.date" content="2025-07-14">
 
 <title>Sequence Clustering with GPS Pipeline – Public Health Modeling Group</title>
 <style>
@@ -70,6 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-ec94259342eb9cdba32b75aa83210fd8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/downloadthis-1.9.1/downloadthis.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -130,6 +133,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Pages/Week4/Market Basket Analysis.html">
  <span class="dropdown-text">Market Basket Analysis</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Pages/Week5/Sequence Clustering with GPS Pipeline.html">
+ <span class="dropdown-text">Sequence Clustering with GPS Pipeline</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -149,8 +156,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#links-and-resources" id="toc-links-and-resources" class="nav-link active" data-scroll-target="#links-and-resources">Links and Resources</a></li>
+  <li><a href="#set-up-the-environment" id="toc-set-up-the-environment" class="nav-link" data-scroll-target="#set-up-the-environment">Set Up the Environment</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/Pages/Week5/Sequence Clustering with GPS Pipeline.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -158,13 +172,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Sequence Clustering with GPS Pipeline</h1>
+<p class="subtitle lead"></p><div class="line-block">In Class Hands-On Exercise<br>
+BDSY 2025 - Public Health Modeling Project</div><p></p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Stephanie Perniciaro, PhD, MPH </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 14, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -174,60 +202,142 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Page still in progress!!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<section id="links-and-resources" class="level2">
+<h2 class="anchored" data-anchor-id="links-and-resources">Links and Resources</h2>
+<p>GPS Pipeline info <a href="https://github.com/GlobalPneumoSeq/gps-pipeline" class="uri">https://github.com/GlobalPneumoSeq/gps-pipeline</a> <a href="https://data-viewer.monocle.sanger.ac.uk/project/gps" class="uri">https://data-viewer.monocle.sanger.ac.uk/project/gps</a></p>
+<p>GPS Publications <a href="https://www.pneumogen.net/gps/#/publications" class="uri">https://www.pneumogen.net/gps/#/publications</a></p>
+<p>General Sequencing Info <a href="https://www.youtube.com/watch?v=WKAUtJQ69n8" class="uri">https://www.youtube.com/watch?v=WKAUtJQ69n8</a></p>
+<p>General Genomic Epidemiology Info <a href="https://www.czbiohub.org/ebook/applied-genomic-epidemiology-handbook/chapter8/" class="uri">https://www.czbiohub.org/ebook/applied-genomic-epidemiology-handbook/chapter8/</a> <a href="https://www.youtube.com/watch?v=4qrY3V8Kyl8" class="uri">https://www.youtube.com/watch?v=4qrY3V8Kyl8</a></p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/4qrY3V8Kyl8" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Using R for Bioinformatics <a href="https://corytophanes.github.io/BIO_BIT_Bioinformatics_209/estimating-phylogenetic-trees.html#running-iqtree2-from-r" class="uri">https://corytophanes.github.io/BIO_BIT_Bioinformatics_209/estimating-phylogenetic-trees.html#running-iqtree2-from-r</a></p>
+<p>Improving Openness in Data Sharing in Genomics <a href="https://pha4ge.org/" class="uri">https://pha4ge.org/</a></p>
+<p>Repositories for lots of pathogens <a href="https://pathogen.watch/collections/all" class="uri">https://pathogen.watch/collections/all</a> <a href="https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=1313" class="uri">https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=1313</a></p>
+<p>Software/pipeline tutorials <a href="https://angus.readthedocs.io/en/2017/toc.html" class="uri">https://angus.readthedocs.io/en/2017/toc.html</a> <a href="https://iqtree.github.io/doc/Web-Server-Tutorial" class="uri">https://iqtree.github.io/doc/Web-Server-Tutorial</a></p>
+</section>
+<section id="set-up-the-environment" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-the-environment">Set Up the Environment</h2>
 <p>First, read in your packages and your core alignment file</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ape)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(phangorn)</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># #read alignment</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># alignment &lt;- read.dna("C:/core_gene_alignment.aln", format = "fasta")</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># #your filepath here</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># #make matrix for NJ tree and ML tree</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># dist_matrix &lt;- dist.dna(alignment, model = "JC69")  # Jukes-Cantor distance model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"ape"</span>)           <span class="co"># For phylogenic data manipulation, plotting, etc.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"phangorn"</span>)      <span class="co"># Phylogenetic reconstruction, modeling, and analyses</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to select "Not In"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">'%!in%'</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y)<span class="sc">!</span>(<span class="st">'%in%'</span>(x,y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read alignment</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>alignment <span class="ot">&lt;-</span> <span class="fu">read.dna</span>(<span class="st">"peru_core_gene_alignment.aln"</span>, <span class="at">format =</span> <span class="st">"fasta"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># make matrix for NJ tree and ML tree</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>dist_matrix <span class="ot">&lt;-</span> <span class="fu">dist.dna</span>(alignment, <span class="at">model =</span> <span class="st">"JC69"</span>)  <span class="co"># Jukes-Cantor distance model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>First let’s try an unrooted tree, which allows you to see how your sequences are associated relative to each other, rather than to a common ancestor</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read IQ-TREE .treefile (unrooted ML tree)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># tree_unrooted &lt;- read.tree("example.treefile")</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(tree_unrooted, main = "Unrooted Tree", type = "unrooted")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>Now let’s make a neighbor joining tree. Neighbor joining trees allow you to examine distances between sequences in terms of how many base pairs are changed between sequences, and builds a tree grouping the shortest possible distances</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># nj_tree &lt;- nj(dist_matrix)</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(nj_tree, main = "Neighbor Joining Tree")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nj_tree <span class="ot">&lt;-</span> <span class="fu">nj</span>(dist_matrix)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nj_tree, <span class="at">main =</span> <span class="st">"Neighbor Joining Tree"</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">edge.width =</span> <span class="dv">2</span>, <span class="at">font =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Sequence-Clustering-with-GPS-Pipeline_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>Now let’s try a maximum likelihood tree. Maximum likelihood trees use different modeling techniques, here the GTR, the General Time Reversible model which will use the overall frequncies of the bases and the frequency that they vary between sequences (e.g., all As, all Ts, all switches from A-T or T-A, )</p>
 <p>Here we have the gamma parameter enabled which allows us to make heterogenous rates of evolution between different areas (some regions are conserved, some vary more) using a Gamma distribution.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># phydat_alignment &lt;- phyDat(alignment, type = "DNA")</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># # Start with NJ tree</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># start_tree &lt;- nj(dist_matrix)</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # Fit a model to examine rates of substitution (e.g. GTR + Gamma)</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># fit &lt;- pml(start_tree, data = phydat_alignment)</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># fit &lt;- optim.pml(fit, model = "GTR", optGamma = TRUE, control = pml.control(trace = 0))</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># fit_opt$gamma  # here we can look at our different rates</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># # Plot ML tree</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(fit$tree, main = "Maximum Likelihood Tree")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>phydat_alignment <span class="ot">&lt;-</span> <span class="fu">phyDat</span>(alignment, <span class="at">type =</span> <span class="st">"DNA"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Start with NJ tree</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>start_tree <span class="ot">&lt;-</span> <span class="fu">nj</span>(dist_matrix)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a model to examine rates of substitution (e.g. GTR + Gamma)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">pml</span>(start_tree, <span class="at">data =</span> phydat_alignment)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">optim.pml</span>(fit, <span class="at">model =</span> <span class="st">"GTR"</span>, <span class="at">optGamma =</span> <span class="cn">TRUE</span>, <span class="at">control =</span> <span class="fu">pml.control</span>(<span class="at">trace =</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>only one rate class, ignored optGamma</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>gamma  <span class="co"># here we can look at our different rates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot ML tree</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit<span class="sc">$</span>tree, <span class="at">main =</span> <span class="st">"Maximum Likelihood Tree"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Sequence-Clustering-with-GPS-Pipeline_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>bootstrap consensus tree: randomly resamples your alignment and builds trees from each sample, then compares the trees and record the frequency of each branch across all trees. then it builds consensus tree that will contain all of the branches that occur in at least a given percentage of sample trees.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># boot_tree &lt;- bootstrap.phyDat(alignment, FUN = function(x) optim.pml(pml(tree_nj, x), model = "GTR")$tree, bs = 100)</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cons_tree &lt;- consensus(boot_tree, p = 0.5)#here is where you decide what percentage of trees need to contain the branch for it to appear in the consensus tree</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(cons_tree, main = "Custom Bootstrap Consensus")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># boot_tree &lt;- bootstrap.phyDat(alignment, FUN = function(x) optim.pml(pml(tree_nj, x), model = "GTR")$tree, bs = 10)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cons_tree &lt;- consensus(boot_tree, p = 0.5)#here is where you decide what percentage of trees need to contain the branch for it to appear in the consensus tree</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(cons_tree, main = "Custom Bootstrap Consensus")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#write.tree(nj_tree, file = "C:/nj_tree.nwk")</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#write.tree(fit$tree, file = "C:/ml_tree.nwk")</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#write.tree(boot_trees, file = "C:/boot_trees.nwk")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Step 6: Perform tree optimization</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fit &lt;- optim.pml(fit, model = "JC", rearrangement = "stochastic")</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # Step 7: Extract the ML tree</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ml_tree &lt;- fit$tree</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># # Step 8: Ensure the tree is unrooted</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># unrooted_ml_tree &lt;- unroot(ml_tree)</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Read IQ-TREE .treefile (unrooted ML tree)</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#tree_unrooted &lt;- read.tree("example.treefile")</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(tree_unrooted, main = "Unrooted Tree", type = "unrooted")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#write.tree(nj_tree, file = "C:/nj_tree.nwk")</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#write.tree(fit$tree, file = "C:/ml_tree.nwk")</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#write.tree(boot_trees, file = "C:/boot_trees.nwk")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>now we can take these over to Microreact!</p>
+<p><a href="#download_btn" onclick="fetch('data:text/csv;base64,SUQsRGF0ZSxMYXRpdHVkZSxMb25naXR1ZGUsQ291bnRyeSxTZXJvdHlwZQpTYW1wbGUxLDIwMjEtMDEtMDEsNTEuNSwtMC4xLFVLLDEKU2FtcGxlMiwyMDIxLTAyLTE1LDQ4LjksMi40LEZyYW5jZSwzClNhbXBsZTMsMjAyMS0wMy0xMCw1Mi41LDEzLjQsR2VybWFueSwxClNhbXBsZTQsMjAyMS0wNC0wNSw1MC4xLDguNyxHZXJtYW55LDZCCg==').then(res => res.blob()).then(blob => {
+      const downloadURL = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.href = downloadURL;
+      a.download = 'file.csv'; a.click();
+      window.URL.revokeObjectURL(downloadURL);
+      document.body.removeChild(a);
+        });"><button class="btn btn-default downloadthis  " id="download_btn"><i class="bi bi-download"></i> Metadata </button></a>&nbsp;&nbsp;&nbsp;<a href="#download_btn" onclick="fetch('data:text/plain;base64,KChTYW1wbGUxOjAuMSxTYW1wbGUyOjAuMik6MC4zLChTYW1wbGUzOjAuMSxTYW1wbGU0OjAuMik6MC4zKTs=').then(res => res.blob()).then(blob => {
+      const downloadURL = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.href = downloadURL;
+      a.download = 'file.newick'; a.click();
+      window.URL.revokeObjectURL(downloadURL);
+      document.body.removeChild(a);
+        });"><button class="btn btn-default downloadthis  " id="download_btn"><i class="bi bi-download"></i> Tree </button></a></p>
+<p><a href="https://microreact.org/project/vjh3bOpAd">Malawi</a></p>
+<p><a href="https://microreact.org/project/Ga1_98KSo">Nepal</a></p>
+<p><a href="https://microreact.org/project/dpwXlG5H8">Peru</a></p>
 
 
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -679,7 +789,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </a>
   </li>  
 </ul>
-    <div class="toc-actions"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/Pages/Week5/Sequence Clustering with GPS Pipeline.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ysph-dsde/bdsy-phm/blob/main/Pages/Week5/Sequence Clustering with GPS Pipeline.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ysph-dsde/bdsy-phm/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
