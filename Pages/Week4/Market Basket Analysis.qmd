@@ -24,12 +24,12 @@ We'll be applying this algorithm to identify associations in a dataset containin
 
 Overview:
 
--   *Application of market–basket analysis on healthcare by Rao et al. 2020* ([view paper](CPapers/Rao%20et%20al_2020_Overview%20Market–Basket%20Analysis%20on%20Healthcare.pdf))
+-   *Application of market–basket analysis on healthcare by Rao et al. 2020* ([view paper](Papers/Rao et al_2020_Overview Market–Basket Analysis on Healthcare.pdf))
 
 Examples of different applications:
 
--   *Applying Market Basket Analysis to Determine Complex Coassociations Among Food Allergens in Children With Food Protein-Induced Enterocolitis Syndrome (FPIES) by Banerjee et al. 2024* ([view paper](CPapers/Banerjee%20et%20al_2024_Coassociations%20Among%20Food%20Allergens%20in%20Children%20With%20Food%20Protein-Induced%20Enterocolitis%20Syndrome%20(FPIES).pdf))
--   *Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus by Joshi et al. 2019* ([view paper](Papers/Joshi%20et%20al_2019_Nonrandom%20Patterns%20of%20Serotype%20Switching%20in%20Pneumococcus.pdf))
+-   *Correlates of Nonrandom Patterns of Serotype Switching in Pneumococcus by Joshi et al. 2019* ([view paper](Papers/Joshi et al_2019_Nonrandom Patterns of Serotype Switching in Pneumococcus.pdf))
+-   *Applying Market Basket Analysis to Determine Complex Coassociations Among Food Allergens in Children With Food Protein-Induced Enterocolitis Syndrome (FPIES) by Banerjee et al. 2024* ([view paper](Papers/Banerjee et al_2024_Coassociations Among Food Allergens in Children With Food Protein-Induced Enterocolitis Syndrome (FPIES).pdf))
 
 ## Set Up the Environment
 
@@ -371,7 +371,6 @@ plot(pneumo.rules, measure = c("support", "confidence"), shading = "lift")
 ```
 
 
-## Troubleshooting
 
 ```{r}
 #| message: FALSE
@@ -397,63 +396,89 @@ saveWidget(pneumo_rules_plot, pneumo_rules_file, selfcontained = TRUE)
 
 ```{=html}
 <div style="display: flex; justify-content: center; width: 100%;">
-  <!-- Interactive htmlwidget Plot -->
-  <div style="flex: 1; margin-right: 10px; text-align: center; position: relative;">
-    <iframe id="htmlwidget_plot_frame2" src="pneumo_rules_plot.html" width="100%" height="450px" style="border: 1px solid #ccc;"></iframe>
-    <div style="position: absolute; top: 10px; right: 10px;">
+  <!-- Another htmlwidget Plot -->
+  <div style="flex: 1; margin-left: 10px; text-align: center; position: relative;">
+    <h3>Interactive htmlwidget Plot</h3>
+    <iframe id="htmlwidget_plot_frame2" src="pneumo_rules_plot.html" width="100%" height="500px" style="border: 1px solid #ccc;"></iframe>
+    <div style="position: absolute; bottom: 10px; right: 10px;">
       <button onclick="zoomIn('htmlwidget_plot_frame2')">Zoom In</button>
       <button onclick="zoomOut('htmlwidget_plot_frame2')">Zoom Out</button>
-      <button onclick="resetHtmlwidgetPlot2('htmlwidget_plot_frame2', 'pneumo_rules_plot.html')">Reset</button>
+      <button onclick="resetHtmlwidgetPlot()">Reset</button>
     </div>
   </div>
 </div>
 
 <script>
-  let zoomLevel = 1;
-  const zoomFactor = 1.1;
+  let zoomLevelHtmlwidget = 1; // Initial zoom level for htmlwidget
+  const zoomFactorHtmlwidget = 1.1;
+  let initialStateHtmlwidget = {
+    transform: '',
+    scrollPosition: { left: 0, top: 0 }
+  };
 
-  function centerIframeContent(frame) {
-    frame.onload = function() {
-      const iframeDocument = frame.contentDocument || frame.contentWindow.document;
-      const iframeWindow = frame.contentWindow;
-
-      iframeDocument.body.style.overflow = 'hidden';
-
-      const graphContainer = iframeDocument.querySelector('.vis-network');
-      if (graphContainer) {
-        graphContainer.style.transform = `scale(${zoomLevel})`;
-        graphContainer.style.transformOrigin = '0 0';
-
-        const width = graphContainer.scrollWidth - iframeWindow.innerWidth;
-        const height = graphContainer.scrollHeight - iframeWindow.innerHeight;
-        iframeWindow.scrollTo(width / 2, height / 2);
-      }
-    };
+  function centerGraphContainerHtmlwidget(iframeDocument, graphContainer) {
+    const iframeWindow = iframeDocument.defaultView;
+    const scaledWidth = graphContainer.scrollWidth * zoomLevelHtmlwidget;
+    const scaledHeight = graphContainer.scrollHeight * zoomLevelHtmlwidget;
+    const widthScroll = (scaledWidth - iframeWindow.innerWidth) / 2;
+    const heightScroll = (scaledHeight - iframeWindow.innerHeight) / 2;
+    iframeWindow.scrollTo(widthScroll, heightScroll);
   }
 
-  function zoomIn(frameId) {
-    zoomLevel *= zoomFactor;
-    setZoom(frameId);
-  }
-
-  function zoomOut(frameId) {
-    zoomLevel /= zoomFactor;
-    setZoom(frameId);
-  }
-
-  function setZoom(frameId) {
+  function applyZoomAndCenterHtmlwidget(frameId) {
     const frame = document.getElementById(frameId);
     if (frame && frame.contentWindow) {
       const iframeDocument = frame.contentDocument || frame.contentWindow.document;
       const graphContainer = iframeDocument.querySelector('.vis-network');
       if (graphContainer) {
-        graphContainer.style.transform = `scale(${zoomLevel})`;
+        graphContainer.style.transform = `scale(${zoomLevelHtmlwidget})`;
         graphContainer.style.transformOrigin = '0 0';
+        centerGraphContainerHtmlwidget(iframeDocument, graphContainer);
       }
     }
   }
 
-  function initialView() {
+  function zoomIn(frameId) {
+    zoomLevelHtmlwidget *= zoomFactorHtmlwidget;
+    applyZoomAndCenterHtmlwidget(frameId);
+  }
+
+  function zoomOut(frameId) {
+    zoomLevelHtmlwidget /= zoomFactorHtmlwidget;
+    applyZoomAndCenterHtmlwidget(frameId);
+  }
+
+  function captureInitialViewHtmlwidget() {
+    const frame = document.getElementById('htmlwidget_plot_frame2');
+    const iframeDocument = frame.contentDocument || frame.contentWindow.document;
+    const iframeWindow = frame.contentWindow;
+
+    const graphContainer = iframeDocument.querySelector('.vis-network');
+    if (graphContainer) {
+      initialStateHtmlwidget.transform = graphContainer.style.transform;
+      initialStateHtmlwidget.scrollPosition.left = iframeWindow.scrollX;
+      initialStateHtmlwidget.scrollPosition.top = iframeWindow.scrollY;
+
+      console.log('Captured Initial State:', initialStateHtmlwidget);
+    }
+  }
+
+  function restoreInitialViewHtmlwidget() {
+    console.log('Restoring Initial State...');
+    const frame = document.getElementById('htmlwidget_plot_frame2');
+    const iframeDocument = frame.contentDocument || frame.contentWindow.document;
+    const iframeWindow = frame.contentWindow;
+
+    const graphContainer = iframeDocument.querySelector('.vis-network');
+    if (graphContainer) {
+      graphContainer.style.transform = initialStateHtmlwidget.transform;
+      iframeWindow.scrollTo(initialStateHtmlwidget.scrollPosition.left, initialStateHtmlwidget.scrollPosition.top);
+
+      console.log('Restored Initial State:', initialStateHtmlwidget);
+    }
+  }
+
+  function initialViewHtmlwidget() {
     const frame = document.getElementById('htmlwidget_plot_frame2');
     const iframeDocument = frame.contentDocument || frame.contentWindow.document;
     const iframeWindow = frame.contentWindow;
@@ -469,24 +494,24 @@ saveWidget(pneumo_rules_plot, pneumo_rules_file, selfcontained = TRUE)
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    initialView();
+    const frame = document.getElementById('htmlwidget_plot_frame2');
+    frame.onload = captureInitialViewHtmlwidget;
+    initialViewHtmlwidget(); // Ensure initial centering
   });
 
   window.addEventListener('resize', () => {
-    initialView();
+    initialViewHtmlwidget();
   });
 
-  function resetHtmlwidgetPlot2(frameId, frameSrc) {
-    zoomLevel = 1; // Reset zoom level
-    const frame = document.getElementById(frameId);
-    frame.src = frameSrc + "?reload=" + new Date().getTime();
-    frame.onload = function() {
-      centerIframeContent(frame);
+  function resetHtmlwidgetPlot() {
+    const frame = document.getElementById('htmlwidget_plot_frame2');
+    frame.onload = () => {
+      restoreInitialViewHtmlwidget();
     };
+    frame.src = frame.src + "?reload=" + new Date().getTime(); // Force reload to get the iframe back to its initial state
   }
 </script>
 ```
-
 
 ```{r}
 plot(pneumo.rules[1:10], method = "paracoord", control = list(reorder = TRUE))

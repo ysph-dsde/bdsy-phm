@@ -99,7 +99,8 @@ fit <- optim.pml(fit, model = "GTR", optGamma = TRUE, control = pml.control(trac
 fit$gamma  # here we can look at our different rates
 
 # Plot ML tree
-plot(fit$tree, main = "Maximum Likelihood Tree")
+plot(fit$tree, main = "Maximum Likelihood Tree",
+     cex = 0.6, edge.width = 2, font = 1)
 ```
 
 bootstrap consensus tree: randomly resamples your alignment and builds trees from each sample, then compares the trees and record the frequency of each branch across all trees. then it builds consensus tree that will contain all of the branches that occur in at least a given percentage of sample trees.
@@ -139,8 +140,4 @@ now we can take these over to Microreact!
 
 {{< downloadthis "Microreact Demo/Metadata.csv" label="Metadata" id=download_btn >}}\ \ \ {{< downloadthis "Microreact Demo/Tree.newick" label="Tree" id=download_btn >}}
 
-[Malawi](https://microreact.org/project/vjh3bOpAd)
-
-[Nepal](https://microreact.org/project/Ga1_98KSo)
-
-[Peru](https://microreact.org/project/dpwXlG5H8)
+Preset microreact dashboards: [Malawi](https://microreact.org/project/vjh3bOpAd), [Nepal](https://microreact.org/project/Ga1_98KSo), and [Peru](https://microreact.org/project/dpwXlG5H8)
