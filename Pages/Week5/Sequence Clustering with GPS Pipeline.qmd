@@ -9,7 +9,7 @@ bibliography: references.bib
 csl: nature.csl
 date: 7/14/2025
 date-format: long
-editor: visual
+editor: source
 ---
 
 ::: callout-important
@@ -18,35 +18,23 @@ editor: visual
 
 ## Links and Resources
 
-GPS Pipeline info
-https://github.com/GlobalPneumoSeq/gps-pipeline
-https://data-viewer.monocle.sanger.ac.uk/project/gps
+GPS Pipeline info https://github.com/GlobalPneumoSeq/gps-pipeline https://data-viewer.monocle.sanger.ac.uk/project/gps
 
-GPS Publications
-https://www.pneumogen.net/gps/#/publications
+GPS Publications https://www.pneumogen.net/gps/#/publications
 
-General Sequencing Info
-https://www.youtube.com/watch?v=WKAUtJQ69n8
+General Sequencing Info https://www.youtube.com/watch?v=WKAUtJQ69n8
 
-General Genomic Epidemiology Info
-https://www.czbiohub.org/ebook/applied-genomic-epidemiology-handbook/chapter8/
-https://www.youtube.com/watch?v=4qrY3V8Kyl8
+General Genomic Epidemiology Info https://www.czbiohub.org/ebook/applied-genomic-epidemiology-handbook/chapter8/ https://www.youtube.com/watch?v=4qrY3V8Kyl8
 
 {{< video https://www.youtube.com/watch?v=4qrY3V8Kyl8 >}}
 
-Using R for Bioinformatics
-https://corytophanes.github.io/BIO_BIT_Bioinformatics_209/estimating-phylogenetic-trees.html#running-iqtree2-from-r
+Using R for Bioinformatics https://corytophanes.github.io/BIO_BIT_Bioinformatics_209/estimating-phylogenetic-trees.html#running-iqtree2-from-r
 
-Improving Openness in Data Sharing in Genomics
-https://pha4ge.org/
+Improving Openness in Data Sharing in Genomics https://pha4ge.org/
 
-Repositories for lots of pathogens
-https://pathogen.watch/collections/all
-https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=1313
+Repositories for lots of pathogens https://pathogen.watch/collections/all https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=1313
 
-Software/pipeline tutorials
-https://angus.readthedocs.io/en/2017/toc.html
-https://iqtree.github.io/doc/Web-Server-Tutorial
+Software/pipeline tutorials https://angus.readthedocs.io/en/2017/toc.html https://iqtree.github.io/doc/Web-Server-Tutorial
 
 ## Set Up the Environment
 
@@ -67,7 +55,7 @@ suppressPackageStartupMessages({
 
 ```{r}
 # read alignment
-alignment <- read.dna("peru_core_gene_alignment.aln", format = "fasta")
+alignment <- read.dna("nepal_core_gene_alignment.aln", format = "fasta")
  
 # make matrix for NJ tree and ML tree
 dist_matrix <- dist.dna(alignment, model = "JC69")  # Jukes-Cantor distance model
@@ -112,8 +100,6 @@ bootstrap consensus tree: randomly resamples your alignment and builds trees fro
 # plot(cons_tree, main = "Custom Bootstrap Consensus")
 ```
 
-
-
 ```{r}
 # # Step 6: Perform tree optimization
 # fit <- optim.pml(fit, model = "JC", rearrangement = "stochastic")
@@ -129,7 +115,6 @@ bootstrap consensus tree: randomly resamples your alignment and builds trees fro
 # plot(tree_unrooted, main = "Unrooted Tree", type = "unrooted")
 ```
 
-
 ```{r}
 #write.tree(nj_tree, file = "C:/nj_tree.nwk")
 #write.tree(fit$tree, file = "C:/ml_tree.nwk")
@@ -138,6 +123,6 @@ bootstrap consensus tree: randomly resamples your alignment and builds trees fro
 
 now we can take these over to Microreact!
 
-{{< downloadthis "Microreact Demo/Metadata.csv" label="Metadata" id=download_btn >}}\ \ \ {{< downloadthis "Microreact Demo/Tree.newick" label="Tree" id=download_btn >}}
+{{< downloadthis "Microreact Demo/Metadata.csv" label="Metadata" id=download_btn >}}   {{< downloadthis "Microreact Demo/Tree.newick" label="Tree" id=download_btn >}}
 
 Preset microreact dashboards: [Malawi](https://microreact.org/project/vjh3bOpAd), [Nepal](https://microreact.org/project/Ga1_98KSo), and [Peru](https://microreact.org/project/dpwXlG5H8)
