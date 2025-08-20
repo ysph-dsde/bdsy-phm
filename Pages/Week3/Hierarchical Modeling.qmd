@@ -10,7 +10,7 @@ bibliography: references.bib
 csl: nature.csl
 date: 7/1/2025
 date-format: long
-editor: visual
+editor: source
 ---
 
 ::: callout-important
@@ -34,6 +34,8 @@ Two common MCMC implementations are Metropolis-Hastings (M-H) and Gibbs sampling
 
 The concepts discussed here have been compiled and summarized from various resources listed in the bibliography at the end of this page. We would like to specifically highlight the following textbooks, with suggested readings, or online course materials to help students deepen their theoretical understanding of this week's material. This foundation will aid in generating better analysis in practice.
 
+**For Gibbs Sampling:**
+
 -   [*All of Statistics: A Concise Course in Statistical Inference*](https://link.springer.com/book/10.1007/978-0-387-21736-9) by Larry Wasserman\ [@Wasserman2004]
     -   Chapter 23 *Probability Redux: Stochastic Processes* Section 23.2 *Markov chains*.
     -   Chapter 24 *Simulation Methods*. Section 24.4 *MCMC Part I: The Metropolis-Hastings Algorithm* and Section 24.5 *MCMC Part II: Different Flavors*.
@@ -44,22 +46,23 @@ The concepts discussed here have been compiled and summarized from various resou
     -   Chapter 4 Unirected *Graphical Models*.
     -   Chapter 12 *Particle-Based Approximate Inference* Section 12.3 *Markov Chain Monte Carlo Methods*.
     -   Chapter 17 *Parameter Estimation* Section 17.5 *Learning Models with Shared Parameters*.
-- [*Data Analysis Using Regression and Multilevel/Hierarchical Models*](https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983#overview) by Andrew Gelman and Jennifer Hill\ [@Gelman2006].
+
+**For Hierarchical Modeling:**
+
+-   [*Data Analysis Using Regression and Multilevel/Hierarchical Models*](https://www.cambridge.org/highereducation/books/data-analysis-using-regression-and-multilevel-hierarchical-models/32A29531C7FD730C3A68951A17C9D983#overview) by Andrew Gelman and Jennifer Hill\ [@Gelman2006].
     -   Chapter 1 *Why*.
     -   Chapter 11 *Multilevel structures*.
     -   Chapter 12 *Multilevel linear models: the basics*.
     -   Chapter 16 *Multilevel modeling in Bugs and R: the basics*.
     -   Chapter 21 *Understanding and summarizing the fitted models*.
-- [36-463/663: _Topics in Statistics: Hierarchical & Multilevel Models_](https://www.stat.cmu.edu/~brian/463-663/) administered at Carnegie Mellon in the Fall of 2016 by professor Brian Junker\ [@Junker2016].
-    - [Week 10 - _Introduction to Hierarchical Models for Bayesian Approaches_](https://www.stat.cmu.edu/~brian/463-663/week10/Chapter%2009.pdf)
-
+-   [36-463/663: *Topics in Statistics: Hierarchical & Multilevel Models*](https://www.stat.cmu.edu/~brian/463-663/) administered at Carnegie Mellon in the Fall of 2016 by professor Brian Junker\ [@Junker2016].
+    -   [Week 10 - *Introduction to Hierarchical Models for Bayesian Approaches*](https://www.stat.cmu.edu/~brian/463-663/week10/Chapter%2009.pdf)
 
 ## Distribution Estimation by Particle Sampling
 
 ::: img-float
-![Abstraction of the introduction to Chapter 12 *Particle-Based*<br>*Approximate Inference* found in _Probabilistic Graphical Models_ by<br>Koller and Friedman. Points on the graph are only illustrative<br>of the variation in techniques\  [@Koller2009].](Images/Probabilistic Graphical Models by Koller and Friedman_Abstraction of Intro to Chapter 12.png){style="float: right; position: relative; top: 0px; padding-left: 20px; margin: auto auto auto auto; text-align: right;" width="350"}
+![Abstraction of the introduction to Chapter 12 *Particle-Based*<br>*Approximate Inference* found in *Probabilistic Graphical Models* by<br>Koller and Friedman. Points on the graph are only illustrative<br>of the variation in techniques\  [@Koller2009].](Images/Probabilistic%20Graphical%20Models%20by%20Koller%20and%20Friedman_Abstraction%20of%20Intro%20to%20Chapter%2012.png){style="float: right; position: relative; top: 0px; padding-left: 20px; margin: auto auto auto auto; text-align: right;" width="350"}
 :::
-
 
 **Particle-based methods** approximate a multivariate distribution or network with a set of instantiations, referred to as **particles**, of some or all of the random variables in that distribution [@Koller2009]. There are different flavors of this type of method illustrated on the right. Some particles are generated directly from an equation, while others are sampled from a distribution. Some particles represent all the variables in a distribution or network individually, while others assign a proxy variable that groups them\ [@Koller2009].
 
@@ -213,10 +216,9 @@ By definition, the Markov network factorization is a Gibbs distribution paramete
 
 $$
 Z = \sum_{X_1, \dots, X_n}\ \tilde{P}_{\Phi}(X_1, \dots, X_n)
-$$
-where $\tilde{P}_{\Phi}$ represents the joint distribution factorized into conditional probabilities based on its independencies\ [@Koller2009].
+$$ where $\tilde{P}_{\Phi}$ represents the joint distribution factorized into conditional probabilities based on its independencies\ [@Koller2009].
 
-:::{.callout-caution}
+::: callout-caution
 ## Factor $\neq$ Marginal
 
 A factor is one contribution to the overall joint distribution, while a marginal represents a distribution where at least one variable from the joint has been summed or integrated out\ [@Koller2009].
@@ -240,18 +242,16 @@ $$
 
 If a candidate point is accepted, then $\mathbf{X}_{k+1} = \mathbf{W}$; otherwise, $\mathbf{X}_{k+1} = \mathbf{X}_k$\ [@Spall2005].
 
-:::{.callout-note}
-When samples from the Markov chain start to resemble the target distribution, it is said to be "mixing well"\ [@Wasserman2004]. Tweaking the parameters used in the proposed distribution to support good mixing is not always straightforward and may require some trial-and-error troubleshooting; refer to example 24.10 from Wasserman's _All of Statistics_ for an illustration of this.
+::: callout-note
+When samples from the Markov chain start to resemble the target distribution, it is said to be "mixing well"\ [@Wasserman2004]. Tweaking the parameters used in the proposed distribution to support good mixing is not always straightforward and may require some trial-and-error troubleshooting; refer to example 24.10 from Wasserman's *All of Statistics* for an illustration of this.
 :::
-
 
 Gibbs sampling is much like M-H, but it is a special case where the proposal distribution comes directly from the conditional factorizations of $p(\boldsymbol{x})$ itself. In a sense, it can be thought of as $m$ M-H algorithms working together, where each proposed distribution is one conditional factorization of $p(\boldsymbol{x})$\ [@Spall2005]. In this context, $m$ represents the number of random variables, each having its own conditional distribution for sampling. Consider the following scenario from Spall where we have a distribution $p_{X,Y,Z}(\cdot)$ that we wish to sample from:
 
-1. Start with an initial guess for $Y$ and $Z$ and sample from $p_{X \mid Y_0, Z_0}(x \mid Y_0, Z_0)$ to generate $X_1$.
-2. Accept the outcome from the previous step and sample from $p_{Y \mid X_1, Z_0}(y \mid X_1, Z_0)$ to generate $Y_1$.
-3. Accept the outcome from the previous step and sample from $p_{Z \mid X_1, Y_1}(z \mid X_1, Y_1)$ to generate $Z_1$.
-4. Repeat the process until you have $n-1$ values for $X$ and $n$ values for $Y$ and $Z$.
-
+1.  Start with an initial guess for $Y$ and $Z$ and sample from $p_{X \mid Y_0, Z_0}(x \mid Y_0, Z_0)$ to generate $X_1$.
+2.  Accept the outcome from the previous step and sample from $p_{Y \mid X_1, Z_0}(y \mid X_1, Z_0)$ to generate $Y_1$.
+3.  Accept the outcome from the previous step and sample from $p_{Z \mid X_1, Y_1}(z \mid X_1, Y_1)$ to generate $Z_1$.
+4.  Repeat the process until you have $n-1$ values for $X$ and $n$ values for $Y$ and $Z$.
 
 At the end of this process, you will have produced the **Gibbs sequence**. For the example above, we produce:
 
@@ -259,8 +259,7 @@ $$
 Y_0, Z_0;\ X_1, Y_1, Z_1;\ X_2, Y_2, Z_2;\ \dots; X_n, Y_n, Z_n
 $$
 
-
-The process described above is iterated over all variables and conditional statements until it is possible to compute the ergodic average. According to the ergodic theorem, this occurs when a sufficient burn-in period has been allowed to run. Using the example above, if we set our burn-in period to $M < n$, then the appended **Gibbs sequence** ${X_{M+1}, Y_{M+1}, Z_{M+1}; \dots; X_n, Y_n, Z_n}$ represents measurements that converge in distribution as $n \rightarrow \infty$ to the unique, stationary distribution $\pi$, that is $p_{X,Y,Z}(\cdot)$\ [@Spall2005]. 
+The process described above is iterated over all variables and conditional statements until it is possible to compute the ergodic average. According to the ergodic theorem, this occurs when a sufficient burn-in period has been allowed to run. Using the example above, if we set our burn-in period to $M < n$, then the appended **Gibbs sequence** ${X_{M+1}, Y_{M+1}, Z_{M+1}; \dots; X_n, Y_n, Z_n}$ represents measurements that converge in distribution as $n \rightarrow \infty$ to the unique, stationary distribution $\pi$, that is $p_{X,Y,Z}(\cdot)$\ [@Spall2005].
 
 Finally, the Gibbs sequence results considering the burn-in are substituded into the following equation to give $E[f(X,Y,Z)]$
 
@@ -268,10 +267,9 @@ $$
 \frac{1}{n-M} \sum_{k = M+1}^n\ f(\mathbf{X}_k)
 $$
 
+Notice that samplings for $X$, $Y$, and $Z$ will converge to their respective marginal distributions, $p_X(x)$, $p_Y(y)$, and $p_Z(z)$; see Section 7.1.3 from *Monte Carlo Statistical Methods* by Robert and Casella\ [@Spall2005; @Robert2004].
 
-Notice that samplings for $X$, $Y$, and $Z$ will converge to their respective marginal distributions, $p_X(x)$, $p_Y(y)$, and $p_Z(z)$; see Section 7.1.3 from _Monte Carlo Statistical Methods_ by Robert and Casella\ [@Spall2005; @Robert2004].
-
-:::{.callout-tip}
+::: callout-tip
 ## Variations that make the Gibbs sequence resemble i.i.d.
 
 The procedure we have detailed here to estimate the distribution using the collected Gibbs sequence is one of several methods. As might be expected, successive samples drawn from the Markov chain are highly correlated with one another\ [@Bishop2006]. Different approaches are applied if it is desirable to make the values more i.i.d. You can learn more about some of these techniques in *Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control*, Section 16.3 *Gibbs Sampling* by Spall\ [@Spall2005].
@@ -298,25 +296,26 @@ $$
 
 for $i = 1,\ 2, \dots,\ m$. Use $\{X_{k+1,\ i} \mid \mathbf{X}_{k\backslash i}\} \sim p_i(x \mid \mathbf{X}_{k\backslash i})$ to represent the sampling density for that random variable conditioned on the current elements of the Gibbs sequence, where $i-1$ elements are sample points at iteration $k+1$ and the remaining $m-i$ elements are from the $k^{th}$ iteration. The Gibbs sampling algorithm is as follows:
 
-1. (**Initialization**) Choose the length of the burn-in, $M$, and some arbitrary initial state $\mathbf{X}_0$ with $k=0$.
-2. Generate $\mathbf{X}_{k+1}$ by recursively updating the conditionals for each new sampling of a given variable.
+1.  (**Initialization**) Choose the length of the burn-in, $M$, and some arbitrary initial state $\mathbf{X}_0$ with $k=0$.
 
-    1. Generate $X_{k+1,\ 1} \sim p_1(x\ \lvert\ \mathbf{X}_{k\backslash 1})$
-    2. Generate $X_{k+1,\ 2} \sim p_2(x\ \lvert\ \mathbf{X}_{k\backslash 2})$
+2.  Generate $\mathbf{X}_{k+1}$ by recursively updating the conditionals for each new sampling of a given variable.
 
-    \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $\vdots$
-    
-    m. Generate $X_{k+1,\ m} \sim p_m(x\ \lvert\ \mathbf{X}_{k\backslash m})$
-    
-3. Repeat step 2 until the burn-in is reached. Set $\mathbf{X}_k = \mathbf{X}_M$ and continue with the procedure laid out in step 2, storing or recursively averaging the results as they are sampled.
-4. When it is possible to compute the ergodic average (i.e. sufficient convergence is observed), then estimate $E[f(\mathbf{X})]$ for the target distribution $p(\cdot)$.
+    1.  Generate $X_{k+1,\ 1} \sim p_1(x\ \lvert\ \mathbf{X}_{k\backslash 1})$
+    2.  Generate $X_{k+1,\ 2} \sim p_2(x\ \lvert\ \mathbf{X}_{k\backslash 2})$
 
-:::{.callout-tip}
+                                                   $\vdots$
+
+    m.  Generate $X_{k+1,\ m} \sim p_m(x\ \lvert\ \mathbf{X}_{k\backslash m})$
+
+3.  Repeat step 2 until the burn-in is reached. Set $\mathbf{X}_k = \mathbf{X}_M$ and continue with the procedure laid out in step 2, storing or recursively averaging the results as they are sampled.
+
+4.  When it is possible to compute the ergodic average (i.e. sufficient convergence is observed), then estimate $E[f(\mathbf{X})]$ for the target distribution $p(\cdot)$.
+
+::: callout-tip
 ## Extension to the multivariate case
 
 We are only focusing on the typical case where $X_{ki}$ is scalar (i.e., all components of $X$ are univariate). It is sometimes applicable to make them multivariate. Students who wish to explore this further are encouraged to review example 16.7 *Variance-components model* from Section 16.6 *Applications in Bayesian Analysis* in Spall's *Introduction to Stochastic Search and Optimization: Estimation, Simulation, and Control*\ [@Spall2005].
 :::
-
 
 When sampling from the conditional distribution is challenging or requires excessive computational power, the conditional properties associated with a distribution network graph can help\ [@Koller2009]. Depending on the type of associations defined, it might be possible to isolate variables from the rest of the network using its independence structures, assuming that these assertions are reasonably correct.
 
@@ -324,24 +323,22 @@ For an undirected Markov network, this would involve isolating nodes contained w
 
 With this fundamental understanding of Gibbs sampling of Markov chains, we are now better prepared to explore hierarchical modeling of our data.
 
-
 ## Hierarchical Modeling
 
 The goal of this exercise is not to comprehensively teach you hierarchical modeling concepts in a way that enables you to derive your own models. Instead, it is intended to introduce you to the concept of breaking down complex systems of interactions into interrelated hierarchies or multilevel distributions. This section aims to introduce enough related concepts to help you follow the example below, interpret the results, and effectively apply the knowledge to your own study. For additional reading on the subject, please refer to the textbooks listed earlier.
 
 Hierarchical models, also known as multilevel models, equip us with the ability to separate features of our set of random variables into layers, contextualizing information that would otherwise not be accounted for in a single distribution. This can occur either methodologically, where units of analysis come from strongly dependent clusters, or substantively, where a predictors influence on a model may vary depending on the context\ [@Junker2016].
 
-It is a versatile tool designed to address various inferential goals, including causal inference, prediction, and descriptive modeling. Such models are especially effective for capturing the intricacies of social science or biological processes, which are characterized by complex, interdependent, and situationally interconnected components\ [@Gelman2006]. 
-
+It is a versatile tool designed to address various inferential goals, including causal inference, prediction, and descriptive modeling. Such models are especially effective for capturing the intricacies of social science or biological processes, which are characterized by complex, interdependent, and situationally interconnected components\ [@Gelman2006].
 
 ### In-Depth Solved Example
 
-To start developing an intuition for hierarchical modeling, it is helpful to work through a simplified example in detail. Consider the following Binomial-Poisson hierarchy example from _Statistical Inference_ by Casella and Berger (example 4.4.1)\ [@Casella2002].
+To start developing an intuition for hierarchical modeling, it is helpful to work through a simplified example in detail. Consider the following Binomial-Poisson hierarchy example from *Statistical Inference* by Casella and Berger (example 4.4.1)\ [@Casella2002].
 
 We aim to model the survival probability of eggs laid by an insect and estimate the average number expected to survive. For a single insect, the number of eggs laid can be represented using two models:
 
-- A model describing the frequency of egg laying, following a Poisson$(\lambda)$ distribution.
-- A model for the survival likelihood of the eggs, where each egg's probability of survival can be represented as a Bernoulli trial with probability $p$.
+-   A model describing the frequency of egg laying, following a Poisson$(\lambda)$ distribution.
+-   A model for the survival likelihood of the eggs, where each egg's probability of survival can be represented as a Bernoulli trial with probability $p$.
 
 This setup leads to the following hierarchical model:
 
@@ -362,15 +359,13 @@ P(X = x) &= \sum_{y=0}^{\infty} P(X=x,\ Y=y)\\
 &= \frac{(\lambda p)^x e^{-\lambda p}}{x!}
 \end{align*}
 
-giving us $X \sim \text{Poisson}(\lambda p)$. Using the definition of the first moment of a Poisson distribution we get $E(X) = \lambda p$. This gives rise to the following theorem from _Statistical Inference_ by Casella and Berger\ [@Casella2002]:
+giving us $X \sim \text{Poisson}(\lambda p)$. Using the definition of the first moment of a Poisson distribution we get $E(X) = \lambda p$. This gives rise to the following theorem from *Statistical Inference* by Casella and Berger\ [@Casella2002]:
 
-> **Theorem 4.4.3** Provided the expectations exist, if $X$ and $Y$ are any two random variables, then 
-$$
-E(X) = E(E(X\ \lvert\ Y))
-$$
+> **Theorem 4.4.3** Provided the expectations exist, if $X$ and $Y$ are any two random variables, then $$
+> E(X) = E(E(X\ \lvert\ Y))
+> $$
 
-
-A hierarchy is not confined to two stages; however, it is theoretically possible to simplify some multilevel hierarchies into a two-stage structure\ [@Casella2002]. Consider the following generalization of the previous example from _Statistical Inference_ by Casella and Berger (example 4.4.5)\ [@Casella2002].
+A hierarchy is not confined to two stages; however, it is theoretically possible to simplify some multilevel hierarchies into a two-stage structure\ [@Casella2002]. Consider the following generalization of the previous example from *Statistical Inference* by Casella and Berger (example 4.4.5)\ [@Casella2002].
 
 Let's say we want to account for variation between insect mothers, where one is chosen at random for modeling expected survival outcomes of the eggs. We now represent our hierarchical model with the following three equations:
 
@@ -412,7 +407,7 @@ Y &\sim \text{NB}\left(\frac{1}{\beta+1},\ 1\right)
 
 This is a specific case of the Poisson-gamma mixture, with $\Lambda \sim \text{gamma}(\alpha, \beta)$, which results in a negative binomial marginal distribution for $Y$.
 
-:::{.callout-note collapse="true"}
+::: {.callout-note collapse="true"}
 ## Solving for the Gamma PDF Kernel
 
 Although the gamma function extends to complex numbers, we will restrict its definition to real, strictly positive integers, $b$, (i.e., $\mathbb{R}(b) > 0$). In this form, the gamma function can be defined as follows\ [@Casella2002; @gamma_func]:
@@ -433,23 +428,21 @@ set $u = \lambda\left(1+\beta^{-1}\right)$ and $du = \left(1+\beta^{-1}\right)\ 
 &= \frac{\left(1+\beta^{-1}\right)}{\left(1+\beta^{-1}\right)^{y+1}}\ \int_0^{\infty}\ \frac{u^y\ e^{-y}}{\left(1+\beta^{-1}\right)}\ du\\
 &= \frac{1}{\left(1+\beta^{-1}\right)^{y+1}}\ \Gamma(y+1)\hspace{45mm} \tag{by definition of gamma function}
 \end{align*}
-
 :::
 
 ### Other Thoughts
 
 **mixture distribution:** is typically used to refer to a random variable with a distribution that depends on quantities or parameters that themselves have a distribution. The example presented above is a mixture distribution. Not all higherarchical models need to be mixture distributions.
 
-:::{.callout-caution}
+::: callout-caution
 As you might expect, there is a natural connection between the representation of hierarchical distributions and the graphical representation of these relationships. However, this is not always the case. We must be cautious about how variable interactions are represented graphically, as they imply specific variable interaction behaviors that might not be valid\ [@Wasserman2004].
 
-From Chapter 19.3 _Hierarchical Log-Linear Models_ in Wasserman's _All of Statistics_:
+From Chapter 19.3 *Hierarchical Log-Linear Models* in Wasserman's *All of Statistics*:
 
 > **19.9 Lemma.** A graphical model is hierarchical, but the reverse need not be true.
 :::
 
 Gibbs sampling is inherently suited to address multivariate problems because it breaks a high-dimensional vector into lower-dimensional component blocks\ [@Spall2005].
-
 
 ## Set Up the Environment
 
@@ -627,13 +620,11 @@ suppressPackageStartupMessages({
 '%!in%' <- function(x,y)!('%in%'(x,y))
 ```
 
-
-To demonstrate hierarchical modeling using Gibbs sampling to estimate the distribution, we are going to examine the data and results from _Potential Impact of Higher-Valency Pneumococcal Conjugate Vaccines Among Adults in Different Localities in Germany_ by Ellingson et al\ [@Ellingson2023].
+To demonstrate hierarchical modeling using Gibbs sampling to estimate the distribution, we are going to examine the data and results from *Potential Impact of Higher-Valency Pneumococcal Conjugate Vaccines Among Adults in Different Localities in Germany* by Ellingson et al\ [@Ellingson2023].
 
 The data comes from surveillance for invasive pneumococcal disease (IPD) conducted by the German National Reference Center for Streptococci (GRNCS), which collects voluntarily reported microbial diagnostic lab results and is expected to account for 50% of all IPD in Germany. Serotyping is done by GNRCS using the samples provided by these laboratories, and incidences are reported as cases per 100,000 using the age-specific population in Germany in 2018\ [@Ellingson2023].
 
-
-<div class="scrollable-output">
+::: scrollable-output
 ```{r}
 #| message: FALSE
 #| warning: FALSE
@@ -644,8 +635,7 @@ df <- read_csv("https://raw.githubusercontent.com/ysph-dsde/bdsy-phm/refs/heads/
 # Summarize the variable names included in the dataset.
 colnames(df)
 ```
-</div>
-
+:::
 
 The dataset includes a lot of information that is not required for our analysis today. We will, therefore, focus only on the variables used in the hierarchical model itself.
 
@@ -659,19 +649,23 @@ glimpse(df[, c(39:42, 45, 8, 15)])
 This paper did not explicitly describe each variable in a “Data Dictionary”. The following was assembled based on the context and methods provided in the paper, other like papers by the same authors, and its supplementary materials\ [@Ellingson2023; @Perniciaro2022].
 
 -   **date:** The date when the events were recorded. It is not clear if this is the date GNRCS received the samples or when they were collected at the participating lab.
+
 -   **year:** The year from the date column.
+
 -   **month:** The month from the date column.
+
 -   **epiyr:** The epidemiological year of the observation ([MMWR definition](https://ndc.services.cdc.gov/wp-content/uploads/MMWR_week_overview.pdf))\ [@mmwr_cdc].
--   **vaxperiod:**  Numerical encoding differentiating years where the PCV vaccine recommendations differed, with approximately a one-year latency time built in. It is not clear what each phase denotes, but based on other papers by the same authors, they appear to mean\ [@Perniciaro2022]:
 
-    - `vaxperiod = 1` The period before Germany instituted its recommendation for all infants to receive 4 PCV doses in July 2006. The specific formula was not enforced and could either have been the 10-valent or 13-valent PCV. Spans 2001 to 2007.
-    - `vaxperiod = 2` The period following introduction of PCV in infants in 2006 and before the updated recommendation for infants to receive 2 primary doses and a booster dose.  Spans 2007 to 2015.
-    - `vaxperiod = 3` The period following the updated recommendation in 2015. Spans 2015 to 2018.
-    - **NOTE:** 2019 is the last year reported in the dataset an was not assigned to any vaccine period.
-    
+-   **vaxperiod:** Numerical encoding differentiating years where the PCV vaccine recommendations differed, with approximately a one-year latency time built in. It is not clear what each phase denotes, but based on other papers by the same authors, they appear to mean\ [@Perniciaro2022]:
+
+    -   `vaxperiod = 1` The period before Germany instituted its recommendation for all infants to receive 4 PCV doses in July 2006. The specific formula was not enforced and could either have been the 10-valent or 13-valent PCV. Spans 2001 to 2007.
+    -   `vaxperiod = 2` The period following introduction of PCV in infants in 2006 and before the updated recommendation for infants to receive 2 primary doses and a booster dose. Spans 2007 to 2015.
+    -   `vaxperiod = 3` The period following the updated recommendation in 2015. Spans 2015 to 2018.
+    -   **NOTE:** 2019 is the last year reported in the dataset an was not assigned to any vaccine period.
+
 -   **AgeInYears:** The age of the patient from which the same was collected.
--   **SeroType:** The serotype of the pathogen identified using capsular swelling with the full antiserum.
 
+-   **SeroType:** The serotype of the pathogen identified using capsular swelling with the full antiserum.
 
 ## Running the JAGS
 
@@ -706,11 +700,9 @@ jdat <- list(
 )
 ```
 
-
 In this scenario
 
-
-```{.r}
+``` r
 jcode <- "
 model {
   for (i in 1:N) {
@@ -728,23 +720,20 @@ model {
 "
 ```
 
-
 ```{r}
 source("Model2.R")
 
 mod <- jags.model(textConnection(jcode), data = jdat, n.chains = 2)
 ```
 
-
-<div class="scrollable-output">
+::: scrollable-output
 ```{r}
 update(mod, 1000)  # burn-in
 samp <- coda.samples(mod, variable.names = c("mu", "beta"), n.iter = 5000)
 
 summary(samp)
 ```
-</div>
-
+:::
 
 ```{r}
 

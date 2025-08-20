@@ -11,15 +11,15 @@ bibliography: references.bib
 csl: nature.csl
 date: 6/24/2025
 date-format: long
-editor: visual
+editor: source
 ---
 
 ## Introduction
 
-This workshop was developed by [Dr. Dan Weinberger](https://ysph.yale.edu/profile/daniel-weinberger/) from the Yale School of Public Health (YSPH) for the 12$^{th}$ International Symposium on Pneumococci and Pneumococcal Diseases (ISPPD-12) hosted in Toronto, Canada in June 2022. Here, we have adapted his workshop session #1, which compares different methods for fitting a time series dataset\ [@isppd_github]. Students are encouraged to explore the workshop content that Dr. Weinberger put together to learn more about the subject:
+This workshop was developed by [Dr. Daniel Weinberger](https://ysph.yale.edu/profile/daniel-weinberger/) from the Yale School of Public Health (YSPH) for the 12$^{th}$ International Symposium on Pneumococci and Pneumococcal Diseases (ISPPD-12) hosted in Toronto, Canada in June 2022. Here, we have adapted his workshop session #1, which compares different methods for fitting a time series dataset\ [@isppd_github]. Students are encouraged to explore the workshop content that Dr. Weinberger put together to learn more about the subject:
 
--   **GitHub:** Find the code, original data, and slides\ [@isppd_github].
--   **Workshop Webpage:** Find a longer description of the workshop in the format of a mini course with links to video presentations of select sections - *Workshop on the evaluation of vaccine impact*\ [@isppd_webpage].
+-   [GitHub:](https://github.com/DanWeinberger/isppd_workshop2022#) Find the code, original data, and slides\ [@isppd_github].
+-   [Workshop Webpage:](https://vaccineevaluationworkshop.github.io/#content) Find a longer description of the workshop in the format of a mini course with links to video presentations of select sections - *Workshop on the evaluation of vaccine impact*\ [@isppd_webpage].
 
 The data used here is a subset of the complete set used in Oliveira, L. H. D. *et al. 2020*\ [@DeOliveira2021]. In their paper, national-level mortality data spanning from 2000 to 2016 for children under 5 years of age was compiled and standardized by national mortality registers in 10 Latin American and Caribbean countries. The primary cause of death was classified using the International Classification of Diseases, Tenth Revision (ICD-10) codes ([Influenza and pneumonia J09-J18](https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18) or Oliveira, L. H. D. *et al. 2020* Supplementary Table 2)\ [@DeOliveira2021_supplement; @icd10_codes]. The goal of the paper was to evaluate the efficacy of pneumococcal conjugate vaccines (PCVs) in children who received any part of the standard-of-care vaccination series.
 
@@ -241,11 +241,33 @@ Seasonality often manifests as periodicity, where recurring patterns repeat at r
 
 Each seasonal pattern can be decomposed into three components that can either remain constant (stationary) or change over time (non-stationary): mean, variance, and covariance. The figure on the left illustrates the four possible seasonal trends separately. The top-left panel shows a recurring pattern with time-invariant, stationary parameters, while the other panels demonstrate the effects of non-stationary parameters.
 
-::: callout-note
+::: {.callout-note}
 Most time series data in the natural sciences exhibit seasonality, periodicity, or cyclicity, though these patterns may be difficult to detect when the data is noisy\ [@Ramanathan2020].
 :::
 
-To control for temporal variations such as seasonality, we employ a simple form of dynamic linear regression (DLR). Essentially, we add variables to our simple linear regression model that represents different subsections of time as new regressors. Applying a DLR allows for changes in the mean value of the underlying regression relationship\ [@Young2011]. For the regression function to recognize each date, we need to factorize the date variable to assign the month the observation occured.
+To control for temporal variations such as seasonality, we can add a term for seasonal adjustment in the generalized linear model. By incorporating variables representing different time subsections as new regressors into the simple linear regression model, we allow for changes in the mean value of the underlying regression relationship to be influenced by the time of the year.
+
+::: {.callout-tip collapse="true"}
+## Models Sensitive to Time Variance with Dynamic Harmonic Regression
+
+There are advanced methods for detecting and modeling the impact of non-stationary periodic or quasi-periodic phenomena using stochastic techniques such as Dynamic Harmonic Regression (DHR), where model parameters vary over time. DHR is one form of the Unobserved Component (UC) model, which is useful for smoothing and signal extraction in complex time-series analysis\ [@Young2011].
+
+Below is a basic form of a DHR model equation from Chapter 5.2 in _Recursive Estimation and Time-Series Analysis_ by Young\ [@Young2011].
+
+\begin{align*}
+y(k) = T(k) + C(k) + S(k) + \epsilon(k) \tag{$\epsilon(k) \sim \mathcal{N}\left(0, \sigma^2\right)$}
+\end{align*}
+
+where $T(k)$ is a trend or low-frequency component, and seasonal $S(k)$ and cyclical $C(k)$ components are kept separate due to potentially different physical interpretations. They have the following harmonic expressions
+
+\begin{align*}
+S(k) &= \sum_{i=1}^{R_S}\ \left\{a(i, k) \cos(\omega_i\ k) + b(i, k) \sin(\omega_i\ k)\right\}\\
+C(k) &= \sum_{i=1}^{R_C}\ \left\{a(i, k) \cos(f_i\ k) + b(i, k) \sin(f_i\ k)\right\}
+\end{align*}
+
+where $a(i, k)$ and $b(i, k)$ are the stochastic time-varying parameters, $\omega_i$ for $i = 1, 2, \dots, R_S$ are the fundamental and harmonic frequencies associated with seasonality, and $f_i$ for $i = 1, 2, \dots, R_C$ are the frequencies associated with the cyclical component.
+:::
+
 
 ```{r}
 df$month <- as.factor(month(df$date))
@@ -816,4 +838,3 @@ Two of the modeling methods identified a decrease of approximately 10% in pneumo
 ::: callout-caution
 Depending on the dataset, these three methods may or may not agree to a greater extent.
 :::
-
