@@ -288,10 +288,10 @@ BDSY 2025 - Public Health Modeling Project</div><p></p>
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This workshop was developed by <a href="https://ysph.yale.edu/profile/daniel-weinberger/">Dr.&nbsp;Dan Weinberger</a> from the Yale School of Public Health (YSPH) for the 12<span class="math inline">^{th}</span> International Symposium on Pneumococci and Pneumococcal Diseases (ISPPD-12) hosted in Toronto, Canada in June 2022. Here, we have adapted his workshop session #1, which compares different methods for fitting a time series dataset&nbsp;<span class="citation" data-cites="isppd_github"><sup><a href="#ref-isppd_github" role="doc-biblioref">1</a></sup></span>. Students are encouraged to explore the workshop content that Dr.&nbsp;Weinberger put together to learn more about the subject:</p>
+<p>This workshop was developed by <a href="https://ysph.yale.edu/profile/daniel-weinberger/">Dr.&nbsp;Daniel Weinberger</a> from the Yale School of Public Health (YSPH) for the 12<span class="math inline">^{th}</span> International Symposium on Pneumococci and Pneumococcal Diseases (ISPPD-12) hosted in Toronto, Canada in June 2022. Here, we have adapted his workshop session #1, which compares different methods for fitting a time series dataset&nbsp;<span class="citation" data-cites="isppd_github"><sup><a href="#ref-isppd_github" role="doc-biblioref">1</a></sup></span>. Students are encouraged to explore the workshop content that Dr.&nbsp;Weinberger put together to learn more about the subject:</p>
 <ul>
-<li><strong>GitHub:</strong> Find the code, original data, and slides&nbsp;<span class="citation" data-cites="isppd_github"><sup><a href="#ref-isppd_github" role="doc-biblioref">1</a></sup></span>.</li>
-<li><strong>Workshop Webpage:</strong> Find a longer description of the workshop in the format of a mini course with links to video presentations of select sections - <em>Workshop on the evaluation of vaccine impact</em>&nbsp;<span class="citation" data-cites="isppd_webpage"><sup><a href="#ref-isppd_webpage" role="doc-biblioref">2</a></sup></span>.</li>
+<li><a href="https://github.com/DanWeinberger/isppd_workshop2022#">GitHub:</a> Find the code, original data, and slides&nbsp;<span class="citation" data-cites="isppd_github"><sup><a href="#ref-isppd_github" role="doc-biblioref">1</a></sup></span>.</li>
+<li><a href="https://vaccineevaluationworkshop.github.io/#content">Workshop Webpage:</a> Find a longer description of the workshop in the format of a mini course with links to video presentations of select sections - <em>Workshop on the evaluation of vaccine impact</em>&nbsp;<span class="citation" data-cites="isppd_webpage"><sup><a href="#ref-isppd_webpage" role="doc-biblioref">2</a></sup></span>.</li>
 </ul>
 <p>The data used here is a subset of the complete set used in Oliveira, L. H. D. <em>et al.&nbsp;2020</em>&nbsp;<span class="citation" data-cites="DeOliveira2021"><sup><a href="#ref-DeOliveira2021" role="doc-biblioref">3</a></sup></span>. In their paper, national-level mortality data spanning from 2000 to 2016 for children under 5 years of age was compiled and standardized by national mortality registers in 10 Latin American and Caribbean countries. The primary cause of death was classified using the International Classification of Diseases, Tenth Revision (ICD-10) codes (<a href="https://www.icd10data.com/ICD10CM/Codes/J00-J99/J09-J18">Influenza and pneumonia J09-J18</a> or Oliveira, L. H. D. <em>et al.&nbsp;2020</em> Supplementary Table 2)&nbsp;<span class="citation" data-cites="DeOliveira2021_supplement icd10_codes"><sup><a href="#ref-DeOliveira2021_supplement" role="doc-biblioref">4</a>,<a href="#ref-icd10_codes" role="doc-biblioref">5</a></sup></span>. The goal of the paper was to evaluate the efficacy of pneumococcal conjugate vaccines (PCVs) in children who received any part of the standard-of-care vaccination series.</p>
 <p>Today, we are going to examine the efficacy of pneumococcal conjugate vaccines (PCVs) in children aged 2 to 59 months in Ecuador. The standard-of-care vaccination series involves a primary series of either two doses (administered at 2 and 4 months of age) or three doses (administered at 2, 4, and 6 months of age), with the option of an additional booster dose (administered at 12-18 months of age). This dataset does not differentiate between patients who received varying levels of inoculation, and instead reports the data if any PCV was delivered.</p>
@@ -554,7 +554,33 @@ Note
 <p>Most time series data in the natural sciences exhibit seasonality, periodicity, or cyclicity, though these patterns may be difficult to detect when the data is noisy&nbsp;<span class="citation" data-cites="Ramanathan2020"><sup><a href="#ref-Ramanathan2020" role="doc-biblioref">10</a></sup></span>.</p>
 </div>
 </div>
-<p>To control for temporal variations such as seasonality, we employ a simple form of dynamic linear regression (DLR). Essentially, we add variables to our simple linear regression model that represents different subsections of time as new regressors. Applying a DLR allows for changes in the mean value of the underlying regression relationship&nbsp;<span class="citation" data-cites="Young2011"><sup><a href="#ref-Young2011" role="doc-biblioref">11</a></sup></span>. For the regression function to recognize each date, we need to factorize the date variable to assign the month the observation occured.</p>
+<p>To control for temporal variations such as seasonality, we can add a term for seasonal adjustment in the generalized linear model. By incorporating variables representing different time subsections as new regressors into the simple linear regression model, we allow for changes in the mean value of the underlying regression relationship to be influenced by the time of the year.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Models Sensitive to Time Variance with Dynamic Harmonic Regression
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>There are advanced methods for detecting and modeling the impact of non-stationary periodic or quasi-periodic phenomena using stochastic techniques such as Dynamic Harmonic Regression (DHR), where model parameters vary over time. DHR is one form of the Unobserved Component (UC) model, which is useful for smoothing and signal extraction in complex time-series analysis&nbsp;<span class="citation" data-cites="Young2011"><sup><a href="#ref-Young2011" role="doc-biblioref">11</a></sup></span>.</p>
+<p>Below is a basic form of a DHR model equation from Chapter 5.2 in <em>Recursive Estimation and Time-Series Analysis</em> by Young&nbsp;<span class="citation" data-cites="Young2011"><sup><a href="#ref-Young2011" role="doc-biblioref">11</a></sup></span>.</p>
+<p><span class="math display">\begin{align*}
+y(k) = T(k) + C(k) + S(k) + \epsilon(k) \tag{$\epsilon(k) \sim \mathcal{N}\left(0, \sigma^2\right)$}
+\end{align*}</span></p>
+<p>where <span class="math inline">T(k)</span> is a trend or low-frequency component, and seasonal <span class="math inline">S(k)</span> and cyclical <span class="math inline">C(k)</span> components are kept separate due to potentially different physical interpretations. They have the following harmonic expressions</p>
+<p><span class="math display">\begin{align*}
+S(k) &amp;= \sum_{i=1}^{R_S}\ \left\{a(i, k) \cos(\omega_i\ k) + b(i, k) \sin(\omega_i\ k)\right\}\\
+C(k) &amp;= \sum_{i=1}^{R_C}\ \left\{a(i, k) \cos(f_i\ k) + b(i, k) \sin(f_i\ k)\right\}
+\end{align*}</span></p>
+<p>where <span class="math inline">a(i, k)</span> and <span class="math inline">b(i, k)</span> are the stochastic time-varying parameters, <span class="math inline">\omega_i</span> for <span class="math inline">i = 1, 2, \dots, R_S</span> are the fundamental and harmonic frequencies associated with seasonality, and <span class="math inline">f_i</span> for <span class="math inline">i = 1, 2, \dots, R_C</span> are the frequencies associated with the cyclical component.</p>
+</div>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">month</span>(df<span class="sc">$</span>date))</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -785,16 +811,16 @@ Warning
 <pre><code># A tibble: 10 × 4
    index date       vax_intro vax_eval
    &lt;dbl&gt; &lt;date&gt;         &lt;dbl&gt;    &lt;dbl&gt;
- 1     1 2005-01-01         0        0
- 2     6 2005-06-01         0        0
- 3    35 2007-11-01         0        0
- 4    57 2009-09-01         0        0
- 5    74 2011-02-01         1        0
- 6    81 2011-09-01         1        1
- 7    92 2012-08-01         1        1
- 8   122 2015-02-01         1        1
- 9   125 2015-05-01         1        1
-10   126 2015-06-01         1        1</code></pre>
+ 1     7 2005-07-01         0        0
+ 2    16 2006-04-01         0        0
+ 3    77 2011-05-01         1        0
+ 4    79 2011-07-01         1        0
+ 5    80 2011-08-01         1        1
+ 6    93 2012-09-01         1        1
+ 7    94 2012-10-01         1        1
+ 8   106 2013-10-01         1        1
+ 9   107 2013-11-01         1        1
+10   121 2015-01-01         1        1</code></pre>
 </div>
 </div>
 <p>In linear modeling, it is common to include interaction terms. These terms allow the model to capture interdependencies between variables, showing how the effect of one variable on the outcome changes depending on the level of another variable. Interaction terms also enable the identification of synergistic effects, where the combined effect of two variables is greater (or less) than the sum of their individual effects&nbsp;<span class="citation" data-cites="MontgomeryC2012"><sup><a href="#ref-MontgomeryC2012" role="doc-biblioref">13</a></sup></span>.</p>
@@ -1112,16 +1138,16 @@ Code Like a Pro
 <pre><code># A tibble: 10 × 4
    date       index  spl1  spl2
    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1 2007-02-01    26     0     0
- 2 2008-08-01    44     0     0
- 3 2012-04-01    88    21     9
- 4 2012-06-01    90    23    11
- 5 2012-09-01    93    26    14
- 6 2012-11-01    95    28    16
- 7 2013-02-01    98    31    19
- 8 2013-12-01   108    41    29
- 9 2014-01-01   109    42    30
-10 2015-10-01   130    63    51</code></pre>
+ 1 2006-11-01    23     0     0
+ 2 2008-02-01    38     0     0
+ 3 2010-09-01    69     2     0
+ 4 2011-01-01    73     6     0
+ 5 2012-03-01    87    20     8
+ 6 2013-04-01   100    33    21
+ 7 2015-01-01   121    54    42
+ 8 2015-09-01   129    62    50
+ 9 2015-12-01   132    65    53
+10 2016-04-01   136    69    57</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1273,16 +1299,16 @@ Number of Fisher Scoring iterations: 1
 <pre><code># A tibble: 10 × 2
    date       J12_J18_prim_pre
    &lt;date&gt;                &lt;dbl&gt;
- 1 2006-05-01               49
- 2 2007-01-01               45
- 3 2007-11-01               28
- 4 2008-12-01               38
- 5 2011-09-01               NA
- 6 2011-12-01               NA
- 7 2014-01-01               NA
- 8 2014-04-01               NA
- 9 2014-08-01               NA
-10 2014-11-01               NA</code></pre>
+ 1 2006-04-01               26
+ 2 2006-06-01               36
+ 3 2006-11-01               26
+ 4 2007-08-01               28
+ 5 2007-11-01               28
+ 6 2007-12-01               23
+ 7 2010-08-01               NA
+ 8 2010-11-01               NA
+ 9 2011-08-01               NA
+10 2014-08-01               NA</code></pre>
 </div>
 </div>
 <div class="cell">
